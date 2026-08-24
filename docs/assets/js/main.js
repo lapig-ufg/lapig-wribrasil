@@ -91,7 +91,7 @@ window.addEventListener('scroll', () => {
   let minMd3Threshold = 0.00;
   let searchQuery = '';
   let currentBBox = null; // { minLat, maxLat, minLng, maxLng }
-  
+
   // Layer Groups
   const markerGroup = L.featureGroup().addTo(map);
   const embrapaLayerGroup = L.layerGroup();
@@ -323,7 +323,7 @@ window.addEventListener('scroll', () => {
       map.dragging.enable();
 
       const bounds = tempRect.getBounds();
-      
+
       // If rectangle is too small (accidental click), dismiss
       if (bounds.getNorth() === bounds.getSouth() && bounds.getEast() === bounds.getWest()) {
         map.removeLayer(tempRect);
@@ -417,7 +417,7 @@ window.addEventListener('scroll', () => {
         if (payload.pontos && Array.isArray(payload.pontos)) {
           payload.pontos.forEach(pt => {
             const cfg = TIPOLOGIA_CONFIG[pt.classe] || { color: '#1e3a8a', label: pt.classe };
-            
+
             const marker = L.circleMarker([pt.lat, pt.lon], {
               renderer: canvasRenderer,
               radius: 5.5,
@@ -461,7 +461,7 @@ window.addEventListener('scroll', () => {
       // 4. Spatial rectangle bounding box filter
       if (currentBBox) {
         if (pt.lat < currentBBox.minLat || pt.lat > currentBBox.maxLat ||
-            pt.lng < currentBBox.minLng || pt.lng > currentBBox.maxLng) {
+          pt.lng < currentBBox.minLng || pt.lng > currentBBox.maxLng) {
           return false;
         }
       }
@@ -1027,60 +1027,11 @@ window.addEventListener('scroll', () => {
       options: commonOptions
     });
   }
-
-  // ── 15. Methodology Accordion & Expand/Collapse Toggle ──
-  function setupMethodologyAccordion() {
-    const cards = document.querySelectorAll('.method-card');
-    const toggleAllBtn = document.getElementById('btn-toggle-all-method');
-    const toggleAllText = document.getElementById('btn-toggle-all-text');
-    let allExpanded = false;
-
-    if (!cards.length) return;
-
-    cards.forEach(card => {
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('role', 'button');
-      card.setAttribute('aria-expanded', 'false');
-
-      // Click / touch toggle
-      card.addEventListener('click', (e) => {
-        // Ignore clicks on links or interactive elements inside body
-        if (e.target.closest('a') || e.target.closest('button')) return;
-        
-        const isOpen = card.classList.toggle('is-open');
-        card.setAttribute('aria-expanded', String(isOpen));
-      });
-
-      // Keyboard accessibility (Enter / Space)
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          if (e.target.closest('a') || e.target.closest('button')) return;
-          e.preventDefault();
-          const isOpen = card.classList.toggle('is-open');
-          card.setAttribute('aria-expanded', String(isOpen));
-        }
-      });
-    });
-
-    if (toggleAllBtn && toggleAllText) {
-      toggleAllBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        allExpanded = !allExpanded;
-        cards.forEach(card => {
-          if (allExpanded) {
-            card.classList.add('is-open');
-            card.setAttribute('aria-expanded', 'true');
-          } else {
-            card.classList.remove('is-open');
-            card.setAttribute('aria-expanded', 'false');
-          }
-        });
-        toggleAllText.textContent = allExpanded ? 'Recolher Todos' : 'Expandir Todos';
-        toggleAllBtn.classList.toggle('active', allExpanded);
+})(); toggleAllText.textContent = allExpanded ? 'Recolher Todos' : 'Expandir Todos';
+toggleAllBtn.classList.toggle('active', allExpanded);
       });
     }
   }
 
-  setupMethodologyAccordion();
-})();
+setupMethodologyAccordion();
+}) ();
