@@ -1027,11 +1027,4 @@ window.addEventListener('scroll', () => {
       options: commonOptions
     });
   }
-})(); toggleAllText.textContent = allExpanded ? 'Recolher Todos' : 'Expandir Todos';
-toggleAllBtn.classList.toggle('active', allExpanded);
-      });
-    }
-  }
-
-setupMethodologyAccordion();
-}) ();
+})();
