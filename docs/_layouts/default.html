@@ -4,20 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} — WRI Brasil & LAPIG/UFG{% else %}Improve Pasture Mapping in the Cerrado
-    Biome — WRI Brasil & LAPIG/UFG{% endif %}</title>
+  <title>{% if page.title %}{{ page.title }} — WRI Brasil & LAPIG/UFG{% else %}Improve Pasture Mapping in the Cerrado Biome — WRI Brasil & LAPIG/UFG{% endif %}</title>
   <meta name="description"
     content="Improvement of Pasture Mapping in the Cerrado Biome: Detailed Sampling Plan (2020–2025) — WRI Brasil, FUNAPE & LAPIG/UFG.">
   <meta name="author" content="WRI Brasil, FUNAPE & LAPIG/UFG">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet">
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="{{ " /assets/css/style.css" | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M' }}">
+  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <script>
     window.siteBaseUrl = "{{ '' | relative_url }}";
   </script>
@@ -34,7 +33,7 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <!-- App logic -->
-  <script src="{{ " /assets/js/main.js" | relative_url }}"></script>
+  <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
 </body>
 
 </html>
