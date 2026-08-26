@@ -1,4 +1,4 @@
-# Improvement of Pasture Mapping in the Cerrado Biome
+# Improve Pasture Mapping in the Cerrado Biome
 
 Institutional repository containing data, high-performance analytical pipelines (DuckDB / Python), and an interactive web platform developed under the agreement between **WRI Brasil** and **FUNAPE**, with technical execution by **LAPIG/UFG** in cooperation with **Embrapa Cenargen** (**Project GR000153-73077-CARGILL-BRAZIL**).
 
