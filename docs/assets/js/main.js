@@ -70,12 +70,52 @@ window.addEventListener('scroll', () => {
     preferCanvas: true
   });
 
-  // CartoDB Voyager basemap
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · ' +
-      '<a href="https://carto.com/attributions">CARTO</a> · LAPIG/UFG · WRI Brasil',
-    subdomains: 'abcd',
+  // Basemap Layers (Esri Canvas, Esri Satellite, Esri Topo)
+  const esriGray = L.layerGroup([
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin &copy; OpenStreetMap · LAPIG/UFG · WRI Brasil',
+      maxNativeZoom: 16,
+      maxZoom: 19
+    }),
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '',
+      maxNativeZoom: 16,
+      maxZoom: 19
+    })
+  ]);
+
+  const esriSatellite = L.layerGroup([
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, Earthstar Geographics · LAPIG/UFG · WRI Brasil',
+      maxNativeZoom: 19,
+      maxZoom: 19
+    }),
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '',
+      maxNativeZoom: 19,
+      maxZoom: 19
+    })
+  ]);
+
+  const esriTopo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, USGS, NOAA · LAPIG/UFG · WRI Brasil',
+    maxNativeZoom: 18,
     maxZoom: 19
+  });
+
+  // Default active basemap
+  let currentBasemap = esriGray;
+  currentBasemap.addTo(map);
+
+  // Basemap layer switcher (Leaflet native control)
+  const baseMaps = {
+    '🗺️ Light Gray (Canvas)': esriGray,
+    '🛰️ Satellite (Imagery)': esriSatellite,
+    '⛰️ Topographic': esriTopo
+  };
+  L.control.layers(baseMaps, null, {
+    position: 'topleft',
+    collapsed: true
   }).addTo(map);
 
   // In-Memory Cache
@@ -893,6 +933,41 @@ window.addEventListener('scroll', () => {
     }
   }
 
+  // ── 17. Basemap Dropdown Selector ──
+  function setupBasemapSelector() {
+    const basemapSelect = document.getElementById('map-basemap-select');
+    if (!basemapSelect) return;
+
+    basemapSelect.addEventListener('change', (e) => {
+      const selected = e.target.value;
+      if (map.hasLayer(currentBasemap)) {
+        map.removeLayer(currentBasemap);
+      }
+      if (selected === 'satellite') {
+        currentBasemap = esriSatellite;
+      } else if (selected === 'topo') {
+        currentBasemap = esriTopo;
+      } else {
+        currentBasemap = esriGray;
+      }
+      map.addLayer(currentBasemap);
+      if (typeof currentBasemap.bringToBack === 'function') {
+        currentBasemap.bringToBack();
+      }
+    });
+
+    map.on('baselayerchange', (e) => {
+      if (e.layer === esriSatellite) {
+        basemapSelect.value = 'satellite';
+      } else if (e.layer === esriTopo) {
+        basemapSelect.value = 'topo';
+      } else {
+        basemapSelect.value = 'gray';
+      }
+      currentBasemap = e.layer;
+    });
+  }
+
   // ── Initialization Sequence ──
   setupDatasetSelector();
   setupAccordion();
@@ -906,6 +981,7 @@ window.addEventListener('scroll', () => {
   setupClearFiltersButton();
   setupMapResetButton();
   setupSearchInput();
+  setupBasemapSelector();
 
   // Load Embrapa reference distribution for Chart 2 right away
   loadAndRenderEmbrapaMarkers();
@@ -931,9 +1007,9 @@ window.addEventListener('scroll', () => {
   });
 
   // Common Basemap (Background)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin &copy; OpenStreetMap · LAPIG/UFG · WRI Brasil',
+    maxNativeZoom: 16,
     maxZoom: 19
   }).addTo(splitMap);
 
