@@ -109,14 +109,17 @@ window.addEventListener('scroll', () => {
 
   // Basemap layer switcher (Leaflet native control)
   const baseMaps = {
-    '🗺️ Light Gray (Canvas)': esriGray,
-    '🛰️ Satellite (Imagery)': esriSatellite,
-    '⛰️ Topographic': esriTopo
+    'Light Gray (Canvas)': esriGray,
+    'Satellite (Imagery)': esriSatellite,
+    'Topographic': esriTopo
   };
   L.control.layers(baseMaps, null, {
     position: 'topleft',
     collapsed: true
   }).addTo(map);
+
+  setTimeout(() => map.invalidateSize(), 250);
+  window.addEventListener('resize', () => map.invalidateSize());
 
   // In-Memory Cache
   const DATA_CACHE = {};
@@ -159,7 +162,7 @@ window.addEventListener('scroll', () => {
         currentDataset = '50k';
         btn50k.classList.add('active');
         btn12k.classList.remove('active');
-        if (yearFilterTitle) yearFilterTitle.textContent = '📅 Analysis Year (50k Series · 50,000 pts)';
+        if (yearFilterTitle) yearFilterTitle.textContent = 'Analysis Year (50k Series · 50,000 pts)';
         loadMd3Year(currentYear);
       });
 
@@ -168,7 +171,7 @@ window.addEventListener('scroll', () => {
         currentDataset = '12k';
         btn12k.classList.add('active');
         btn50k.classList.remove('active');
-        if (yearFilterTitle) yearFilterTitle.textContent = '📅 Analysis Year (12k Series · 12,395 pts)';
+        if (yearFilterTitle) yearFilterTitle.textContent = 'Analysis Year (12k Series · 12,395 pts)';
         loadMd3Year(currentYear);
       });
     }
@@ -471,7 +474,7 @@ window.addEventListener('scroll', () => {
             marker.bindPopup(`
               <div class="popup-box" style="font-family: var(--font-sans); font-size: 0.8rem; min-width: 200px;">
                 <div style="font-weight: 700; color: #1e3a8a; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin-bottom: 6px;">
-                  📍 Field Reference (Ground Truth)
+                  Field Reference (Ground Truth)
                 </div>
                 <div><strong>Target FID:</strong> #${pt.fid}</div>
                 <div><strong>Typology:</strong> <span style="display:inline-flex; align-items: center; padding: 2px 7px; border-radius: 4px; background: ${cfg.color}35; color: #000000; font-weight: 700; border: 1px solid ${cfg.color};"><span style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: ${cfg.color}; margin-right: 5px; border: 1px solid rgba(0,0,0,0.25);"></span>${cfg.label}</span></div>
@@ -1026,6 +1029,8 @@ window.addEventListener('scroll', () => {
 
   // Side-by-Side control
   L.control.sideBySide(leftLayer, rightLayer).addTo(splitMap);
+  setTimeout(() => splitMap.invalidateSize(), 250);
+  window.addEventListener('resize', () => splitMap.invalidateSize());
 
   // Prevent accidental drag interference
   setTimeout(() => {
@@ -1102,5 +1107,56 @@ window.addEventListener('scroll', () => {
       },
       options: commonOptions
     });
+  }
+})();
+
+// ──────────────────────────────────────────────────────────
+//  METHODOLOGY FLOWCHART — collapsible boxes (in place)
+// ──────────────────────────────────────────────────────────
+(function () {
+  'use strict';
+
+  function initMethodFlow() {
+    const root = document.getElementById('method-flow');
+    if (!root) return;
+
+    const nodes = Array.from(root.querySelectorAll('.fnode'));
+
+    function setOpen(node, open) {
+      node.classList.toggle('is-open', open);
+      const btn = node.querySelector('.fnode__toggle');
+      const panel = node.querySelector('.fnode__panel');
+      if (btn) btn.setAttribute('aria-expanded', String(open));
+      if (panel) panel.setAttribute('aria-hidden', String(!open));
+    }
+
+    nodes.forEach(node => {
+      setOpen(node, node.classList.contains('is-open'));
+      const btn = node.querySelector('.fnode__toggle');
+      if (btn) {
+        btn.addEventListener('click', () => setOpen(node, !node.classList.contains('is-open')));
+      }
+    });
+
+    const expandAll = document.getElementById('flow-expand-all');
+    const collapseAll = document.getElementById('flow-collapse-all');
+    if (expandAll) expandAll.addEventListener('click', () => nodes.forEach(n => setOpen(n, true)));
+    if (collapseAll) collapseAll.addEventListener('click', () => nodes.forEach(n => setOpen(n, false)));
+
+    // Deep link: e.g. #step-som opens and scrolls to that box
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      const target = nodes.find(n => n.id === hash);
+      if (target) {
+        setOpen(target, true);
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMethodFlow);
+  } else {
+    initMethodFlow();
   }
 })();

@@ -1,487 +1,647 @@
 <!-- ═══════════════════════════════════════════════════════
-       METHODOLOGY & COMPREHENSIVE PROJECT ARCHITECTURE
+       METHODOLOGY — CHRONOLOGICAL FLOWCHART
+       Order follows Report Product 1 (Aug 17, 2026, sections 1–8 / Table 1)
+       and the "Scaling Ground Truth" dual-filter presentation.
+       Each box collapses / expands in place (accordion).
   ═══════════════════════════════════════════════════════ -->
 <section class="section--alt reveal method-section" id="metodologia">
   <div class="section__inner">
-    <div class="section__eyebrow">Methodological Framework & Technical Progress</div>
-    <h2 class="section__title">Methodological Architecture & Quality Assurance Framework</h2>
+    <div class="section__eyebrow">Methodological Framework &amp; Technical Progress</div>
+    <h2 class="section__title">Methodological Flowchart</h2>
     <p class="section__desc">
-      Detailed technical overview of the sampling plan, representation spaces, two-stage filtering, quality control
-      protocols, and machine learning roadmap under the WRI Brasil · FUNAPE · LAPIG/UFG agreement (Report Product 1 —
-      August 17, 2026).
+      Chronological workflow of Product 1 — Detailed Sampling Plan and Sampling Improvement Strategies (WRI Brasil ·
+      FUNAPE · LAPIG/UFG, August 17, 2026; scientific coordination: Prof. Dr. Laerte G. Ferreira). Highly curated field
+      references are used to select candidates at scale through two independent filters, followed by visual
+      inspection, model training, and independent validation.
     </p>
 
     <!-- SCOPE LIMITATION NOTICE -->
-    <div class="method-scope-banner fade-up">
-      <div class="method-scope-banner__icon">⚠️</div>
+    <div class="method-scope-banner">
+      <div class="method-scope-banner__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      </div>
       <div class="method-scope-banner__content">
-        <strong>Scope & Status Note (Product 1 Progress Report):</strong> This documentation details the methodological
-        architecture and progress established as of August 17, 2026. While reference databases, Sentinel-2 multi-index
-        series, and AlphaEarth embeddings are assembled and extracted, all downstream components — including similarity
-        thresholds, SOM neural configurations, visual inspection protocols, final training dataset assembly, and field
-        campaign executions — represent <em>preliminary analyses, work under active development, or planned stages</em>.
+        <strong>Scope of this version:</strong> as of August 17, 2026, the reference and candidate databases are
+        assembled and the Sentinel-2 series and embeddings extracted. Similarity thresholds, the final SOM
+        configuration, the CBERS-4A inspection, the training set, and the field campaign are <em>preliminary, under
+        development, or planned</em> and are not presented as finalized.
       </div>
     </div>
 
-    <!-- PIPELINE STEPPER -->
-    <div class="method-stepper">
-      <div class="method-step fade-up">
-        <div class="method-step__top">
-          <span class="method-step__icon">📍</span>
-          <span class="method-step__status method-step__status--assembled">Assembled</span>
-        </div>
-        <div class="method-step__title">1. Reference & Candidates</div>
-        <div class="method-step__desc">701 Reference Polygons + 62,009 Candidate points</div>
+    <!-- TOOLBAR: STATUS LEGEND + EXPAND / COLLAPSE -->
+    <div class="flow-toolbar">
+      <div class="flow-legend">
+        <span class="flow-legend__title">Status (Table 1)</span>
+        <span class="flow-legend__item"><span class="flow-dot flow-dot--done"></span>Assembled / Extracted</span>
+        <span class="flow-legend__item"><span class="flow-dot flow-dot--prelim"></span>Preliminary</span>
+        <span class="flow-legend__item"><span class="flow-dot flow-dot--dev"></span>Under development</span>
+        <span class="flow-legend__item"><span class="flow-dot flow-dot--plan"></span>Planning</span>
       </div>
-
-      <div class="method-step fade-up">
-        <div class="method-step__top">
-          <span class="method-step__icon">🛰️</span>
-          <span class="method-step__status method-step__status--extracted">Extracted</span>
-        </div>
-        <div class="method-step__title">2. S2 Series & Embeddings</div>
-        <div class="method-step__desc">60-day medians & 64-dim L2 vectors (2020–2025)</div>
-      </div>
-
-      <div class="method-step fade-up">
-        <div class="method-step__top">
-          <span class="method-step__icon">📐</span>
-          <span class="method-step__status method-step__status--preliminary">Preliminary</span>
-        </div>
-        <div class="method-step__title">3. Embedding Similarity</div>
-        <div class="method-step__desc">Top-1/Top-3, md3 & Sensitivity Scenarios A–E</div>
-      </div>
-
-      <div class="method-step fade-up">
-        <div class="method-step__top">
-          <span class="method-step__icon">🧠</span>
-          <span class="method-step__status method-step__status--dev">In Development</span>
-        </div>
-        <div class="method-step__title">4. SOM Neural Filtering</div>
-        <div class="method-step__desc">12×12 grid (144 neurons) & Bayesian smoothing</div>
-      </div>
-
-      <div class="method-step fade-up">
-        <div class="method-step__top">
-          <span class="method-step__icon">🔍</span>
-          <span class="method-step__status method-step__status--planning">Planning</span>
-        </div>
-        <div class="method-step__title">5. CBERS-4A Inspection</div>
-        <div class="method-step__desc">Stratified sample (n ≈ 1,040) on ~2 m imagery</div>
-      </div>
-
-      <div class="method-step fade-up">
-        <div class="method-step__top">
-          <span class="method-step__icon">🌲</span>
-          <span class="method-step__status method-step__status--planning">Planning</span>
-        </div>
-        <div class="method-step__title">6. ML & Field Pilot</div>
-        <div class="method-step__desc">Random Forest 10 m & ~100 field localities</div>
+      <div class="flow-toolbar__actions">
+        <span class="flow-toolbar__hint">Click a box to show or hide its details</span>
+        <button type="button" class="flow-btn" id="flow-expand-all">Expand all</button>
+        <button type="button" class="flow-btn" id="flow-collapse-all">Collapse all</button>
       </div>
     </div>
 
-    <!-- THEMATIC METHODOLOGY CARDS (2-COLUMN GRID) -->
-    <div class="method-grid">
+    <!-- ═══════════════════ FLOWCHART ═══════════════════ -->
+    <div class="flow" id="method-flow">
 
-      <!-- 1. INSTITUTIONAL CONTEXT & GOALS -->
-      <div class="method-card fade-up">
-        <div class="method-card__header">
-          <div class="method-card__icon-box">🏛️</div>
-          <div>
-            <div class="method-card__eyebrow">Institutional Governance · Component 01</div>
-            <h3 class="method-card__title">1. Governance, Scope & Strategic Goals</h3>
-          </div>
+      <!-- ── ROW 1 · INPUT PHASE ───────────────────────── -->
+      <div class="flow__row">
+
+        <!-- 1. EMBRAPA REFERENCE BASE -->
+        <div class="flow__col">
+          <article class="fnode fnode--input" id="step-references">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-references">
+              <span class="fnode__bar">
+                <span class="fnode__num">1</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Input · Field reference</span>
+                  <span class="fnode__title">Embrapa Cenargen Reference Base</span>
+                </span>
+                <span class="fstatus fstatus--done">Assembled</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__kpis">
+                  <span class="fkpi"><span class="fkpi__v">701</span><span class="fkpi__l">field polygons (~1 ha)</span></span>
+                  <span class="fkpi"><span class="fkpi__v">608</span><span class="fkpi__l">classified · 7 categories</span></span>
+                  <span class="fkpi"><span class="fkpi__v">93</span><span class="fkpi__l">without consolidated label</span></span>
+                </span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-references">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>The database with the highest quality control: 701 sample areas surveyed in the field by Embrapa
+                    Cenargen, each a polygon of approximately 1 ha. Of these, 608 have a defined class according to the
+                    seven categories established by the Embrapa team; the 93 units without a defined class are retained
+                    with their own identification.</p>
+                  <ul class="method-list-styled">
+                    <li><strong>608 classified samples:</strong> the references for label transfer and coherence
+                      analysis.</li>
+                    <li><strong>93 unlabeled samples:</strong> may participate in unsupervised steps (e.g., SOM training),
+                      but cannot define neuron categories, contribute to Top-k voting, or be counted as classified
+                      references.</li>
+                  </ul>
+                  <div class="method-subcard method-subcard--warning">
+                    <strong>Class dictionary harmonization.</strong> Preliminary materials record a five-class proposal
+                    and a later seven-category implementation. The final database must contain a single, versioned
+                    dictionary approved by the Embrapa–LAPIG team (code, name, operational definition, quantitative
+                    criteria, year of observation, responsible party, change history). <em>Integrity rule:</em> no
+                    category distribution or label transfer is presented as definitive before this reconciliation.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
         </div>
-        <div class="method-card__body">
-          <p>
-            The project operates under the technical agreement between <strong>WRI Brasil</strong> and
-            <strong>FUNAPE</strong>, with technical execution by <strong>LAPIG/UFG</strong> (Project
-            GR000153-73077-CARGILL-BRAZIL), under the scientific coordination of <strong>Prof. Dr. Laerte G.
-              Ferreira</strong> and statistical consulting by <strong>Prof. Luis Rodrigo Fernandes Baumann</strong>
-            (IME/UFG).
-          </p>
-          <div class="method-subcard method-subcard--accent">
-            <strong>Strategic Objective:</strong> Develop the sampling and analytical infrastructure to produce the
-            first version of the <strong>new 10-meter resolution pasture map for the Cerrado biome</strong>,
-            specifically designed to <em>differentiate among viable pasture condition categories</em> and quantify
-            sampling uncertainty across the biome.
-          </div>
-          <div class="method-tags">
-            <span class="method-tag">WRI Brasil · FUNAPE</span>
-            <span class="method-tag">LAPIG / UFG</span>
-            <span class="method-tag">10 m Cerrado Pasture Map</span>
-          </div>
+
+        <!-- 2. CANDIDATE POINTS -->
+        <div class="flow__col">
+          <article class="fnode fnode--input" id="step-candidates">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-candidates">
+              <span class="fnode__bar">
+                <span class="fnode__num">2</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Input · Database expansion</span>
+                  <span class="fnode__title">Candidate Points</span>
+                </span>
+                <span class="fstatus fstatus--done">Assembled</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__kpis">
+                  <span class="fkpi"><span class="fkpi__v">62,009</span><span class="fkpi__l">inclusive candidate universe</span></span>
+                  <span class="fkpi"><span class="fkpi__v">56,952</span><span class="fkpi__l">agreement scenario (Col. 11)</span></span>
+                  <span class="fkpi"><span class="fkpi__v">3 sources</span><span class="fkpi__l">provenance preserved</span></span>
+                </span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-candidates">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <h4>Sources (Table 2)</h4>
+                  <div class="ftable-wrap">
+                    <table class="ftable">
+                      <thead><tr><th>Source</th><th>Count</th><th>Nature and caveats</th></tr></thead>
+                      <tbody>
+                        <tr><td>MapBiomas Col. 4 – Sentinel-2</td><td>5,453</td><td>Visually inspected pasture points used in the previous product; may carry methodological and spatial dependence.</td></tr>
+                        <tr><td>MapBiomas validation DB – Landsat</td><td>6,556</td><td>Subset of a ~85,000-sample database; if used in training, no longer independent for validation.</td></tr>
+                        <tr><td>Persistent pasture – Col. 4</td><td>50,000</td><td>Pasture in every year 2020–2025; pseudo-labeled candidates, not ground truth.</td></tr>
+                        <tr class="ftable__total"><td>Total</td><td>62,009</td><td>Inclusive universe before similarity, SOM, and inspection filters.</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p>The 50,000 points were allocated proportionally across three 2025 vigor strata (Sentinel-2,
+                    MapBiomas-compatible): ~35% low, ~44% medium, ~21% high vigor. Six-year persistence increases
+                    plausibility of stable pasture but may under-represent recent conversions, rotational systems, and
+                    spectrally ambiguous areas.</p>
+                  <h4>Agreement with MapBiomas Collection 11 (Table 3)</h4>
+                  <p>Collection 11 corroborated pasture at <strong>44,943</strong> of the 50,000 points (89.886%) and
+                    disagreed at <strong>5,057</strong> (10.114%). Disagreement does not prove a point is not pasture —
+                    neither map is ground truth — so both scenarios are kept for sensitivity analysis:</p>
+                  <ul class="method-list-styled">
+                    <li><strong>Inclusive:</strong> 62,009 candidates — keeps disagreeing cases to test robustness and
+                      rejection.</li>
+                    <li><strong>Agreement:</strong> 56,952 candidates — restricted to points corroborated by both
+                      collections.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
         </div>
       </div>
 
-      <!-- 2. REFERENCE & CANDIDATE DATABASES -->
-      <div class="method-card fade-up">
-        <div class="method-card__header">
-          <div class="method-card__icon-box">📍</div>
-          <div>
-            <div class="method-card__eyebrow">Databases & Independence · Status: Assembled</div>
-            <h3 class="method-card__title">2. Ground Truth Reference & 62,009 Candidates</h3>
-          </div>
+      <!-- BUS: inputs feed both extractions -->
+      <div class="fc-bus" aria-hidden="true"><span class="fc-bus__label">Dual metric extraction for every point</span></div>
+
+      <!-- ── ROW 2 · STEP 1 · DUAL METRIC EXTRACTION ─────── -->
+      <div class="flow__row">
+
+        <!-- 3. SENTINEL-2 TIME SERIES -->
+        <div class="flow__col">
+          <div class="fc-arrow fc-arrow--short" aria-hidden="true"></div>
+          <article class="fnode fnode--extract" id="step-sentinel2">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-sentinel2">
+              <span class="fnode__bar">
+                <span class="fnode__num">3</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Extraction · Temporal signature</span>
+                  <span class="fnode__title">Sentinel-2 Time Series</span>
+                </span>
+                <span class="fstatus fstatus--done">Extracted</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__kpis">
+                  <span class="fkpi"><span class="fkpi__v">2020–2025</span><span class="fkpi__l">monthly composites</span></span>
+                  <span class="fkpi"><span class="fkpi__v">~60 days</span><span class="fkpi__l">centered moving window</span></span>
+                  <span class="fkpi"><span class="fkpi__v">6 indices</span><span class="fkpi__l">NDVI · EVI · NDII · NDWI · PSRI · CAI</span></span>
+                </span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-sentinel2">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>For each area and spectral index, a monthly series was built from January 2020 to December 2025 in
+                    Google Earth Engine. Each month uses a centered window of ~60 days (second half of the previous
+                    month, the full month, and the first half of the next). The value is the joint median of all valid
+                    pixel-date pairs after excluding clouds and shadows:</p>
+                  <div class="method-formula">Ĩ(i,k,m) = median { I(i,k,p,t) : p ∈ polygon i; t ∈ window m; valid observation }</div>
+                  <ul class="method-list-styled">
+                    <li><strong>References:</strong> ~100 pixels per 1 ha polygon at 10 m (depends on geometry and
+                      grid alignment).</li>
+                    <li><strong>Candidates:</strong> 3 × 3 pixel window (900 m² / 0.09 ha) — joint median of the nine
+                      pixels; may cross edges between pasture and other covers.</li>
+                    <li><strong>Indices:</strong> vigor, moisture, senescence, and soil exposure; bands at native 20 m
+                      require an explicit statement of resampling to 10 m.</li>
+                    <li><strong>Metadata:</strong> pixel-date pairs, dates represented, valid spatial proportion, and
+                      gaps per composite.</li>
+                  </ul>
+                  <div class="method-subcard method-subcard--warning">
+                    <strong>Pending control:</strong> rule for January 2020 and December 2025 (edge months), minimum
+                    number of observations, and cloud/shadow masking audit.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
         </div>
-        <div class="method-card__body">
-          <p>
-            <strong>Field Reference Base (701 Polygons):</strong> 701 in situ polygons (~1 ha). Currently, 608 polygons
-            have consolidated labels across pasture condition categories, while 93 remain unclassified (retained for
-            unsupervised tasks).
-          </p>
-          <div class="method-subcard method-subcard--warning">
-            <strong>Dictionary Reconciliation & Integrity Rule:</strong> There is an active inconsistency between an
-            initial 5-class proposal and the 7-class implementation; a single unified dictionary is currently being
-            constructed. An explicit <em>integrity rule</em> prevents presenting category distributions as definitive
-            until this reconciliation is formalized. Polygons include partially intercepted pixels in full (without
-            area-weighting). The 93 unclassified samples may enter unsupervised SOM training, but <em>must not be used
-              to assign neuron labels or vote in Top-k decisions</em>.
-          </div>
-          <p><strong>Candidate Universe (62,009 Points) & Independence Caveats:</strong></p>
-          <ul class="method-list-styled">
-            <li><strong>5,453 visually inspected pasture points (MapBiomas Col. 4 S2):</strong> Carries methodological
-              and spatial dependence from MapBiomas classification algorithms.</li>
-            <li><strong>6,556 points (Landsat validation database, ~85k dataset):</strong> <em>Critical Caveat:</em> If
-              incorporated into model training, these points lose independence and can no longer serve for validation.
-            </li>
-            <li><strong>50,000 persistent pasture points (2020–2025):</strong> Generated as remote sensing
-              <em>pseudo-labels</em> (stratified proportionally to 2025 vigor: ~35% low, ~44% medium, ~21% high vigor),
-              not in situ ground truth.</li>
-          </ul>
-          <p>
-            <strong>Spatial Support & Scenarios:</strong> Candidate extraction uses a <strong>3×3 pixel window (900 m² /
-              0.09 ha)</strong>, carrying spectral mixing risks at field boundaries. The <em>Agreement Scenario</em>
-            (corroborated by Col. 11) totals <strong>56,952 candidates</strong>, while the <em>Inclusive Scenario</em>
-            comprises <strong>62,009 candidates</strong>.
-          </p>
-          <div class="method-tags">
-            <span class="method-tag">701 Reference Polygons</span>
-            <span class="method-tag">62,009 Candidates</span>
-            <span class="method-tag">56,952 Agreement</span>
-            <span class="method-tag">3×3 Window (900 m²)</span>
-            <span class="method-tag">Integrity Rule</span>
-          </div>
+
+        <!-- 4. ALPHAEARTH EMBEDDINGS -->
+        <div class="flow__col">
+          <div class="fc-arrow fc-arrow--short" aria-hidden="true"></div>
+          <article class="fnode fnode--extract" id="step-embeddings">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-embeddings">
+              <span class="fnode__bar">
+                <span class="fnode__num">4</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Extraction · Structural signature</span>
+                  <span class="fnode__title">AlphaEarth Foundations Embeddings</span>
+                </span>
+                <span class="fstatus fstatus--done">Extracted</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__kpis">
+                  <span class="fkpi"><span class="fkpi__v">64-D</span><span class="fkpi__l">vector A00–A63 per 10 m pixel</span></span>
+                  <span class="fkpi"><span class="fkpi__v">Annual</span><span class="fkpi__l">2020–2025</span></span>
+                  <span class="fkpi"><span class="fkpi__v">‖ē‖ = 1</span><span class="fkpi__l">L2 renormalization</span></span>
+                </span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-embeddings">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>Annual AlphaEarth Foundations Satellite Embedding vectors (GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL;
+                    Brown et al., 2025) summarize a calendar year of multi-sensor observation for each 10 m pixel. For
+                    each polygon, the component-wise mean of the included pixels gives one vector representative of the
+                    ~1 ha support (for candidates, the mean of the nine 3 × 3 vectors):</p>
+                  <div class="method-formula">ē(i,a,d) = (1 / n(i,a)) × Σ e(p,a,d), &nbsp; d = 0,…,63</div>
+                  <p>Pixels partially intersected by the polygon are included in full, without area weighting, which can
+                    increase mixing in narrow or transitional areas.</p>
+                  <div class="method-subcard">
+                    <strong>Normalization.</strong> Original embeddings have unit norm, but the mean of unit vectors does
+                    not. The dot product equals cosine similarity only for unit vectors, so L2 norms are computed before
+                    the final filtering and comparison uses explicit cosine or the dot product after renormalization:
+                    <div class="method-formula">cos(x,y) = (x · y) / (‖x‖₂ × ‖y‖₂)</div>
+                  </div>
+                  <p>The field label remains anchored to its year of observation; other years do not inherit the label
+                    without verifying temporal stability.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
         </div>
       </div>
 
-      <!-- 3. DUAL REPRESENTATION SPACES -->
-      <div class="method-card fade-up">
-        <div class="method-card__header">
-          <div class="method-card__icon-box">🛰️</div>
-          <div>
-            <div class="method-card__eyebrow">Dense Remote Sensing · Status: Extracted</div>
-            <h3 class="method-card__title">3. S2 Time Series & 64-Dim Embeddings</h3>
+      <div class="fc-bus" aria-hidden="true"></div>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Two independent representation spaces</span></div>
+
+      <!-- ── 5. PHASE 1 · EMBEDDING SIMILARITY ─────────── -->
+      <div class="flow__single">
+        <article class="fnode fnode--filter" id="step-similarity">
+          <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-similarity">
+            <span class="fnode__bar">
+              <span class="fnode__num">5</span>
+              <span class="fnode__titles">
+                <span class="fnode__phase">Filtering stage 1 · Spatial / structural filter</span>
+                <span class="fnode__title">Embedding Similarity — Top-1, Top-3 &amp; md3</span>
+              </span>
+              <span class="fstatus fstatus--prelim">Preliminary</span>
+              <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </span>
+            <span class="fnode__summary">
+              <span class="fnode__kpis">
+                <span class="fkpi"><span class="fkpi__v">cos θ</span><span class="fkpi__l">candidate × 608 references</span></span>
+                <span class="fkpi"><span class="fkpi__v">md3 ∈ {1,2,3}</span><span class="fkpi__l">Top-3 neighbor agreement</span></span>
+                <span class="fkpi"><span class="fkpi__v">A–E</span><span class="fkpi__l">threshold sensitivity scenarios</span></span>
+                <span class="fkpi"><span class="fkpi__v">35.05 M</span><span class="fkpi__l">pairs computed (50k base)</span></span>
+              </span>
+              <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+            </span>
+          </button>
+          <div class="fnode__panel" id="panel-similarity">
+            <div class="fnode__panel-inner">
+              <div class="fnode__body">
+                <p>Each candidate is compared with the Embrapa references in the 64-dimensional space using cosine
+                  similarity (after norm correction). The most similar reference defines the preliminary
+                  <strong>Top-1</strong> label; the three highest values form the <strong>Top-3</strong>, and
+                  <strong>md3</strong> counts how many of the three share the Top-1 category.</p>
+                <div class="fmd3">
+                  <div class="fmd3__card fmd3__card--3"><span class="fmd3__n">3</span><strong>High agreement</strong><span>All three nearest references share the same category.</span></div>
+                  <div class="fmd3__card fmd3__card--2"><span class="fmd3__n">2</span><strong>Moderate agreement</strong><span>Two of the three nearest references agree.</span></div>
+                  <div class="fmd3__card fmd3__card--1"><span class="fmd3__n">1</span><strong>Low agreement</strong><span>Only the Top-1 assigns the class — ambiguous profile.</span></div>
+                </div>
+                <p class="fnote">md3 = 3 represents local agreement, not accuracy or calibrated probability.</p>
+                <h4>Sensitivity scenarios (Table 4) — no single threshold adopted a priori</h4>
+                <div class="ftable-wrap">
+                  <table class="ftable">
+                    <thead><tr><th>Scenario</th><th>Illustrative criterion</th><th>Objective</th></tr></thead>
+                    <tbody>
+                      <tr><td>A</td><td>s₁ above threshold</td><td>Coverage obtained through absolute similarity.</td></tr>
+                      <tr><td>B</td><td>md3 = 3</td><td>Neighborhoods with complete Top-3 agreement.</td></tr>
+                      <tr><td>C</td><td>s₁ above threshold and md3 = 3</td><td>Absolute proximity + local coherence.</td></tr>
+                      <tr><td>D</td><td>C + agreement with Collection 11</td><td>A more conservative subset.</td></tr>
+                      <tr><td>E</td><td>D + minimum margin s₁ − s₂</td><td>Fewer cases at category boundaries.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <h4>Preliminary scaling check (12k → 50k candidate base)</h4>
+                <div class="fnode__kpis fnode__kpis--inline">
+                  <span class="fkpi"><span class="fkpi__v">8.4 M → 35.05 M</span><span class="fkpi__l">pairs calculated (4× scale)</span></span>
+                  <span class="fkpi"><span class="fkpi__v">0.8217 → 0.8245</span><span class="fkpi__l">mean dot product</span></span>
+                  <span class="fkpi"><span class="fkpi__v">67.16% → 67.52%</span><span class="fkpi__l">md3 ≥ 2 share</span></span>
+                </div>
+                <p>50k base: md3 = 3 for 35.13% (17,567), md3 = 2 for 32.39% (16,196), md3 = 1 for 32.47% (16,237) —
+                  the similarity and confidence profiles remained practically unchanged after scaling.</p>
+                <div class="method-subcard method-subcard--warning">
+                  <strong>Correct interpretation.</strong> This stage selects the most consistent pseudo-labels in the
+                  embedding space ("the broad net"). It does not replace independent validation, and it cannot detect
+                  land-use changes between 2020 and 2025 — which motivates the temporal filter in stage 2. Retention
+                  is reported by category, origin, vigor, region, and scenario.
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="method-card__body">
-          <p>
-            <strong>Monthly Sentinel-2 Time Series (2020–2025):</strong> Extracted on Google Earth Engine over a
-            centered moving window of ~60 days, excluding observations contaminated by clouds and shadows (cloud/shadow
-            masking audit pending). The monthly value is calculated as the joint median of all valid pixel-date pairs:
-          </p>
-          <div class="method-formula">
-            Ĩ(i, k, m) = median { I(i, k, p, t) : p ∈ grid(i), t ∈ window(m) }
-          </div>
-          <p>
-            Covering NDVI, EVI, NDII, NDWI, PSRI, and CAI. A final audit of valid observation counts, edge months, and
-            the resampling of native 20 m bands to 10 m is currently in progress.
-          </p>
-          <div class="method-subcard">
-            <strong>AlphaEarth Foundations Latent Embeddings:</strong> 64-dimensional annual latent vectors (A00–A63)
-            per 10 m pixel. Because spatial averaging of unit vectors reduces resultant vector norm, an explicit
-            <strong>L2-renormalization (||ē|| = 1)</strong> will be enforced upon recomputation before calculating
-            cosine similarity. Embeddings are temporally anchored to the field collection year.
-          </div>
-          <div class="method-tags">
-            <span class="method-tag">Sentinel-2 (10 m)</span>
-            <span class="method-tag">60-Day Moving Window</span>
-            <span class="method-tag">Joint Median Ĩ(i,k,m)</span>
-            <span class="method-tag">64-Dim Embeddings</span>
-            <span class="method-tag">L2-Renormalization Pending</span>
-          </div>
-        </div>
+        </article>
       </div>
 
-      <!-- 4. MULTI-STAGE FILTERING (COSINE & SOM) -->
-      <div class="method-card fade-up">
-        <div class="method-card__header">
-          <div class="method-card__icon-box">🧠</div>
-          <div>
-            <div class="method-card__eyebrow">Filtering Architecture · Status: Preliminary & In Dev</div>
-            <h3 class="method-card__title">4. Cosine Similarity & 12×12 SOM Filtering</h3>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Approved candidates + 701 references</span></div>
+
+      <!-- ── 6. PHASE 2 · SOM ──────────────────────────── -->
+      <div class="flow__single">
+        <article class="fnode fnode--filter" id="step-som">
+          <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-som">
+            <span class="fnode__bar">
+              <span class="fnode__num">6</span>
+              <span class="fnode__titles">
+                <span class="fnode__phase">Filtering stage 2 · Temporal / phenological filter</span>
+                <span class="fnode__title">Self-Organizing Map (SOM) &amp; Bayesian Smoothing</span>
+              </span>
+              <span class="fstatus fstatus--dev">Under development</span>
+              <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </span>
+            <span class="fnode__summary">
+              <span class="fnode__kpis">
+                <span class="fkpi"><span class="fkpi__v">12 × 12</span><span class="fkpi__l">initial grid · 144 neurons</span></span>
+                <span class="fkpi"><span class="fkpi__v">Dirichlet-Multinomial</span><span class="fkpi__l">neighborhood smoothing</span></span>
+              </span>
+              <span class="foutcomes">
+                <span class="foutcome foutcome--keep">Keep</span>
+                <span class="foutcome foutcome--analyze">Analyze → CBERS-4A</span>
+                <span class="foutcome foutcome--remove">Remove</span>
+              </span>
+              <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+            </span>
+          </button>
+          <div class="fnode__panel" id="panel-som">
+            <div class="fnode__panel-inner">
+              <div class="fnode__body">
+                <p>Candidates approved in stage 1 are combined with the 701 Embrapa areas and their Sentinel-2 series
+                  are organized in a SOM (Kohonen, 1990), which preserves neighborhood relationships so that points
+                  with similar phenology cluster together regardless of spatial distance. Each sample is assigned to its
+                  best-matching neuron, and the class from the embeddings is checked against the composition of the
+                  neuron and its neighborhood.</p>
+                <div class="method-subcard method-subcard--accent">
+                  <strong>The check:</strong> a candidate labeled "Productive Pasture" by the embeddings that lands in a
+                  neuron dominated by degraded field samples reveals a temporal anomaly. Because candidates far
+                  outnumber references, the SOM is a spectral-temporal consistency filter, not independent validation.
+                </div>
+                <h4>Dimensionality and preparation</h4>
+                <ul class="method-list-styled">
+                  <li>One index over one annual cycle = 12 values; with J indices = 12 × J; six complete years = 72 × J.
+                    Alternatives compared: one SOM per index, a multivariate annual SOM, or an inter-annual monthly
+                    climatology.</li>
+                  <li>Standardize each variable; define treatment of missing values and low-availability months.</li>
+                  <li>Test grid dimensions, seeds, and initializations; record quantization and topographic errors,
+                    neuron occupancy, and stability.</li>
+                  <li>The 93 unlabeled references do not contribute to neuron labeling.</li>
+                </ul>
+                <h4>Cleaning rule — decision matrix</h4>
+                <p>Dirichlet-Multinomial smoothing of category counts (prioritized; Normal-Normal kept for comparison)
+                  combines each neuron's local composition with its hexagonal neighborhood:</p>
+                <div class="fdecision">
+                  <div class="fdecision__step"><span class="fdecision__q">Prior P(k | j) &lt; τ<sub>c</sub>?</span><span class="foutcome foutcome--remove">Yes → Remove (noisy / outlier)</span></div>
+                  <div class="fdecision__step"><span class="fdecision__q">Posterior P(k | x<sub>j</sub>) ≥ τ<sub>p</sub>?</span><span class="foutcome foutcome--keep">Yes → Keep for training</span></div>
+                  <div class="fdecision__step"><span class="fdecision__q">Otherwise (ambiguous)</span><span class="foutcome foutcome--analyze">→ Analyze: route to CBERS-4A inspection</span></div>
+                </div>
+                <p>Thresholds, the α₀ pseudo-count, neighborhood size, and minimum references per neuron will be
+                  defined by sensitivity analysis.</p>
+                <div class="method-subcard method-subcard--warning">
+                  <strong>Self-reference risk.</strong> If class frequencies come mostly from the candidates' own
+                  pseudo-labels, the SOM may simply reproduce the embedding assignment. Evidence from Embrapa references
+                  and internal candidate coherence are reported separately.
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="method-card__body">
-          <p>
-            <strong>Stage 1 (Embedding Similarity — Preliminary):</strong> Cosine similarity against 608 classified
-            field references, assigning Top-1 provisional labels, Top-3 nearest neighbors, and concordance index <em>md3
-              ∈ {1, 2, 3}</em> across five sensitivity scenarios (Scenarios A–E). All thresholds remain exploratory and
-            subject to final calibration.
-          </p>
-          <p>
-            <strong>Stage 2 (Self-Organizing Maps — Under Development):</strong> 12×12 Kohonen grid (144 neurons)
-            organizing multivariate time series:
-          </p>
-          <ul class="method-list-styled">
-            <li><strong>Consistency Scope:</strong> Because candidate points vastly outnumber reference points, the SOM
-              functions as a <em>spectral-temporal consistency filter, not an independent validation</em>.</li>
-            <li><strong>Dimensionality:</strong> Single-index annual vectors are 12 values; with <em>J</em> indices,
-              each annual block is <strong>12×J</strong>, expanding to <strong>72×J</strong> for the 6-year multi-year
-              series (2020–2025).</li>
-            <li><strong>Bayesian Smoothing:</strong> Evaluates neighborhood coherence using
-              <strong>Dirichlet-Multinomial Bayesian smoothing</strong> (with Normal-Normal conjugate models evaluated
-              as an alternative) to triage candidates (<em>Keep</em>, <em>Inspect</em>, <em>Reject</em>).</li>
-            <li><strong>Quality Controls:</strong> Standardizing each variable, missing data handling, monitoring
-              quantization and topographic errors, seed initialization, and strict reference segregation.</li>
-          </ul>
-          <div class="method-tags">
-            <span class="method-tag">Top-1 / Top-3 & md3</span>
-            <span class="method-tag">Scenarios A–E</span>
-            <span class="method-tag">12×12 SOM (144 Neurons)</span>
-            <span class="method-tag">12×J / 72×J Dimensions</span>
-            <span class="method-tag">Dirichlet-Multinomial</span>
-          </div>
-        </div>
+        </article>
       </div>
 
-      <!-- 5. CBERS-4A VISUAL INSPECTION -->
-      <div class="method-card fade-up">
-        <div class="method-card__header">
-          <div class="method-card__icon-box">🔍</div>
-          <div>
-            <div class="method-card__eyebrow">High-Resolution Quality Control · Status: Planning</div>
-            <h3 class="method-card__title">5. Stratified Inspection on CBERS-4A (~2 m)</h3>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Stratified subsample (approved + ambiguous)</span></div>
+
+      <!-- ── 7. CBERS-4A INSPECTION ─────────────────────── -->
+      <div class="flow__single">
+        <article class="fnode fnode--qc" id="step-cbers">
+          <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-cbers">
+            <span class="fnode__bar">
+              <span class="fnode__num">7</span>
+              <span class="fnode__titles">
+                <span class="fnode__phase">Quality control · High resolution</span>
+                <span class="fnode__title">Visual Inspection with CBERS-4A Imagery</span>
+              </span>
+              <span class="fstatus fstatus--plan">Planning</span>
+              <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </span>
+            <span class="fnode__summary">
+              <span class="fnode__kpis">
+                <span class="fkpi"><span class="fkpi__v">~2 m</span><span class="fkpi__l">pan-sharpened CBERS-4A</span></span>
+                <span class="fkpi"><span class="fkpi__v">n ≈ 1,040</span><span class="fkpi__l">illustrative (N = 40,000)</span></span>
+                <span class="fkpi"><span class="fkpi__v">Blind</span><span class="fkpi__l">two-interpreter protocol</span></span>
+              </span>
+              <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+            </span>
+          </button>
+          <div class="fnode__panel" id="panel-cbers">
+            <div class="fnode__panel-inner">
+              <div class="fnode__body">
+                <p>Applied to a subsample of points approved in the embedding–SOM stages, to estimate the overall
+                  quality of the pre-selected set, identify systematic errors, and guide adjustments before the final
+                  Random Forest training.</p>
+                <div class="method-subcard method-subcard--warning">
+                  <strong>Not map validation.</strong> Map validation occurs after the cartographic product is
+                  generated. Image interpretation does not replace field observation for all pasture condition
+                  categories.
+                </div>
+                <h4>Initial sample sizing</h4>
+                <p>Simple random sampling with finite population correction, for an illustrative N = 40,000, margin of
+                  error 3%, 95% confidence, and p = 0.5:</p>
+                <div class="method-formula">n = N·z²·p(1−p) / [ e²(N−1) + z²·p(1−p) ] ≈ 1,040 points</div>
+                <p>This estimates a single global binary proportion (label corroborated or not), not a 3% margin per
+                  category. The final sample will be stratified by category, confidence scenario, and, when needed,
+                  region and vigor, with minimum representation for rare classes and weights for global estimates.</p>
+                <h4>Interpretation protocol</h4>
+                <ul class="method-list-styled">
+                  <li>Image date compatible with the sample year.</li>
+                  <li>Pseudo-label hidden from the interpreter whenever possible (reduces confirmation bias).</li>
+                  <li>Decision recorded as corroborated, not corroborated, or inconclusive, with justification and image
+                    quality.</li>
+                  <li>A fraction submitted to two independent interpreters; agreement measured and disagreements
+                    adjudicated.</li>
+                  <li>Link preserved between image, date, interpreter, protocol version, and final decision.</li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="method-card__body">
-          <p>
-            <strong>High-Resolution Verification:</strong> High-resolution visual inspection of pre-filtered candidates
-            and borderline cases using ~2 m nominal resolution pan-sharpened CBERS-4A imagery (WPM sensor).
-          </p>
-          <div class="method-subcard method-subcard--warning">
-            <strong>Scope Limitation:</strong> This visual inspection serves as a training-sample quality control
-            filter, <strong>does not constitute map validation</strong> (which occurs after the cartographic product is
-            completed), and <strong>cannot substitute for in situ field observation across all pasture condition
-              categories</strong>.
-          </div>
-          <p>
-            <strong>Sample Sizing with Finite Population Correction:</strong> Designed using the finite population
-            correction formula based on an illustrative filtered universe of <em>N = 40,000</em> candidate points:
-          </p>
-          <div class="method-formula">
-            n₀ = (1.96² · 0.5 · 0.5) / 0.03² ≈ 1,067.11<br>
-            n = 1,067.11 / (1 + 1,066.11 / 40,000) ≈ 1,039.43 ≈ <strong>1,040 points</strong>
-          </div>
-          <p>
-            <em>Statistical Qualification:</em> The N = 40,000 figure is strictly illustrative, and the 3% margin of
-            error at 95% confidence applies solely to an <strong>overall binary proportion</strong> (e.g., valid pasture
-            vs. non-pasture / correct vs. incorrect pseudo-label), <strong>not</strong> to estimating per-category
-            accuracy across the 7 individual condition classes.
-          </p>
-          <p>
-            <strong>Blind Multi-Interpreter Protocol:</strong> Candidate pseudo-labels are concealed from interpreters.
-            Inter-interpreter agreement will be quantitatively measured, with systematic adjudication for disagreements.
-          </p>
-          <div class="method-tags">
-            <span class="method-tag">CBERS-4A (~2 m)</span>
-            <span class="method-tag">Finite Correction (n ≈ 1,040)</span>
-            <span class="method-tag">Binary Proportion Margin (3%)</span>
-            <span class="method-tag">Blind Protocol</span>
-          </div>
-        </div>
+        </article>
       </div>
 
-      <!-- 6. MACHINE LEARNING & FIELD CAMPAIGN -->
-      <div class="method-card fade-up">
-        <div class="method-card__header">
-          <div class="method-card__icon-box">🌲</div>
-          <div>
-            <div class="method-card__eyebrow">Machine Learning & Field Validation · Status: Planning</div>
-            <h3 class="method-card__title">6. Random Forest (10 m) & Field Pilot</h3>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Approved training set</span></div>
+
+      <!-- ── 8. TRAINING SET & RANDOM FOREST ────────────── -->
+      <div class="flow__single">
+        <article class="fnode fnode--model" id="step-rf">
+          <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-rf">
+            <span class="fnode__bar">
+              <span class="fnode__num">8</span>
+              <span class="fnode__titles">
+                <span class="fnode__phase">Modeling · Map production</span>
+                <span class="fnode__title">Training Set &amp; Random Forest (10 m)</span>
+              </span>
+              <span class="fstatus fstatus--plan">Planned</span>
+              <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </span>
+            <span class="fnode__summary">
+              <span class="fnode__kpis">
+                <span class="fkpi"><span class="fkpi__v">Random Forest</span><span class="fkpi__l">Breiman (2001)</span></span>
+                <span class="fkpi"><span class="fkpi__v">10 m</span><span class="fkpi__l">first Cerrado pasture map</span></span>
+                <span class="fkpi"><span class="fkpi__v">Spatial blocks</span><span class="fkpi__l">train / evaluation split</span></span>
+              </span>
+              <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+            </span>
+          </button>
+          <div class="fnode__panel" id="panel-rf">
+            <div class="fnode__panel-inner">
+              <div class="fnode__body">
+                <p>Only candidates meeting the quality criteria of the embedding, SOM, and inspection analyses are
+                  eligible. Labels retain evidence level, origin, and decision history; rejected or inconclusive samples
+                  stay archived for auditing but are not used automatically as positive cases.</p>
+                <ul class="method-list-styled">
+                  <li>The final set is evaluated for category balance, spatial distribution, coverage of vigor strata,
+                    and redundancy.</li>
+                  <li>Rare categories are not merged merely to increase counts; any grouping depends on ecological
+                    coherence, spectral-temporal separability, and performance under independent validation.</li>
+                  <li>The Random Forest produces the first 10 m Cerrado pasture map differentiating the viable
+                    categories; training and evaluation are split by spatial blocks to minimize autocorrelation
+                    leakage.</li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="method-card__body">
-          <p>
-            <strong>Machine Learning Pasture Models:</strong> Assembly of the final curated training database with
-            documented provenance and confidence flags. Models will employ <strong>Random Forest (10 m)</strong>
-            partitioned by spatial block cross-validation (<em>spatial k-fold</em>) to prevent spatial autocorrelation
-            leakage.
-          </p>
-          <p>
-            <strong>In Situ Field Campaign & Precision Limits:</strong> Planned operational pilot of <strong>~100 field
-              localities</strong> across the Cerrado, designed in collaboration with IME/UFG. Logistical priority is
-            allocated to Goiás, with complementary transects across biome gradients.
-          </p>
-          <div class="method-subcard method-subcard--warning">
-            <strong>Statistical Limitation:</strong> A sample of n ≈ 100 points yields a margin of error of
-            approximately <strong>±8 percentage points</strong> for an expected overall accuracy around 80% (before
-            design effect). Consequently, this field campaign functions as an <strong>operational pilot for
-              calibration</strong>, not a definitive per-category accuracy assessment for the entire biome.
-          </div>
-          <p>
-            <strong>Independent Validation:</strong> Post-classification statistical evaluation combining
-            high-resolution imagery and in situ field observations to estimate overall map accuracy.
-          </p>
-          <div class="method-tags">
-            <span class="method-tag">Random Forest (10 m)</span>
-            <span class="method-tag">Spatial Block Partitioning</span>
-            <span class="method-tag">~100 Field Localities</span>
-            <span class="method-tag">Margin ±8 pp (Pilot Scale)</span>
-          </div>
-        </div>
+        </article>
       </div>
 
-      <!-- 7. RISK MITIGATION & QUALITY ASSURANCE (FULL WIDTH) -->
-      <div class="method-card method-card--full fade-up">
-        <div class="method-card__header">
-          <div class="method-card__icon-box"
-            style="background: rgba(3, 105, 161, 0.08); border-color: rgba(3, 105, 161, 0.2);">🛡️</div>
-          <div>
-            <div class="method-card__eyebrow" style="color: #0369a1;">Quality Assurance & Risk Controls · Table 5 of
-              Report</div>
-            <h3 class="method-card__title">7. Methodological Risk Controls & Traceability Framework</h3>
-          </div>
-        </div>
-        <div class="method-card__body">
-          <p>
-            To guarantee scientific integrity and reproducibility, the project integrates proactive controls across
-            seven core methodological risk areas (Report Product 1, Table 5):
-          </p>
-          <div class="risk-grid">
-            <div class="risk-card">
-              <span class="risk-card__badge">Risk 01 · Circularity</span>
-              <p>Preserve candidate provenance; evaluate model scenarios with and without Collection 11 constraints;
-                base final validation on independent high-resolution imagery and field observations.</p>
-            </div>
-            <div class="risk-card">
-              <span class="risk-card__badge">Risk 02 · Class Imbalance</span>
-              <p>Track per-category retention rates; calibrate category-specific similarity thresholds; prevent
-                artificial absorption of minority categories.</p>
-            </div>
-            <div class="risk-card">
-              <span class="risk-card__badge">Risk 03 · Spatial Mixing</span>
-              <p>Compute homogeneity and edge metrics for the 3×3 candidate windows (900 m²) to detect and flag mixed
-                boundary pixels.</p>
-            </div>
-            <div class="risk-card">
-              <span class="risk-card__badge">Risk 04 · Temporal Change</span>
-              <p>Anchor reference labels strictly to their field collection year prior to multi-year propagation across
-                2020–2025 series.</p>
-            </div>
-            <div class="risk-card">
-              <span class="risk-card__badge">Risk 05 · Norm Distortion</span>
-              <p>Explicitly compute and unit-normalize L2 norms on spatial mean embeddings to eliminate non-unit dot
-                product distortion.</p>
-            </div>
-            <div class="risk-card">
-              <span class="risk-card__badge">Risk 06 · Pseudo-Label Domination</span>
-              <p>Segregate field reference support from candidate pseudo-label frequencies in the SOM to prevent
-                circular reinforcement loops.</p>
-            </div>
-            <div class="risk-card" style="grid-column: 1 / -1;">
-              <span class="risk-card__badge">Risk 07 · Regional Inference</span>
-              <p>Pair the Goiás-centered field pilot with biome-wide stratified satellite inspection (CBERS-4A ~2 m) to
-                ensure balanced statistical inference across all Cerrado gradients.</p>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Map v1 (10 m)</span></div>
+
+      <!-- ── 9. FIELD CAMPAIGN & MAP VALIDATION ─────────── -->
+      <div class="flow__single">
+        <article class="fnode fnode--valid" id="step-field">
+          <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-field">
+            <span class="fnode__bar">
+              <span class="fnode__num">9</span>
+              <span class="fnode__titles">
+                <span class="fnode__phase">Validation · Independent evaluation</span>
+                <span class="fnode__title">Field Data Collection &amp; Map Validation</span>
+              </span>
+              <span class="fstatus fstatus--plan">Planning</span>
+              <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </span>
+            <span class="fnode__summary">
+              <span class="fnode__kpis">
+                <span class="fkpi"><span class="fkpi__v">~100</span><span class="fkpi__l">field localities (pilot)</span></span>
+                <span class="fkpi"><span class="fkpi__v">Goiás</span><span class="fkpi__l">logistical priority + other regions</span></span>
+                <span class="fkpi"><span class="fkpi__v">±8 p.p.</span><span class="fkpi__l">margin at ~80% accuracy</span></span>
+              </span>
+              <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+            </span>
+          </button>
+          <div class="fnode__panel" id="panel-field">
+            <div class="fnode__panel-inner">
+              <div class="fnode__body">
+                <p>After the first version of the map is generated, image-based and field-based evaluations follow
+                  specific statistical designs. One hundred points suit a pilot campaign and the detection of systematic
+                  errors, but do not ensure high precision for seven categories across the biome (≈ ±8 percentage points
+                  for an accuracy near 80% under simple random sampling, before design effects).</p>
+                <ul class="method-list-styled">
+                  <li>Keep independence between training and validation points.</li>
+                  <li>Seek spatially balanced allocation across categories, confidence levels, ecoregions, and
+                    environmental gradients.</li>
+                  <li>Record inclusion probabilities and weight when allocation is disproportionate.</li>
+                  <li>Control clustering along routes and enforce a minimum distance between localities.</li>
+                  <li>Treat the concentration in Goiás as a regional priority validation, not automatic inference for
+                    the whole Cerrado.</li>
+                </ul>
+                <p>Sampling plan, estimators, confidence intervals, and uncertainty analysis will be defined with Prof.
+                  Luis Rodrigo Fernandes Baumann (IME/UFG) and the LAPIG field and remote sensing team.</p>
+              </div>
             </div>
           </div>
-          <div class="method-tags">
-            <span class="method-tag">Table 5 Risk Controls</span>
-            <span class="method-tag">Circularity Prevention</span>
-            <span class="method-tag">Class Imbalance Mitigation</span>
-            <span class="method-tag">Vector Norm Correction</span>
-            <span class="method-tag">Audit-Ready Traceability</span>
-          </div>
-        </div>
+        </article>
       </div>
 
-      <!-- 8. UPCOMING DECISIONS & ROADMAP (FULL WIDTH) -->
-      <div class="method-card method-card--full fade-up"
-        style="border-color: rgba(18, 153, 18, 0.3); background: rgba(18, 153, 18, 0.015);">
-        <div class="method-card__header">
-          <div class="method-card__icon-box">📋</div>
-          <div>
-            <div class="method-card__eyebrow">Concluding Technical Roadmap</div>
-            <h3 class="method-card__title">Upcoming Decisions and Technical Deliverables</h3>
-          </div>
+      <!-- ── CROSS-CUTTING CONTROLS ────────────────────── -->
+      <div class="flow__divider"><span>Cross-cutting · applies to every stage</span></div>
+
+      <div class="flow__row flow__row--support">
+        <div class="flow__col">
+          <article class="fnode fnode--support" id="step-qc">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-qc">
+              <span class="fnode__bar">
+                <span class="fnode__num">QA</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Table 5</span>
+                  <span class="fnode__title">Quality Control, Traceability &amp; Risk Controls</span>
+                </span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__desc">Stable identifiers, full provenance, versioned scripts and parameters, and
+                  planned controls for seven methodological risks.</span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-qc">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>Each sample keeps a stable identifier and fields for provenance, geometry, year, source, label,
+                    confidence level, similarity metrics, SOM neuron, inspection outcome, and change history. Scripts,
+                    parameters, and collection versions are preserved for reproducibility.</p>
+                  <div class="ftable-wrap">
+                    <table class="ftable">
+                      <thead><tr><th>Methodological risk</th><th>Planned control</th></tr></thead>
+                      <tbody>
+                        <tr><td>Circularity with MapBiomas products</td><td>Preserve provenance; use multiple scenarios; do not treat pseudo-labels as ground truth; validate independently.</td></tr>
+                        <tr><td>Imbalance among categories</td><td>Report retention by class; test class-specific thresholds; weighting or controlled sampling without masking real scarcity.</td></tr>
+                        <tr><td>Spatial mixing at edges</td><td>Record support and homogeneity; inspect borderline cases; evaluate spatial filters.</td></tr>
+                        <tr><td>Temporal class change</td><td>Anchor the label to the field year; verify stability before propagating to other years.</td></tr>
+                        <tr><td>Dot product of non-unit means</td><td>Calculate L2 norms; use explicit cosine or renormalize before the dot product.</td></tr>
+                        <tr><td>SOM dominated by pseudo-labels</td><td>Separate reference support from internal coherence; test grid, neighborhood, and rejection criteria.</td></tr>
+                        <tr><td>Validation concentrated in Goiás</td><td>Limit regional inference; combine field data with a spatially comprehensive image-based sample.</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="method-card__body">
-          <p>
-            In alignment with the concluding roadmap of Product 1, the immediate operational phase requires the
-            resolution of eight technical milestones:
-          </p>
-          <div class="roadmap-grid">
-            <div class="roadmap-card">
-              <div class="roadmap-card__num">1</div>
-              <div class="roadmap-card__content">
-                <strong>Class Dictionary Reconciliation</strong>
-                <p>Consolidate a single versioned dictionary for the 7 condition categories, formalizing operational
-                  criteria and reconciling the 608 classified field samples.</p>
+
+        <div class="flow__col">
+          <article class="fnode fnode--support" id="step-roadmap">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-roadmap">
+              <span class="fnode__bar">
+                <span class="fnode__num">Next</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Roadmap</span>
+                  <span class="fnode__title">Upcoming Decisions &amp; Technical Deliverables</span>
+                </span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__desc">Eight decisions required to move from the preliminary filters to the first
+                  validated 10 m map.</span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-roadmap">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <ol class="froadmap">
+                    <li>Consolidate the single dictionary of the seven categories and reconcile the 608 classified samples.</li>
+                    <li>Audit the Sentinel-2 series: indices, masks, resampling, edge months, dates, and valid pairs.</li>
+                    <li>Calculate the L2 norms of the mean embeddings and recompute similarity as cosine when necessary.</li>
+                    <li>Run the sensitivity analysis of Top-1, Top-3, md3, and margin thresholds, and agreement with Collection 11.</li>
+                    <li>Define SOM dimensionality and parameters from stability, quantization/topographic errors, and reference support.</li>
+                    <li>Size and draw the stratified CBERS-4A sample, with a blind protocol and inter-interpreter control.</li>
+                    <li>Assemble the approved database, assess balance and separability, and justify any category groupings.</li>
+                    <li>Train the first Random Forest version and implement independent validation by imagery and field data.</li>
+                  </ol>
+                </div>
               </div>
             </div>
-            <div class="roadmap-card">
-              <div class="roadmap-card__num">2</div>
-              <div class="roadmap-card__content">
-                <strong>Sentinel-2 Series Audit</strong>
-                <p>Finalize verification of cloud/shadow masks, minimum valid observations, edge month behavior, and
-                  resampling of native 20 m bands to 10 m (NDII, PSRI, CAI).</p>
-              </div>
-            </div>
-            <div class="roadmap-card">
-              <div class="roadmap-card__num">3</div>
-              <div class="roadmap-card__content">
-                <strong>Renormalized Cosine Similarity</strong>
-                <p>Complete the recomputation of similarity matrices using verified L2-renormalized embedding means.</p>
-              </div>
-            </div>
-            <div class="roadmap-card">
-              <div class="roadmap-card__num">4</div>
-              <div class="roadmap-card__content">
-                <strong>Threshold & Margin Sensitivity</strong>
-                <p>Finalize empirical thresholds for Top-1, Top-3, md3, and separation margins (s₁ − s₂) across
-                  Scenarios A through E.</p>
-              </div>
-            </div>
-            <div class="roadmap-card">
-              <div class="roadmap-card__num">5</div>
-              <div class="roadmap-card__content">
-                <strong>SOM Configuration & Smoothing</strong>
-                <p>Define final SOM grid parameters, evaluate input dimensionality (12×J vs 72×J), and calibrate
-                  Dirichlet-Multinomial vs Normal-Normal smoothing.</p>
-              </div>
-            </div>
-            <div class="roadmap-card">
-              <div class="roadmap-card__num">6</div>
-              <div class="roadmap-card__content">
-                <strong>CBERS-4A Sample Draw</strong>
-                <p>Draw the stratified quality control sample (n ≈ 1,040 points) and execute the blind multi-interpreter
-                  inspection protocol.</p>
-              </div>
-            </div>
-            <div class="roadmap-card">
-              <div class="roadmap-card__num">7</div>
-              <div class="roadmap-card__content">
-                <strong>Training Dataset Assembly</strong>
-                <p>Construct the approved training dataset and evaluate spectral-temporal separability among condition
-                  categories.</p>
-              </div>
-            </div>
-            <div class="roadmap-card">
-              <div class="roadmap-card__num">8</div>
-              <div class="roadmap-card__content">
-                <strong>Model Training & Validation</strong>
-                <p>Train Random Forest 10 m pasture models with spatial block partitioning and execute independent
-                  image- and field-based validation.</p>
-              </div>
-            </div>
-          </div>
-          <div class="method-tags">
-            <span class="method-tag">Roadmap Deliverables</span>
-            <span class="method-tag">Dictionary Harmonization</span>
-            <span class="method-tag">20 m to 10 m Resampling</span>
-            <span class="method-tag">SOM Calibration</span>
-            <span class="method-tag">CBERS-4A Draw</span>
-            <span class="method-tag">10 m Model Training</span>
-          </div>
+          </article>
         </div>
       </div>
 

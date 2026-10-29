@@ -18,26 +18,26 @@
           <!-- MAP CONTROLS OVERLAY -->
           <div class="map-controls-overlay">
             <button class="map-btn map-btn--reset" id="map-reset" title="Reset to full Cerrado / Brazil view">
-              ⟲ Cerrado / Brazil
+              Reset View
             </button>
             <button class="map-btn map-btn--draw" id="btn-draw-rect" title="Draw rectangle to filter samples in custom area">
-              ⛶ Box Selection
+              Box Selection
             </button>
             <button class="map-btn map-btn--clear-rect" id="btn-clear-rect" title="Clear rectangle selection" style="display: none;">
-              ✕ Clear Selection
+              Clear Selection
             </button>
             <button class="map-btn map-btn--embrapa" id="btn-toggle-embrapa" title="Toggle 701 field reference points layer">
-              📍 Reference Points (701)
+              Reference Points (701)
             </button>
             <select class="map-btn map-select" id="map-basemap-select" title="Change background map layer">
-              <option value="gray" selected>🗺️ Light Gray</option>
-              <option value="satellite">🛰️ Satellite</option>
-              <option value="topo">⛰️ Topo</option>
+              <option value="gray" selected>Light Gray</option>
+              <option value="satellite">Satellite</option>
+              <option value="topo">Topo</option>
             </select>
           </div>
 
           <div class="map-selection-hint" id="map-selection-hint" style="display: none;">
-            <span>🖱️ <strong>Selection Mode Active:</strong> Click and drag on the map to define the bounding box.</span>
+            <span><strong>Selection Mode Active:</strong> Click and drag on the map to define the bounding box.</span>
           </div>
         </div>
 
@@ -90,7 +90,7 @@
               <!-- 1. ANALYSIS YEAR -->
               <div class="filter-item open">
                 <button type="button" class="filter-item__header" data-target="filter-body-year">
-                  <span id="year-filter-title">📅 Analysis Year (50k Series · 50,000 pts)</span>
+                  <span id="year-filter-title">Analysis Year (50k Series · 50,000 pts)</span>
                   <span class="filter-item__icon">▾</span>
                 </button>
                 <div class="filter-item__body" id="filter-body-year">
@@ -110,7 +110,7 @@
               <!-- 2. VIGOR (CLASS_CVP) -->
               <div class="filter-item open">
                 <button type="button" class="filter-item__header" data-target="filter-body-vigor">
-                  <span>🌿 Pasture Condition (CVP Vigor)</span>
+                  <span>Pasture Condition (CVP Vigor)</span>
                   <span class="filter-item__icon">▾</span>
                 </button>
                 <div class="filter-item__body" id="filter-body-vigor">
@@ -137,7 +137,7 @@
               <!-- 3. MD3 SIMILARITY -->
               <div class="filter-item open">
                 <button type="button" class="filter-item__header" data-target="filter-body-md3">
-                  <span>⚡ Cosine Similarity (Md3 Threshold)</span>
+                  <span>Cosine Similarity (Md3 Threshold)</span>
                   <span class="filter-item__icon">▾</span>
                 </button>
                 <div class="filter-item__body" id="filter-body-md3">
@@ -161,7 +161,7 @@
               <!-- 4. PASTURE TYPOLOGIES -->
               <div class="filter-item open">
                 <button type="button" class="filter-item__header" data-target="filter-body-classes">
-                  <span>🏷️ Pasture Typologies</span>
+                  <span>Pasture Typologies</span>
                   <span class="filter-item__icon">▾</span>
                 </button>
                 <div class="filter-item__body" id="filter-body-classes">
@@ -180,7 +180,6 @@
           <div class="map-panel__card chart-card">
             <div class="chart-header">
               <div class="map-panel__title" id="chart-title">MapBiomas Sample Distribution (50k)</div>
-              <span class="chart-badge">Dynamic</span>
             </div>
             <div class="chart-container">
               <canvas id="chart-classes"></canvas>
@@ -190,7 +189,6 @@
           <div class="map-panel__card chart-card chart-card--embrapa">
             <div class="chart-header">
               <div class="map-panel__title">Field Reference (701 Points)</div>
-              <span class="chart-badge chart-badge--ref">Ground Truth</span>
             </div>
             <div class="chart-container">
               <canvas id="chart-embrapa"></canvas>
