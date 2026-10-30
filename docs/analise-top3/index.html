@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Interactive Md3 Sample & SOM Viewer
+title: Interactive Pasture Map & SOM Viewer
 page_eyebrow: Interactive Visualizations & Spatial Analytics
 page_desc: >-
-  Spectral similarity cross-matching of 62,009 candidate points with 701 field reference polygons (~1 ha; 608 classified + 93 unlabeled)
-  via 64-dimensional L2-renormalized cosine similarity and 12×12 Self-Organizing Map (SOM) phenological clustering.
+  Explore 62,009 candidate sample points and 701 Embrapa Cenargen field reference polygons across the Cerrado biome (2020–2025).
+  Filter by series, year, pasture vigor (CVP), and Top-3 cosine similarity concordance (md3), or draw a bounding box to inspect local distributions.
 ---
 
-{% include classes.html %}
 {% include map_viz.html %}
+{% include classes.html %}
 {% include SOM.html %}

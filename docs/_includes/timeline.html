@@ -1,60 +1,73 @@
 <!-- ═══════════════════════════════════════════════════════
-       TIMELINE
+       TIMELINE — COMPACT MINIMIZED STATUS CARD (HOME)
+       Opens full timeline in a dedicated tab (/cronograma/)
   ═══════════════════════════════════════════════════════ -->
-  <section class="section reveal" id="cronograma">
-    <div class="section__eyebrow">Project Status & Activities</div>
-    <h2 class="section__title">Status of Activities (Product 1 — August 17, 2026)</h2>
-    <p class="section__desc">
-      Tracking of methodological components, current execution status, and next technical deliverables.
-    </p>
-
-    <div class="timeline">
-      <div class="timeline__item done">
-        <div class="timeline__date">Component 01 · Status: Assembled</div>
-        <div class="timeline__title">1. Field Reference Base</div>
-        <div class="timeline__desc">701 polygons of approximately 1 ha; 608 classified across 7 pasture condition categories and 93 without a consolidated class.</div>
-      </div>
-
-      <div class="timeline__item done">
-        <div class="timeline__date">Component 02 · Status: Extracted</div>
-        <div class="timeline__title">2. Sentinel-2 Time Series</div>
-        <div class="timeline__desc">Monthly composites (2020–2025) for references and candidates using ~60-day moving window joint medians; audit of valid observations in progress.</div>
-      </div>
-
-      <div class="timeline__item done">
-        <div class="timeline__date">Component 03 · Status: Extracted</div>
-        <div class="timeline__title">3. Annual Latent Embeddings</div>
-        <div class="timeline__desc">64-dimensional AlphaEarth Foundations vectors per year (2020–2025); verification and L2 norm correction of mean vectors applied before similarity calculation.</div>
-      </div>
-
-      <div class="timeline__item done">
-        <div class="timeline__date">Component 04 · Status: Assembled</div>
-        <div class="timeline__title">4. Candidate Points Universe</div>
-        <div class="timeline__desc">62,009 candidates with provenance preserved; sensitivity scenarios structured with and without the 5,057 points that disagree with MapBiomas Collection 11.</div>
-      </div>
-
-      <div class="timeline__item current">
-        <div class="timeline__date">Component 05 · Status: Preliminary (Active Milestone)</div>
-        <div class="timeline__title">5. Embedding-Based Filtering</div>
-        <div class="timeline__desc">Top-1/Top-3 similarity matches, concordance metric (md3), separation margins, and sensitivity thresholds evaluated across Scenarios A through E.</div>
-      </div>
-
-      <div class="timeline__item future">
-        <div class="timeline__date">Component 06 · Status: Under Development</div>
-        <div class="timeline__title">6. SOM-Based Filtering (Self-Organizing Maps)</div>
-        <div class="timeline__desc">Initial 12×12 neuron grid (144 units); multivariate dimensionality, normalization, neighborhood, and Dirichlet-Multinomial Bayesian smoothing under evaluation.</div>
-      </div>
-
-      <div class="timeline__item future">
-        <div class="timeline__date">Component 07 · Status: Planning</div>
-        <div class="timeline__title">7. CBERS-4A Visual Inspection (~2 m)</div>
-        <div class="timeline__desc">Stratified sampling (~1,040 points for 3% margin of error at 95% confidence) after embedding-SOM selection with blind multi-interpreter protocol.</div>
-      </div>
-
-      <div class="timeline__item future">
-        <div class="timeline__date">Component 08 · Status: Planning</div>
-        <div class="timeline__title">8. Field Data Collection & Subsequent Validation</div>
-        <div class="timeline__desc">Initial campaign of approximately 100 field localities across the Cerrado (logistical priority given to Goiás) for targeted validation of the 10 m map.</div>
+<section class="section status-section reveal" id="cronograma">
+  <div class="status-card">
+    <div class="status-card__info">
+      <span class="agora-pill"><span class="pulso"></span> Where we are</span>
+      <h3 id="st-titulo">Stage 2 · 10 m Pasture Mapping &amp; Sample Curation</h3>
+      <p class="sub" id="st-sub">
+        <strong>Product 1</strong> (Detailed Sampling Plan &amp; Improvement Strategies) delivered on <strong>01/10/2026</strong>. We are now finalizing <strong>Product 2</strong> (2020–2025 annual 10 m maps, 64-D embedding &amp; 12×12 SOM filtering, and CBERS-4A 2 m inspection), scheduled for <strong>01/12/2026</strong>.
+      </p>
+      <div class="status-card__actions">
+        <a class="landscape-action" href="{{ '/cronograma/' | relative_url }}" target="_blank" rel="noopener">
+          <span>Open Full Timeline in New Tab</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
       </div>
     </div>
-  </section>
+
+    <div class="linha-tempo" aria-label="Project milestone timeline">
+      <div class="lt-trilho" id="trilho-home">
+        <div class="lt-prog" id="prog-home" style="width: 66%;"></div>
+      </div>
+      <div class="lt-legenda">
+        <span class="l-ok">Delivered</span>
+        <span class="l-ag">Current / Next Delivery</span>
+        <span class="l-fu">Planned</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var inicio = "2026-06-12", fim = "2027-01-10";
+  var marcos = [
+    { id: "K",  rot: "Kick-off",  data: "2026-06-12", st: "ok" },
+    { id: "P1", rot: "Product 1", data: "2026-10-01", st: "ok" },
+    { id: "P2", rot: "Product 2", data: "2026-12-01", st: "agora" },
+    { id: "P3", rot: "Product 3", data: "2026-12-15", st: "fu", cima: true },
+    { id: "P4", rot: "P4 + P5",   data: "2027-01-10", st: "fu" }
+  ];
+  var tr = document.getElementById("trilho-home");
+  var pr = document.getElementById("prog-home");
+  if (!tr || !pr) return;
+
+  var t0 = +new Date(inicio + "T12:00:00"), t1 = +new Date(fim + "T12:00:00");
+  var hoje = Date.now();
+  var pos = function(d) {
+    return Math.max(0, Math.min(100, (+new Date(d + "T12:00:00") - t0) / (t1 - t0) * 100));
+  };
+  var ph = Math.max(0, Math.min(100, (hoje - t0) / (t1 - t0) * 100));
+  pr.style.width = ph.toFixed(1) + "%";
+  tr.insertAdjacentHTML("beforeend", '<div class="lt-hoje" style="left:' + ph.toFixed(1) + '%">Today</div>');
+
+  var fmt = function(d) {
+    return new Date(d + "T12:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short" });
+  };
+  marcos.forEach(function(m) {
+    var x = pos(m.data).toFixed(1);
+    tr.insertAdjacentHTML(
+      "beforeend",
+      '<div class="marco ' + m.st + '" style="left:' + x + '%" title="' + m.rot + '">' + (m.st === "ok" ? "✓" : "") + '</div>' +
+      '<div class="marco-rot' + (m.cima ? " cima" : "") + '" style="left:' + x + '%"><b>' + m.rot + '</b>' + fmt(m.data) + '</div>'
+    );
+  });
+})();
+</script>

@@ -214,6 +214,7 @@ if __name__ == '__main__':
         print(f"[OK] Servidor LAPIG/ILPF multi-página rodando em: {url}")
         print("Rotas disponíveis:")
         print(f"  • Home:              {url}/")
+        print(f"  • Cronograma:        {url}/cronograma/")
         print(f"  • Análise Top-3:     {url}/analise-top3/")
         print(f"  • Produtos/Download: {url}/produtos/")
         print("=" * 60)

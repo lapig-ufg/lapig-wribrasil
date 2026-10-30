@@ -1,21 +1,62 @@
 <!-- ═══════════════════════════════════════════════════════
-       HERO & PROJECT INTRODUCTION
+       HERO & TOP DIRECTORY (TIME2GRAZE-STYLE LANDSCAPE HERO)
   ═══════════════════════════════════════════════════════ -->
-<header class="hero" id="projeto">
-  <h1 class="fade-up">
-    Improve Pasture Mapping in the Cerrado Biome
-  </h1>
+<section class="landscape-hero" id="projeto" aria-labelledby="landscape-title">
+  <div class="landscape-photo">
+    <img src="{{ '/assets/figures/cerrado_pasture_bg.jpg' | relative_url }}" alt="Cerrado pastureland with cattle in Brazil" width="1440" height="1080" />
+    <p>Cerrado Biome · Brazil · 10 m Resolution</p>
+  </div>
 
-  <p class="hero__subtitle fade-up">
-    Pastures represent the largest anthropogenic land use in the Cerrado biome, yet conventional remote sensing products
-    typically map pasture as a single homogeneous land-use class at 30 m spatial resolution. In practice, Cerrado
-    pastures span a broad ecological and management gradient — ranging from well-managed, high-biomass forage systems
-    (<em>Productive Pasture</em>) to areas affected by ruderal weed infestation (<em>Pasture with Weeds</em>), woody
-    encroachment (<em>Pasture with Shrubs</em>), intermediate vigor loss (<em>Intermediate Pasture</em>), severe
-    <em>Biological Degradation</em> with exposed soil, or <em>Natural Regeneration</em> returning to native savanna
-    physiognomies. Differentiating these seven pasture condition categories at 10-meter spatial
-    resolution is essential to identify priority areas for restoration and sustainable intensification,
-    reduce conversion pressure on remnant native vegetation, improve carbon and greenhouse-gas accounting, and guide
-    territorial investments with quantifiable uncertainty.
-  </p>
-</header>
+  <div class="landscape-card">
+    <p class="landscape-eyebrow">WRI Brasil · FUNAPE · LAPIG/UFG · Embrapa Cenargen</p>
+    <h1 id="landscape-title">Improve Pasture Mapping<br/><span>in the Cerrado Biome</span></h1>
+    <p class="landscape-intro">
+      10-meter spatial resolution pasture mapping across the Cerrado biome, combining pasture quality and condition classification (7 field-calibrated categories) with a multi-year vegetative vigor and management indicator (CVP, 2020–2025).
+    </p>
+    <div class="landscape-actions">
+      <a class="landscape-action" href="{{ '/analise-top3/' | relative_url }}">
+        <span>Open Interactive Map</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </a>
+      <a class="landscape-action landscape-action--secondary" href="{{ '/produtos/' | relative_url }}">
+        <span>Downloads &amp; Open Data</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="landscape-date" aria-label="10 meter spatial resolution, 2020 to 2025 series">
+    <strong>10 m</strong>
+    <span>Cerrado Series<br/>2020–2025</span>
+  </div>
+</section>
+
+<nav class="home-directory" aria-label="Quick navigation to platform tools">
+  <a href="{{ '/analise-top3/' | relative_url }}">
+    <span class="home-directory-index">01</span>
+    <div>
+      <strong>Interactive Map &amp; SOM Viewer</strong>
+      <small>Explore 62,009 candidate points, 701 field references, and 12×12 SOM clusters</small>
+      <em>Open Spatial Viewer</em>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+  </a>
+  <a href="{{ '/produtos/' | relative_url }}">
+    <span class="home-directory-index">02</span>
+    <div>
+      <strong>Downloads, Scripts &amp; GEE Assets</strong>
+      <small>Technical report, GEE &amp; Python routines, and CSV/JSON/Parquet tables</small>
+      <em>Access Repository</em>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+  </a>
+  <a href="#metodologia">
+    <span class="home-directory-index">03</span>
+    <div>
+      <strong>Methodological Flowchart</strong>
+      <small>Chronological dual-filter curation pipeline, embeddings &amp; CBERS-4A QC</small>
+      <em>View Workflow</em>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+  </a>
+</nav>
