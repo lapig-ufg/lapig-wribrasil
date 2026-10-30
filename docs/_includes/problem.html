@@ -1,32 +1,32 @@
 <!-- ═══════════════════════════════════════════════════════
-       PROBLEM CARDS / CONTEXT
+       DATABASE ARCHITECTURE & MULTI-SERIES COMPOSITION
   ═══════════════════════════════════════════════════════ -->
   <section class="section reveal" id="cards-problema">
-    <div class="section__eyebrow">Context and Rationale</div>
-    <h2 class="section__title">Challenges in Mapping Cerrado Pastures & Sample Curation</h2>
+    <div class="section__eyebrow">Database Architecture & Repository Structure</div>
+    <h2 class="section__title">Three Complementary Datasets Powering the Curation Pipeline</h2>
     <p class="section__desc">
-      The high spatial, temporal, and ecological heterogeneity of pastures in the Cerrado biome demands a traceable strategy to expand sample sets from high-quality field references, filter pseudo-labeling errors in complementary representation spaces, and rigorously document uncertainty.
+      The repository organizes the pasture mapping benchmark into three linked spatial databases spanning 2019–2025, allowing independent testing of historical reference baselines, persistent vigor-stratified samples, and multi-collection map agreement scenarios.
     </p>
     <div class="cards">
       <div class="card fade-up">
-        <div class="card__eyebrow">Sample Expansion at Scale</div>
-        <div class="card__title">62,009 Candidates across the Cerrado</div>
+        <div class="card__eyebrow">1. Field Reference Base · Embrapa Cenargen</div>
+        <div class="card__title">701 In Situ Polygons (608 Classified + 93 Unlabeled)</div>
         <p class="card__desc">
-          Structured candidate universe combining 5,453 Sentinel-2 Col. 4 points, 6,556 Landsat validation points, and 50,000 persistent pasture points (2020–2025; ~35% low, ~44% medium, ~21% high vigor). Sensitivity analysis compares the inclusive universe (62,009) against the Collection 11 agreement scenario (56,952 points).
+          Approximately 1 ha field-surveyed polygons distributed across the Cerrado, recording continuous ground-cover fractions (% forage grass, % woody canopy, % ruderal weeds, % bare soil) and altitude. The 608 labeled polygons anchor the supervised similarity ranking across 7 condition classes, while 93 unlabeled polygons are retained for exploratory and unsupervised evaluation.
         </p>
       </div>
       <div class="card fade-up">
-        <div class="card__eyebrow">Dual Representation Spaces</div>
-        <div class="card__title">64-Dim Embeddings & S2 Time Series</div>
+        <div class="card__eyebrow">2. Reference & Validation Candidate Series · 12k Base (2019–2025)</div>
+        <div class="card__title">12,009 Inspected & Independent Validation Points</div>
         <p class="card__desc">
-          AlphaEarth Foundations annual embeddings (64 latent dimensions at 10 m with L2-renormalization) combined with monthly Sentinel-2 spectral series (NDVI, EVI, NDII, NDWI, PSRI, CAI) extracted via a 60-day moving window using the joint median of valid pixel-date pairs.
+          Combines 5,453 visually inspected MapBiomas Collection 4 Sentinel-2 training points and 6,556 MapBiomas 85k Landsat independent validation points (totalling up to 12,483 points in 2019 and 12,009 in 2025). Evaluated against all 701 field areas (~8.4M dot-product pairs/year), achieving a mean cosine similarity of 0.8217 and 67.16% Top-3 neighbor agreement (md3 &ge; 2).
         </p>
       </div>
       <div class="card fade-up">
-        <div class="card__eyebrow">Quality Control & Validation</div>
-        <div class="card__title">Cosine Similarity, SOM & CBERS-4A</div>
+        <div class="card__eyebrow">3. Persistent Vigor-Stratified Series · 50k Base (2020–2025)</div>
+        <div class="card__title">50,000 Persistent Pasture Points & Col. 11 Scenarios</div>
         <p class="card__desc">
-          Two-stage filtering via L2 cosine similarity against 608 classified field reference polygons, Top-1/Top-3 md3 concordance, 12×12 SOM clustering with Bayesian smoothing, and stratified ~2 m CBERS-4A visual inspection before Random Forest training.
+          Sampled from pixels persistently mapped as pasture across all 6 years (2020–2025) in Collection 4 Sentinel-2 and stratified by 2025 vegetative vigor (~35% low, ~44% medium, ~21% high) to counteract the 62.2% productive bias of field samples. Cross-tabulation with Collection 11 separates 44,943 concordant points (89.886%) from 5,057 discordant points (10.114%), defining the Inclusive (62,009) vs. Agreement (56,952) sensitivity scenarios across 35.05M pairs/year (mean similarity 0.8245; 67.52% with md3 &ge; 2).
         </p>
       </div>
     </div>

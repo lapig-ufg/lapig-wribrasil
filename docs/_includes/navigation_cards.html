@@ -5,19 +5,28 @@
     <div class="section__inner">
       <div class="section__eyebrow">Navigation & Tools</div>
       <h2 class="section__title">Explore Platform Resources</h2>
-      <p class="section__desc">Access available deliverables and analytical tools.</p>
+      <p class="section__desc">Access interactive analytical maps, technical documentation, scripts, and open datasets.</p>
 
       <div class="cards">
         <a class="card fade-up" href="{{ '/analise-top3/' | relative_url }}">
-          <div class="card__eyebrow">Deliverable 1</div>
-          <div class="card__title">Product 1 — Md3 Sample Dataset & Viewer</div>
+          <div class="card__eyebrow">Interactive Spatial Analytics</div>
+          <div class="card__title">Product 1 — Md3 Sample & SOM Viewer</div>
           <p class="card__desc">
-            Processing scripts, open download links, GEE cloud assets, technical reports, and an interactive map with 62,009 candidate samples per year (2020–2025) in the Cerrado, crossed via spectral similarity with 701 field reference polygons.
+            Interactive map with 62,009 candidate samples per year (2020–2025) across the Cerrado, crossed via 64-D L2 cosine similarity with 701 field reference polygons, analytical distribution charts, and 12×12 SOM phenological clustering.
           </p>
-          <span class="card__arrow">Access Md3 Map & Products →</span>
+          <span class="card__arrow">Access Interactive Map →</span>
         </a>
 
-        <!-- Temporarily commented until future deliverables
+        <a class="card fade-up" href="{{ '/produtos/' | relative_url }}">
+          <div class="card__eyebrow">Documentation, Code & Open Data</div>
+          <div class="card__title">Downloads, Scripts & GEE Assets</div>
+          <p class="card__desc">
+            Direct downloads for the Product 1 Technical Report, presentation slides, Google Earth Engine cloud assets, GEE & Python/DuckDB scripts, and complete processed tables (CSV, JSON, and Parquet) for the 50k, 12k, and 701 field reference datasets.
+          </p>
+          <span class="card__arrow">Access Downloads & Data →</span>
+        </a>
+
+        <!-- Temporarily hidden while under construction:
         <a class="card fade-up" href="{{ '/comparacao/' | relative_url }}">
           <div class="card__eyebrow">Comparative Analysis</div>
           <div class="card__title">Raster Scenario Comparison</div>
