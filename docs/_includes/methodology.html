@@ -1,7 +1,8 @@
 <!-- ═══════════════════════════════════════════════════════
        METHODOLOGY — CHRONOLOGICAL FLOWCHART
-       Order follows Report Product 1 (Aug 17, 2026, sections 1–8 / Table 1)
-       and the "Scaling Ground Truth" dual-filter presentation.
+       Follows the project timeline (/cronograma/): boxes grouped by contractual
+       product (P1–P4) and numbered as the 18 methodological components.
+       Sources: Report Product 1 (Aug 17, 2026) and Report Product 2 (Nov 3, 2026).
        Each box collapses / expands in place (accordion).
   ═══════════════════════════════════════════════════════ -->
 <section class="section--alt reveal method-section" id="metodologia">
@@ -9,33 +10,32 @@
     <div class="section__eyebrow">Methodological Framework &amp; Technical Progress</div>
     <h2 class="section__title">Methodological Flowchart</h2>
     <p class="section__desc">
-      Chronological workflow of Product 1 — Detailed Sampling Plan and Sampling Improvement Strategies (WRI Brasil ·
-      FUNAPE · LAPIG/UFG, August 17, 2026; scientific coordination: Prof. Dr. Laerte G. Ferreira). Highly curated field
-      references are used to select candidates at scale through two independent filters, followed by visual
-      inspection, model training, and independent validation.
+      Chronological workflow of the project, organized by contractual product and numbered as the 18 methodological
+      components of the timeline (WRI Brasil · FUNAPE · LAPIG/UFG; scientific coordination: Prof. Dr. Laerte G.
+      Ferreira). Highly curated field references are used to select candidates at scale through two independent
+      filters, followed by visual inspection, 10 m mapping, field validation, and property-level analyses.
     </p>
 
-    <!-- SCOPE LIMITATION NOTICE -->
+    <!-- SCOPE NOTICE -->
     <div class="method-scope-banner">
       <div class="method-scope-banner__icon">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
       </div>
       <div class="method-scope-banner__content">
-        <strong>Scope of this version:</strong> as of August 17, 2026, the reference and candidate databases are
-        assembled and the Sentinel-2 series and embeddings extracted. Similarity thresholds, the final SOM
-        configuration, the CBERS-4A inspection, the training set, and the field campaign are <em>preliminary, under
-        development, or planned</em> and are not presented as finalized.
+        <strong>Status as of November 3, 2026 (Product 2):</strong> the reference and candidate databases, the
+        embedding and SOM filters, the pasture base map training set, and the 2025 vigor maps are complete. The
+        CBERS-4A inspection sample and the field revisit are selected but not yet interpreted or visited; the
+        2020–2025 maps (Product 3) and the property-level analyses (Product 4) are <em>in progress or planned</em>.
       </div>
     </div>
 
     <!-- TOOLBAR: STATUS LEGEND + EXPAND / COLLAPSE -->
     <div class="flow-toolbar">
       <div class="flow-legend">
-        <span class="flow-legend__title">Status (Table 1)</span>
-        <span class="flow-legend__item"><span class="flow-dot flow-dot--done"></span>Assembled / Extracted</span>
-        <span class="flow-legend__item"><span class="flow-dot flow-dot--prelim"></span>Preliminary</span>
-        <span class="flow-legend__item"><span class="flow-dot flow-dot--dev"></span>Under development</span>
-        <span class="flow-legend__item"><span class="flow-dot flow-dot--plan"></span>Planning</span>
+        <span class="flow-legend__title">Status (timeline)</span>
+        <span class="flow-legend__item"><span class="flow-dot flow-dot--done"></span>Completed / Applied</span>
+        <span class="flow-legend__item"><span class="flow-dot flow-dot--prelim"></span>In progress</span>
+        <span class="flow-legend__item"><span class="flow-dot flow-dot--plan"></span>Next step / Planned</span>
       </div>
       <div class="flow-toolbar__actions">
         <span class="flow-toolbar__hint">Click a box to show or hide its details</span>
@@ -46,6 +46,9 @@
 
     <!-- ═══════════════════ FLOWCHART ═══════════════════ -->
     <div class="flow" id="method-flow">
+
+      <!-- ═════════ PRODUCT 1 ═════════ -->
+      <div class="flow__divider"><span>Product 1 · Detailed Sampling Plan · Delivered 17/08/2026</span></div>
 
       <!-- ── ROW 1 · INPUT PHASE ───────────────────────── -->
       <div class="flow__row">
@@ -80,8 +83,8 @@
                     seven categories established by the Embrapa team; the 93 units without a defined class are retained
                     with their own identification.</p>
                   <ul class="method-list-styled">
-                    <li><strong>608 classified samples:</strong> the references for label transfer and coherence
-                      analysis.</li>
+                    <li><strong>608 classified samples:</strong> the references for label transfer and for
+                      characterizing the SOM neurons.</li>
                     <li><strong>93 unlabeled samples:</strong> may participate in unsupervised steps (e.g., SOM training),
                       but cannot define neuron categories, contribute to Top-k voting, or be counted as classified
                       references.</li>
@@ -90,8 +93,7 @@
                     <strong>Class dictionary harmonization.</strong> Preliminary materials record a five-class proposal
                     and a later seven-category implementation. The final database must contain a single, versioned
                     dictionary approved by the Embrapa–LAPIG team (code, name, operational definition, quantitative
-                    criteria, year of observation, responsible party, change history). <em>Integrity rule:</em> no
-                    category distribution or label transfer is presented as definitive before this reconciliation.
+                    criteria, year of observation, responsible party, change history).
                   </div>
                 </div>
               </div>
@@ -100,15 +102,15 @@
           <div class="fc-fill" aria-hidden="true"></div>
         </div>
 
-        <!-- 2. CANDIDATE POINTS -->
+        <!-- 4. CANDIDATE POINTS -->
         <div class="flow__col">
           <article class="fnode fnode--input" id="step-candidates">
             <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-candidates">
               <span class="fnode__bar">
-                <span class="fnode__num">2</span>
+                <span class="fnode__num">4</span>
                 <span class="fnode__titles">
                   <span class="fnode__phase">Input · Database expansion</span>
-                  <span class="fnode__title">Candidate Points</span>
+                  <span class="fnode__title">Candidate Points Universe</span>
                 </span>
                 <span class="fstatus fstatus--done">Assembled</span>
                 <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
@@ -125,7 +127,7 @@
             <div class="fnode__panel" id="panel-candidates">
               <div class="fnode__panel-inner">
                 <div class="fnode__body">
-                  <h4>Sources (Table 2)</h4>
+                  <h4>Sources (Product 1, Table 2)</h4>
                   <div class="ftable-wrap">
                     <table class="ftable">
                       <thead><tr><th>Source</th><th>Count</th><th>Nature and caveats</th></tr></thead>
@@ -138,19 +140,11 @@
                     </table>
                   </div>
                   <p>The 50,000 points were allocated proportionally across three 2025 vigor strata (Sentinel-2,
-                    MapBiomas-compatible): ~35% low, ~44% medium, ~21% high vigor. Six-year persistence increases
-                    plausibility of stable pasture but may under-represent recent conversions, rotational systems, and
-                    spectrally ambiguous areas.</p>
-                  <h4>Agreement with MapBiomas Collection 11 (Table 3)</h4>
-                  <p>Collection 11 corroborated pasture at <strong>44,943</strong> of the 50,000 points (89.886%) and
-                    disagreed at <strong>5,057</strong> (10.114%). Disagreement does not prove a point is not pasture —
-                    neither map is ground truth — so both scenarios are kept for sensitivity analysis:</p>
-                  <ul class="method-list-styled">
-                    <li><strong>Inclusive:</strong> 62,009 candidates — keeps disagreeing cases to test robustness and
-                      rejection.</li>
-                    <li><strong>Agreement:</strong> 56,952 candidates — restricted to points corroborated by both
-                      collections.</li>
-                  </ul>
+                    MapBiomas-compatible): ~35% low, ~44% medium, ~21% high vigor. Collection 11 corroborated pasture at
+                    <strong>44,943</strong> of them (89.9%) and disagreed at <strong>5,057</strong> (10.1%); both the
+                    inclusive (62,009) and agreement (56,952) scenarios were kept for sensitivity analysis.</p>
+                  <p>For the filtering stage (Product 2), the candidate set was organized as 63,284 locations with annual
+                    records for 2019–2025, totaling 428,866 point-year records.</p>
                 </div>
               </div>
             </div>
@@ -162,16 +156,16 @@
       <!-- BUS: inputs feed both extractions -->
       <div class="fc-bus" aria-hidden="true"><span class="fc-bus__label">Dual metric extraction for every point</span></div>
 
-      <!-- ── ROW 2 · STEP 1 · DUAL METRIC EXTRACTION ─────── -->
+      <!-- ── ROW 2 · DUAL METRIC EXTRACTION ─────── -->
       <div class="flow__row">
 
-        <!-- 3. SENTINEL-2 TIME SERIES -->
+        <!-- 2. SENTINEL-2 TIME SERIES -->
         <div class="flow__col">
           <div class="fc-arrow fc-arrow--short" aria-hidden="true"></div>
           <article class="fnode fnode--extract" id="step-sentinel2">
             <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-sentinel2">
               <span class="fnode__bar">
-                <span class="fnode__num">3</span>
+                <span class="fnode__num">2</span>
                 <span class="fnode__titles">
                   <span class="fnode__phase">Extraction · Temporal signature</span>
                   <span class="fnode__title">Sentinel-2 Time Series</span>
@@ -181,7 +175,7 @@
               </span>
               <span class="fnode__summary">
                 <span class="fnode__kpis">
-                  <span class="fkpi"><span class="fkpi__v">2020–2025</span><span class="fkpi__l">monthly composites</span></span>
+                  <span class="fkpi"><span class="fkpi__v">2019–2025</span><span class="fkpi__l">monthly composites</span></span>
                   <span class="fkpi"><span class="fkpi__v">~60 days</span><span class="fkpi__l">centered moving window</span></span>
                   <span class="fkpi"><span class="fkpi__v">6 indices</span><span class="fkpi__l">NDVI · EVI · NDII · NDWI · PSRI · CAI</span></span>
                 </span>
@@ -191,25 +185,19 @@
             <div class="fnode__panel" id="panel-sentinel2">
               <div class="fnode__panel-inner">
                 <div class="fnode__body">
-                  <p>For each area and spectral index, a monthly series was built from January 2020 to December 2025 in
-                    Google Earth Engine. Each month uses a centered window of ~60 days (second half of the previous
-                    month, the full month, and the first half of the next). The value is the joint median of all valid
-                    pixel-date pairs after excluding clouds and shadows:</p>
+                  <p>For each area and spectral index, a monthly series was built in Google Earth Engine. Each month
+                    uses a centered window of ~60 days (second half of the previous month, the full month, and the first
+                    half of the next). The value is the joint median of all valid pixel-date pairs after excluding
+                    clouds and shadows:</p>
                   <div class="method-formula">Ĩ(i,k,m) = median { I(i,k,p,t) : p ∈ polygon i; t ∈ window m; valid observation }</div>
                   <ul class="method-list-styled">
                     <li><strong>References:</strong> ~100 pixels per 1 ha polygon at 10 m (depends on geometry and
                       grid alignment).</li>
                     <li><strong>Candidates:</strong> 3 × 3 pixel window (900 m² / 0.09 ha) — joint median of the nine
                       pixels; may cross edges between pasture and other covers.</li>
-                    <li><strong>Indices:</strong> vigor, moisture, senescence, and soil exposure; bands at native 20 m
-                      require an explicit statement of resampling to 10 m.</li>
-                    <li><strong>Metadata:</strong> pixel-date pairs, dates represented, valid spatial proportion, and
-                      gaps per composite.</li>
+                    <li><strong>Indices:</strong> NDVI, EVI, NDII, NDWI, PSRI, and CAI — 12 monthly values each per
+                      record; bands at native 20 m require an explicit statement of resampling to 10 m.</li>
                   </ul>
-                  <div class="method-subcard method-subcard--warning">
-                    <strong>Pending control:</strong> rule for January 2020 and December 2025 (edge months), minimum
-                    number of observations, and cloud/shadow masking audit.
-                  </div>
                 </div>
               </div>
             </div>
@@ -217,13 +205,13 @@
           <div class="fc-fill" aria-hidden="true"></div>
         </div>
 
-        <!-- 4. ALPHAEARTH EMBEDDINGS -->
+        <!-- 3. ALPHAEARTH EMBEDDINGS -->
         <div class="flow__col">
           <div class="fc-arrow fc-arrow--short" aria-hidden="true"></div>
           <article class="fnode fnode--extract" id="step-embeddings">
             <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-embeddings">
               <span class="fnode__bar">
-                <span class="fnode__num">4</span>
+                <span class="fnode__num">3</span>
                 <span class="fnode__titles">
                   <span class="fnode__phase">Extraction · Structural signature</span>
                   <span class="fnode__title">AlphaEarth Foundations Embeddings</span>
@@ -234,7 +222,7 @@
               <span class="fnode__summary">
                 <span class="fnode__kpis">
                   <span class="fkpi"><span class="fkpi__v">64-D</span><span class="fkpi__l">vector A00–A63 per 10 m pixel</span></span>
-                  <span class="fkpi"><span class="fkpi__v">Annual</span><span class="fkpi__l">2020–2025</span></span>
+                  <span class="fkpi"><span class="fkpi__v">Annual</span><span class="fkpi__l">2019–2025</span></span>
                   <span class="fkpi"><span class="fkpi__v">‖ē‖ = 1</span><span class="fkpi__l">L2 renormalization</span></span>
                 </span>
                 <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
@@ -248,12 +236,10 @@
                     each polygon, the component-wise mean of the included pixels gives one vector representative of the
                     ~1 ha support (for candidates, the mean of the nine 3 × 3 vectors):</p>
                   <div class="method-formula">ē(i,a,d) = (1 / n(i,a)) × Σ e(p,a,d), &nbsp; d = 0,…,63</div>
-                  <p>Pixels partially intersected by the polygon are included in full, without area weighting, which can
-                    increase mixing in narrow or transitional areas.</p>
                   <div class="method-subcard">
                     <strong>Normalization.</strong> Original embeddings have unit norm, but the mean of unit vectors does
-                    not. The dot product equals cosine similarity only for unit vectors, so L2 norms are computed before
-                    the final filtering and comparison uses explicit cosine or the dot product after renormalization:
+                    not. The dot product equals cosine similarity only for unit vectors, so comparison uses explicit
+                    cosine or the dot product after L2 renormalization:
                     <div class="method-formula">cos(x,y) = (x · y) / (‖x‖₂ × ‖y‖₂)</div>
                   </div>
                   <p>The field label remains anchored to its year of observation; other years do not inherit the label
@@ -267,9 +253,11 @@
       </div>
 
       <div class="fc-bus" aria-hidden="true"></div>
-      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Two independent representation spaces</span></div>
 
-      <!-- ── 5. PHASE 1 · EMBEDDING SIMILARITY ─────────── -->
+      <!-- ═════════ PRODUCT 2 ═════════ -->
+      <div class="flow__divider"><span>Product 2 · Field &amp; Image-Based Sample Collection · Delivered 03/11/2026</span></div>
+
+      <!-- ── 5. FILTERING STAGE 1 · EMBEDDING SIMILARITY ─────────── -->
       <div class="flow__single">
         <article class="fnode fnode--filter" id="step-similarity">
           <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-similarity">
@@ -277,17 +265,17 @@
               <span class="fnode__num">5</span>
               <span class="fnode__titles">
                 <span class="fnode__phase">Filtering stage 1 · Spatial / structural filter</span>
-                <span class="fnode__title">Embedding Similarity — Top-1, Top-3 &amp; md3</span>
+                <span class="fnode__title">Embedding Similarity — Top-1 &amp; md3</span>
               </span>
-              <span class="fstatus fstatus--prelim">Preliminary</span>
+              <span class="fstatus fstatus--done">Applied</span>
               <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
             </span>
             <span class="fnode__summary">
               <span class="fnode__kpis">
-                <span class="fkpi"><span class="fkpi__v">cos θ</span><span class="fkpi__l">candidate × 608 references</span></span>
-                <span class="fkpi"><span class="fkpi__v">md3 ∈ {1,2,3}</span><span class="fkpi__l">Top-3 neighbor agreement</span></span>
-                <span class="fkpi"><span class="fkpi__v">A–E</span><span class="fkpi__l">threshold sensitivity scenarios</span></span>
-                <span class="fkpi"><span class="fkpi__v">35.05 M</span><span class="fkpi__l">pairs computed (50k base)</span></span>
+                <span class="fkpi"><span class="fkpi__v">428,866</span><span class="fkpi__l">point-year records (2019–2025)</span></span>
+                <span class="fkpi"><span class="fkpi__v">63,284</span><span class="fkpi__l">candidate locations</span></span>
+                <span class="fkpi"><span class="fkpi__v">608</span><span class="fkpi__l">classified field references</span></span>
+                <span class="fkpi"><span class="fkpi__v">4,079</span><span class="fkpi__l">records without category (removed)</span></span>
               </span>
               <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
             </span>
@@ -295,52 +283,39 @@
           <div class="fnode__panel" id="panel-similarity">
             <div class="fnode__panel-inner">
               <div class="fnode__body">
-                <p>Each candidate is compared with the Embrapa references in the 64-dimensional space using cosine
-                  similarity (after norm correction). The most similar reference defines the preliminary
-                  <strong>Top-1</strong> label; the three highest values form the <strong>Top-3</strong>, and
-                  <strong>md3</strong> counts how many of the three share the Top-1 category.</p>
+                <p>Each candidate record is compared with the 608 classified Embrapa references in the 64-dimensional
+                  space using cosine similarity. The most similar reference defines the preliminary
+                  <strong>Top-1</strong> category, and <strong>md3</strong> counts how many of the three nearest
+                  references share it. Top-1 similarity (<code>prod_escalar_1</code>) and md3 were computed for all
+                  428,866 records; the transferred category feeds the SOM stage.</p>
                 <div class="fmd3">
                   <div class="fmd3__card fmd3__card--3"><span class="fmd3__n">3</span><strong>High agreement</strong><span>All three nearest references share the same category.</span></div>
                   <div class="fmd3__card fmd3__card--2"><span class="fmd3__n">2</span><strong>Moderate agreement</strong><span>Two of the three nearest references agree.</span></div>
                   <div class="fmd3__card fmd3__card--1"><span class="fmd3__n">1</span><strong>Low agreement</strong><span>Only the Top-1 assigns the class — ambiguous profile.</span></div>
                 </div>
                 <p class="fnote">md3 = 3 represents local agreement, not accuracy or calibrated probability.</p>
-                <h4>Sensitivity scenarios (Table 4) — no single threshold adopted a priori</h4>
+                <h4>Candidate records by source (Product 2, Table 2)</h4>
                 <div class="ftable-wrap">
                   <table class="ftable">
-                    <thead><tr><th>Scenario</th><th>Illustrative criterion</th><th>Objective</th></tr></thead>
+                    <thead><tr><th>Source</th><th>Locations</th><th>Records</th><th>Years</th></tr></thead>
                     <tbody>
-                      <tr><td>A</td><td>s₁ above threshold</td><td>Coverage obtained through absolute similarity.</td></tr>
-                      <tr><td>B</td><td>md3 = 3</td><td>Neighborhoods with complete Top-3 agreement.</td></tr>
-                      <tr><td>C</td><td>s₁ above threshold and md3 = 3</td><td>Absolute proximity + local coherence.</td></tr>
-                      <tr><td>D</td><td>C + agreement with Collection 11</td><td>A more conservative subset.</td></tr>
-                      <tr><td>E</td><td>D + minimum margin s₁ − s₂</td><td>Fewer cases at category boundaries.</td></tr>
+                      <tr><td>Persistent pasture, MapBiomas Col. 4 (CVP_50K)</td><td>50,000</td><td>350,000</td><td>2019–2025</td></tr>
+                      <tr><td>MapBiomas validation DB – Landsat (MAPBIOMAS_85K)</td><td>6,996</td><td>39,328</td><td>2019–2024</td></tr>
+                      <tr><td>MapBiomas Col. 4 Sentinel-2 training points</td><td>6,288</td><td>39,538</td><td>2019–2025</td></tr>
+                      <tr class="ftable__total"><td>Total</td><td>63,284</td><td>428,866</td><td></td></tr>
                     </tbody>
                   </table>
                 </div>
-                <h4>Preliminary scaling check (12k → 50k candidate base)</h4>
-                <div class="fnode__kpis fnode__kpis--inline">
-                  <span class="fkpi"><span class="fkpi__v">8.4 M → 35.05 M</span><span class="fkpi__l">pairs calculated (4× scale)</span></span>
-                  <span class="fkpi"><span class="fkpi__v">0.8217 → 0.8245</span><span class="fkpi__l">mean dot product</span></span>
-                  <span class="fkpi"><span class="fkpi__v">67.16% → 67.52%</span><span class="fkpi__l">md3 ≥ 2 share</span></span>
-                </div>
-                <p>50k base: md3 = 3 for 35.13% (17,567), md3 = 2 for 32.39% (16,196), md3 = 1 for 32.47% (16,237) —
-                  the similarity and confidence profiles remained practically unchanged after scaling.</p>
-                <div class="method-subcard method-subcard--warning">
-                  <strong>Correct interpretation.</strong> This stage selects the most consistent pseudo-labels in the
-                  embedding space ("the broad net"). It does not replace independent validation, and it cannot detect
-                  land-use changes between 2020 and 2025 — which motivates the temporal filter in stage 2. Retention
-                  is reported by category, origin, vigor, region, and scenario.
-                </div>
+                <p>4,079 records (1.0%) have no transferred category and were removed automatically.</p>
               </div>
             </div>
           </div>
         </article>
       </div>
 
-      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Approved candidates + 701 references</span></div>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Transferred category + Sentinel-2 series</span></div>
 
-      <!-- ── 6. PHASE 2 · SOM ──────────────────────────── -->
+      <!-- ── 6. FILTERING STAGE 2 · SOM ──────────────────────────── -->
       <div class="flow__single">
         <article class="fnode fnode--filter" id="step-som">
           <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-som">
@@ -350,18 +325,19 @@
                 <span class="fnode__phase">Filtering stage 2 · Temporal / phenological filter</span>
                 <span class="fnode__title">Self-Organizing Map (SOM) &amp; Bayesian Smoothing</span>
               </span>
-              <span class="fstatus fstatus--dev">Under development</span>
+              <span class="fstatus fstatus--done">Applied</span>
               <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
             </span>
             <span class="fnode__summary">
               <span class="fnode__kpis">
-                <span class="fkpi"><span class="fkpi__v">12 × 12</span><span class="fkpi__l">initial grid · 144 neurons</span></span>
+                <span class="fkpi"><span class="fkpi__v">90 × 90</span><span class="fkpi__l">global grid · 8,100 neurons</span></span>
                 <span class="fkpi"><span class="fkpi__v">Dirichlet-Multinomial</span><span class="fkpi__l">neighborhood smoothing</span></span>
+                <span class="fkpi"><span class="fkpi__v">51.3%</span><span class="fkpi__l">of records kept</span></span>
               </span>
               <span class="foutcomes">
-                <span class="foutcome foutcome--keep">Keep</span>
-                <span class="foutcome foutcome--analyze">Analyze → CBERS-4A</span>
-                <span class="foutcome foutcome--remove">Remove</span>
+                <span class="foutcome foutcome--keep">Clean · 219,810</span>
+                <span class="foutcome foutcome--analyze">Analyze → CBERS-4A · 65,369</span>
+                <span class="foutcome foutcome--remove">Remove · 143,687</span>
               </span>
               <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
             </span>
@@ -369,40 +345,47 @@
           <div class="fnode__panel" id="panel-som">
             <div class="fnode__panel-inner">
               <div class="fnode__body">
-                <p>Candidates approved in stage 1 are combined with the 701 Embrapa areas and their Sentinel-2 series
-                  are organized in a SOM (Kohonen, 1990), which preserves neighborhood relationships so that points
-                  with similar phenology cluster together regardless of spatial distance. Each sample is assigned to its
-                  best-matching neuron, and the class from the embeddings is checked against the composition of the
-                  neuron and its neighborhood.</p>
-                <div class="method-subcard method-subcard--accent">
-                  <strong>The check:</strong> a candidate labeled "Productive Pasture" by the embeddings that lands in a
-                  neuron dominated by degraded field samples reveals a temporal anomaly. Because candidates far
-                  outnumber references, the SOM is a spectral-temporal consistency filter, not independent validation.
-                </div>
-                <h4>Dimensionality and preparation</h4>
-                <ul class="method-list-styled">
-                  <li>One index over one annual cycle = 12 values; with J indices = 12 × J; six complete years = 72 × J.
-                    Alternatives compared: one SOM per index, a multivariate annual SOM, or an inter-annual monthly
-                    climatology.</li>
-                  <li>Standardize each variable; define treatment of missing values and low-availability months.</li>
-                  <li>Test grid dimensions, seeds, and initializations; record quantization and topographic errors,
-                    neuron occupancy, and stability.</li>
-                  <li>The 93 unlabeled references do not contribute to neuron labeling.</li>
-                </ul>
-                <h4>Cleaning rule — decision matrix</h4>
-                <p>Dirichlet-Multinomial smoothing of category counts (prioritized; Normal-Normal kept for comparison)
-                  combines each neuron's local composition with its hexagonal neighborhood:</p>
+                <p>The Sentinel-2 series of the candidate records are organized in a SOM (Kohonen, 1990), which preserves
+                  neighborhood relationships so that points with similar phenology cluster together regardless of
+                  spatial distance. Each neuron and its neighborhood are characterized by the dominant category, its
+                  purity, and a posterior probability, and each record receives one of three decisions:</p>
                 <div class="fdecision">
-                  <div class="fdecision__step"><span class="fdecision__q">Prior P(k | j) &lt; τ<sub>c</sub>?</span><span class="foutcome foutcome--remove">Yes → Remove (noisy / outlier)</span></div>
-                  <div class="fdecision__step"><span class="fdecision__q">Posterior P(k | x<sub>j</sub>) ≥ τ<sub>p</sub>?</span><span class="foutcome foutcome--keep">Yes → Keep for training</span></div>
-                  <div class="fdecision__step"><span class="fdecision__q">Otherwise (ambiguous)</span><span class="foutcome foutcome--analyze">→ Analyze: route to CBERS-4A inspection</span></div>
+                  <div class="fdecision__step"><span class="fdecision__q">Category differs from the neighborhood's dominant category?</span><span class="foutcome foutcome--remove">Yes → Remove</span></div>
+                  <div class="fdecision__step"><span class="fdecision__q">Category matches and posterior supports it?</span><span class="foutcome foutcome--keep">Yes → Clean (keep for training)</span></div>
+                  <div class="fdecision__step"><span class="fdecision__q">Category matches, posterior support insufficient</span><span class="foutcome foutcome--analyze">→ Analyze: route to CBERS-4A inspection</span></div>
                 </div>
-                <p>Thresholds, the α₀ pseudo-count, neighborhood size, and minimum references per neuron will be
-                  defined by sensitivity analysis.</p>
+                <h4>Configurations tested</h4>
+                <ul class="method-list-styled">
+                  <li><strong>35 × 35 grid</strong> (1,225 neurons) and a <strong>single 90 × 90 grid</strong> (8,100
+                    neurons) trained jointly on all years.</li>
+                  <li><strong>Normal-Normal</strong> and <strong>Dirichlet-Multinomial</strong> smoothing; the two models
+                    agree on 98.4% of records, and the two grids on 73.0% (disagreement concentrated outside productive
+                    pasture).</li>
+                  <li><strong>Final configuration:</strong> 90 × 90 global grid with Dirichlet-Multinomial smoothing — one
+                    model for all years keeps neuron labels consistent across the series.</li>
+                </ul>
+                <h4>Final decision by category (Product 2, Table 3)</h4>
+                <div class="ftable-wrap">
+                  <table class="ftable">
+                    <thead><tr><th>Category</th><th>Clean</th><th>Analyze</th><th>Remove</th><th>% Clean</th></tr></thead>
+                    <tbody>
+                      <tr><td>Pasto Produtivo</td><td>202,101</td><td>23,771</td><td>25,241</td><td>80.5</td></tr>
+                      <tr><td>Pasto com Ervas</td><td>7,930</td><td>15,692</td><td>38,463</td><td>12.8</td></tr>
+                      <tr><td>Regeneração Natural</td><td>5,888</td><td>10,282</td><td>26,683</td><td>13.7</td></tr>
+                      <tr><td>Intermediário</td><td>2,981</td><td>8,840</td><td>27,613</td><td>7.6</td></tr>
+                      <tr><td>Degradação Biológica</td><td>735</td><td>3,295</td><td>8,142</td><td>6.0</td></tr>
+                      <tr><td>Pasto com Lenhosas</td><td>89</td><td>2,184</td><td>9,567</td><td>0.8</td></tr>
+                      <tr><td>Miscelânea</td><td>86</td><td>1,305</td><td>3,899</td><td>1.6</td></tr>
+                      <tr><td>No category</td><td>–</td><td>–</td><td>4,079</td><td>–</td></tr>
+                      <tr class="ftable__total"><td>Total</td><td>219,810</td><td>65,369</td><td>143,687</td><td>51.3</td></tr>
+                    </tbody>
+                  </table>
+                </div>
                 <div class="method-subcard method-subcard--warning">
-                  <strong>Self-reference risk.</strong> If class frequencies come mostly from the candidates' own
-                  pseudo-labels, the SOM may simply reproduce the embedding assignment. Evidence from Embrapa references
-                  and internal candidate coherence are reported separately.
+                  <strong>Imbalance.</strong> For 2020–2025, 92.3% of the Clean records are productive pasture; Pasto
+                  com Lenhosas and Miscelânea have fewer than 100 Clean records each. Either the minority categories are
+                  hard to separate in the Sentinel-2 series, or the neighborhoods are dominated by the most frequent
+                  category — the CBERS-4A inspection is designed to separate these two readings.
                 </div>
               </div>
             </div>
@@ -410,9 +393,9 @@
         </article>
       </div>
 
-      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Stratified subsample (approved + ambiguous)</span></div>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Stratified subsample (Clean + Analyze, 2020–2025)</span></div>
 
-      <!-- ── 7. CBERS-4A INSPECTION ─────────────────────── -->
+      <!-- ── 7. CBERS-4A INSPECTION SAMPLE ─────────────────────── -->
       <div class="flow__single">
         <article class="fnode fnode--qc" id="step-cbers">
           <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-cbers">
@@ -422,14 +405,14 @@
                 <span class="fnode__phase">Quality control · High resolution</span>
                 <span class="fnode__title">Visual Inspection with CBERS-4A Imagery</span>
               </span>
-              <span class="fstatus fstatus--plan">Planning</span>
+              <span class="fstatus fstatus--prelim">Sample selected</span>
               <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
             </span>
             <span class="fnode__summary">
               <span class="fnode__kpis">
+                <span class="fkpi"><span class="fkpi__v">971</span><span class="fkpi__l">stratified locations</span></span>
+                <span class="fkpi"><span class="fkpi__v">14 strata</span><span class="fkpi__l">7 categories × Clean / Analyze</span></span>
                 <span class="fkpi"><span class="fkpi__v">~2 m</span><span class="fkpi__l">pan-sharpened CBERS-4A</span></span>
-                <span class="fkpi"><span class="fkpi__v">n ≈ 1,040</span><span class="fkpi__l">illustrative (N = 40,000)</span></span>
-                <span class="fkpi"><span class="fkpi__v">Blind</span><span class="fkpi__l">two-interpreter protocol</span></span>
               </span>
               <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
             </span>
@@ -437,102 +420,155 @@
           <div class="fnode__panel" id="panel-cbers">
             <div class="fnode__panel-inner">
               <div class="fnode__body">
-                <p>Applied to a subsample of points approved in the embedding–SOM stages, to estimate the overall
-                  quality of the pre-selected set, identify systematic errors, and guide adjustments before the final
-                  Random Forest training.</p>
+                <p>Only 2020–2025 records are eligible (CBERS-4A imagery is available from 2020 onward) and Remove
+                  records are excluded, giving an eligible universe of 245,012 records (61,125 locations).</p>
+                <ul class="method-list-styled">
+                  <li><strong>Allocation:</strong> equal per category instead of proportional, so that rare categories
+                    are measured — 100 locations per Clean stratum and 50 per Analyze stratum; all Clean locations of
+                    Pasto com Lenhosas (62) and Miscelânea (59) were taken (census).</li>
+                  <li><strong>One year per location,</strong> randomly drawn, with a fixed seed (20261103); each point
+                    carries its stratum size and design weight.</li>
+                  <li><strong>Precision:</strong> about ±10 p.p. per Clean stratum (100 points) and ±14 p.p. per Analyze
+                    stratum (50 points), 95% confidence, worst case.</li>
+                  <li><strong>Protocol:</strong> corroborated / not corroborated / inconclusive, observed category, image
+                    date, and justification; preliminary category hidden whenever possible; a fraction interpreted by two
+                    analysts.</li>
+                </ul>
                 <div class="method-subcard method-subcard--warning">
-                  <strong>Not map validation.</strong> Map validation occurs after the cartographic product is
-                  generated. Image interpretation does not replace field observation for all pasture condition
-                  categories.
+                  <strong>Interpretation not yet started.</strong> The results will measure the quality of the training
+                  labels by category, show whether Analyze records should be recovered, and indicate whether rare
+                  categories should be merged (component 12).
                 </div>
-                <h4>Initial sample sizing</h4>
-                <p>Simple random sampling with finite population correction, for an illustrative N = 40,000, margin of
-                  error 3%, 95% confidence, and p = 0.5:</p>
-                <div class="method-formula">n = N·z²·p(1−p) / [ e²(N−1) + z²·p(1−p) ] ≈ 1,040 points</div>
-                <p>This estimates a single global binary proportion (label corroborated or not), not a 3% margin per
-                  category. The final sample will be stratified by category, confidence scenario, and, when needed,
-                  region and vigor, with minimum representation for rare classes and weights for global estimates.</p>
-                <h4>Interpretation protocol</h4>
-                <ul class="method-list-styled">
-                  <li>Image date compatible with the sample year.</li>
-                  <li>Pseudo-label hidden from the interpreter whenever possible (reduces confirmation bias).</li>
-                  <li>Decision recorded as corroborated, not corroborated, or inconclusive, with justification and image
-                    quality.</li>
-                  <li>A fraction submitted to two independent interpreters; agreement measured and disagreements
-                    adjudicated.</li>
-                  <li>Link preserved between image, date, interpreter, protocol version, and final decision.</li>
-                </ul>
               </div>
             </div>
           </div>
         </article>
       </div>
 
-      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Approved training set</span></div>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">In parallel · pasture base map</span></div>
 
-      <!-- ── 8. TRAINING SET & RANDOM FOREST ────────────── -->
-      <div class="flow__single">
-        <article class="fnode fnode--model" id="step-rf">
-          <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-rf">
-            <span class="fnode__bar">
-              <span class="fnode__num">8</span>
-              <span class="fnode__titles">
-                <span class="fnode__phase">Modeling · Map production</span>
-                <span class="fnode__title">Training Set &amp; Random Forest (10 m)</span>
+      <!-- ── ROW · 9 TRAINING SET + 10 VIGOR MAPS ─────── -->
+      <div class="flow__row">
+
+        <!-- 9. PASTURE BASE MAP TRAINING SET -->
+        <div class="flow__col">
+          <article class="fnode fnode--model" id="step-baseset">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-baseset">
+              <span class="fnode__bar">
+                <span class="fnode__num">9</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Training data · Pasture / non-pasture</span>
+                  <span class="fnode__title">Pasture Base Map Training Set</span>
+                </span>
+                <span class="fstatus fstatus--done">Complete</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
               </span>
-              <span class="fstatus fstatus--plan">Planned</span>
-              <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-            </span>
-            <span class="fnode__summary">
-              <span class="fnode__kpis">
-                <span class="fkpi"><span class="fkpi__v">Random Forest</span><span class="fkpi__l">Breiman (2001)</span></span>
-                <span class="fkpi"><span class="fkpi__v">10 m</span><span class="fkpi__l">first Cerrado pasture map</span></span>
-                <span class="fkpi"><span class="fkpi__v">Spatial blocks</span><span class="fkpi__l">train / evaluation split</span></span>
+              <span class="fnode__summary">
+                <span class="fnode__kpis">
+                  <span class="fkpi"><span class="fkpi__v">36,520</span><span class="fkpi__l">points per year</span></span>
+                  <span class="fkpi"><span class="fkpi__v">219,120</span><span class="fkpi__l">point-year records (2020–2025)</span></span>
+                  <span class="fkpi"><span class="fkpi__v">176</span><span class="fkpi__l">IBGE map sheets</span></span>
+                </span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
               </span>
-              <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
-            </span>
-          </button>
-          <div class="fnode__panel" id="panel-rf">
-            <div class="fnode__panel-inner">
-              <div class="fnode__body">
-                <p>Only candidates meeting the quality criteria of the embedding, SOM, and inspection analyses are
-                  eligible. Labels retain evidence level, origin, and decision history; rejected or inconclusive samples
-                  stay archived for auditing but are not used automatically as positive cases.</p>
-                <ul class="method-list-styled">
-                  <li>The final set is evaluated for category balance, spatial distribution, coverage of vigor strata,
-                    and redundancy.</li>
-                  <li>Rare categories are not merged merely to increase counts; any grouping depends on ecological
-                    coherence, spectral-temporal separability, and performance under independent validation.</li>
-                  <li>The Random Forest produces the first 10 m Cerrado pasture map differentiating the viable
-                    categories; training and evaluation are split by spatial blocks to minimize autocorrelation
-                    leakage.</li>
-                </ul>
+            </button>
+            <div class="fnode__panel" id="panel-baseset">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>A new pasture / non-pasture training set built only from visually interpreted samples: no sample was
+                    drawn from existing maps and no map-based filter was applied, addressing the circularity risk raised
+                    in Product 1.</p>
+                  <ul class="method-list-styled">
+                    <li>The same 36,520 locations each year, with the label of that year: about 12,500 pasture and
+                      24,000 non-pasture samples (about 2 non-pasture per pasture).</li>
+                    <li>Each point linked to the IBGE map sheet where the map is generated; maximum 500 samples per
+                      sheet.</li>
+                    <li>Five sheets on the biome border have no samples and will need neighbor-sheet models or added
+                      samples.</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
+        </div>
+
+        <!-- 10. 2025 VIGOR MAPS -->
+        <div class="flow__col">
+          <article class="fnode fnode--model" id="step-vigor2025">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-vigor2025">
+              <span class="fnode__bar">
+                <span class="fnode__num">10</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Mapping · 2025 test year</span>
+                  <span class="fnode__title">2025 Pasture Vigor Maps</span>
+                </span>
+                <span class="fstatus fstatus--done">Generated (3 versions)</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__kpis">
+                  <span class="fkpi"><span class="fkpi__v">52.9 / 52.8 Mha</span><span class="fkpi__l">pasture in 2025a / 2025b</span></span>
+                  <span class="fkpi"><span class="fkpi__v">1.0%</span><span class="fkpi__l">of the Cerrado where 2025a ≠ 2025b</span></span>
+                  <span class="fkpi"><span class="fkpi__v">~92%</span><span class="fkpi__l">agreement with MapBiomas</span></span>
+                </span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-vigor2025">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>Sentinel-2 vigor maps for 2025 were generated for three candidate pasture base maps:</p>
+                  <ul class="method-list-styled">
+                    <li><strong>2025a:</strong> Random Forest with the MapBiomas Sentinel-2 methodology and the new
+                      visually interpreted training set.</li>
+                    <li><strong>2025b:</strong> same as 2025a, with geographic coordinates as additional variables.</li>
+                    <li><strong>Persistent:</strong> MapBiomas Sentinel-2 pasture stable from 2020 to 2025.</li>
+                  </ul>
+                  <div class="ftable-wrap">
+                    <table class="ftable">
+                      <thead><tr><th>Map</th><th>Pasture (Mha)</th><th>Agreement with MapBiomas</th></tr></thead>
+                      <tbody>
+                        <tr><td>2025a</td><td>52.9</td><td>91.9%</td></tr>
+                        <tr><td>2025b</td><td>52.8</td><td>92.0%</td></tr>
+                        <tr><td>MapBiomas Col. 4 (2025)</td><td>51.3</td><td>–</td></tr>
+                        <tr><td>Global Pasture Watch v1 (2022)</td><td>72.3</td><td>–</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p>The differences from MapBiomas total 15.9 Mha, 88% of them shared by 2025a and 2025b; the pixels that
+                    differ are transition areas with an intermediate Sentinel-2 signature. The available indicators show
+                    no difference between 2025a and 2025b, and are split on whether the new map improves on MapBiomas —
+                    the 940-point validation sample will decide (component 11).</p>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
+        </div>
       </div>
 
-      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Map v1 (10 m)</span></div>
+      <div class="fc-bus" aria-hidden="true"></div>
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Field check of degradation × 2025 vigor</span></div>
 
-      <!-- ── 9. FIELD CAMPAIGN & MAP VALIDATION ─────────── -->
+      <!-- ── 8. FIELD DATA COLLECTION ─────────── -->
       <div class="flow__single">
         <article class="fnode fnode--valid" id="step-field">
           <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-field">
             <span class="fnode__bar">
-              <span class="fnode__num">9</span>
+              <span class="fnode__num">8</span>
               <span class="fnode__titles">
-                <span class="fnode__phase">Validation · Independent evaluation</span>
+                <span class="fnode__phase">Validation · Field data</span>
                 <span class="fnode__title">Field Data Collection &amp; Map Validation</span>
               </span>
-              <span class="fstatus fstatus--plan">Planning</span>
+              <span class="fstatus fstatus--prelim">Revisit scheduled</span>
               <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
             </span>
             <span class="fnode__summary">
               <span class="fnode__kpis">
-                <span class="fkpi"><span class="fkpi__v">~100</span><span class="fkpi__l">field localities (pilot)</span></span>
-                <span class="fkpi"><span class="fkpi__v">Goiás</span><span class="fkpi__l">logistical priority + other regions</span></span>
-                <span class="fkpi"><span class="fkpi__v">±8 p.p.</span><span class="fkpi__l">margin at ~80% accuracy</span></span>
+                <span class="fkpi"><span class="fkpi__v">100</span><span class="fkpi__l">Goiás 2022 points to revisit</span></span>
+                <span class="fkpi"><span class="fkpi__v">9 strata</span><span class="fkpi__l">degradation × 2025 vigor</span></span>
+                <span class="fkpi"><span class="fkpi__v">Nov 9–16 · 23–27</span><span class="fkpi__l">2026 campaigns</span></span>
               </span>
               <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
             </span>
@@ -540,25 +576,329 @@
           <div class="fnode__panel" id="panel-field">
             <div class="fnode__panel-inner">
               <div class="fnode__body">
-                <p>After the first version of the map is generated, image-based and field-based evaluations follow
-                  specific statistical designs. One hundred points suit a pilot campaign and the detection of systematic
-                  errors, but do not ensure high precision for seven categories across the biome (≈ ±8 percentage points
-                  for an accuracy near 80% under simple random sampling, before design effects).</p>
+                <p>The 2022 Goiás survey holds 1,901 interpreter evaluations of 562 points. A degradation score (mean
+                  rating, 1–7) was grouped into three classes (ND, PD, SD); 413 points have both a score and a 2025 vigor
+                  class. The association is weak (Spearman ρ = −0.14): 33% of points agree, 53% disagree by one class,
+                  and 15% disagree totally.</p>
                 <ul class="method-list-styled">
-                  <li>Keep independence between training and validation points.</li>
-                  <li>Seek spatially balanced allocation across categories, confidence levels, ecoregions, and
-                    environmental gradients.</li>
-                  <li>Record inclusion probabilities and weight when allocation is disproportionate.</li>
-                  <li>Control clustering along routes and enforce a minimum distance between localities.</li>
-                  <li>Treat the concentration in Goiás as a regional priority validation, not automatic inference for
-                    the whole Cerrado.</li>
+                  <li><strong>Selection:</strong> 11 or 12 points drawn at random in each of the nine degradation × vigor
+                    strata (three agreement, four partial-disagreement, two total-disagreement), 100 in total, with
+                    design weights referring to the 413 points.</li>
+                  <li><strong>Purpose:</strong> show whether each disagreement comes from change since 2022 (management,
+                    reform, conversion) or from error in the vigor map; agreement strata act as controls.</li>
+                  <li><strong>Routes:</strong> two campaigns from the UFG Samambaia campus — south/southwest/west Goiás
+                    (46 points, 1,894 km) and north/northeast Goiás (54 points, 2,163 km), six days each.</li>
+                  <li><strong>Protocol:</strong> the 2022 protocol (forage species, height, ground cover, invasive plants,
+                    termite mounds, forage availability, condition, degradation, management, photographs); incorporating
+                    the Embrapa field protocol is under evaluation.</li>
                 </ul>
-                <p>Sampling plan, estimators, confidence intervals, and uncertainty analysis will be defined with Prof.
-                  Luis Rodrigo Fernandes Baumann (IME/UFG) and the LAPIG field and remote sensing team.</p>
+                <div class="method-subcard method-subcard--warning">
+                  <strong>Scope of inference.</strong> The revisit covers the 413 surveyed points in Goiás; it is not an
+                  accuracy estimate for the Cerrado.
+                </div>
               </div>
             </div>
           </div>
         </article>
+      </div>
+
+      <!-- ═════════ PRODUCT 3 ═════════ -->
+      <div class="flow__divider"><span>Product 3 · Annual 10 m Pasture Maps &amp; Field Points · Due 01/12/2026</span></div>
+
+      <!-- ── 11. BASE MAP CHOICE ─────────── -->
+      <div class="flow__single">
+        <article class="fnode fnode--valid" id="step-basemap">
+          <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-basemap">
+            <span class="fnode__bar">
+              <span class="fnode__num">11</span>
+              <span class="fnode__titles">
+                <span class="fnode__phase">Evaluation · 2025 validation sample</span>
+                <span class="fnode__title">Pasture Base Map Choice</span>
+              </span>
+              <span class="fstatus fstatus--plan">Next step</span>
+              <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </span>
+            <span class="fnode__summary">
+              <span class="fnode__kpis">
+                <span class="fkpi"><span class="fkpi__v">940</span><span class="fkpi__l">stratified validation points</span></span>
+                <span class="fkpi"><span class="fkpi__v">8 strata</span><span class="fkpi__l">2025a × 2025b × MapBiomas</span></span>
+                <span class="fkpi"><span class="fkpi__v">Stehman (2014)</span><span class="fkpi__l">accuracy estimator</span></span>
+              </span>
+              <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+            </span>
+          </button>
+          <div class="fnode__panel" id="panel-basemap">
+            <div class="fnode__panel-inner">
+              <div class="fnode__body">
+                <p>A stratified random sample of 940 points over the eight strata of the 2025a × 2025b × MapBiomas
+                  crossing, with equal probability within each stratum; the difference strata receive many more points
+                  than their area. A single sample estimates the accuracy of 2025a, 2025b, MapBiomas, and Global Pasture
+                  Watch and answers two questions with reference data: is 2025a better than 2025b, and does the new map
+                  improve on MapBiomas?</p>
+                <p class="fnote">2025a has the advantage of not using coordinates as predictors.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">CBERS-4A corroboration rates</span></div>
+
+      <!-- ── 12. TRAINING SET CONSOLIDATION ─────────── -->
+      <div class="flow__single">
+        <article class="fnode fnode--filter" id="step-consolidation">
+          <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-consolidation">
+            <span class="fnode__bar">
+              <span class="fnode__num">12</span>
+              <span class="fnode__titles">
+                <span class="fnode__phase">Training data · Condition categories</span>
+                <span class="fnode__title">Training Set Consolidation</span>
+              </span>
+              <span class="fstatus fstatus--plan">Next step</span>
+              <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+            </span>
+            <span class="fnode__summary">
+              <span class="fnode__desc">Corroboration rates from the CBERS-4A inspection, by category and SOM decision,
+                decide whether Analyze records are recovered and whether rare categories are merged.</span>
+              <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+            </span>
+          </button>
+          <div class="fnode__panel" id="panel-consolidation">
+            <div class="fnode__panel-inner">
+              <div class="fnode__body">
+                <ul class="method-list-styled">
+                  <li>The corroboration rate of Clean records, by category, measures the quality of the training
+                    labels.</li>
+                  <li>The corroboration rate of Analyze records shows whether that group should be recovered for training
+                    or discarded.</li>
+                  <li>Low corroboration in the rare categories (Pasto com Lenhosas, Miscelânea) would support merging
+                    them; any grouping depends on ecological coherence, spectral-temporal separability, and performance
+                    under independent validation.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="fc-arrow" aria-hidden="true"><span class="fc-arrow__label">Chosen base map + approved samples</span></div>
+
+      <!-- ── ROW · 13 ANNUAL MAPS + 14 CONDITION RF ─────── -->
+      <div class="flow__row">
+
+        <!-- 13. ANNUAL MAPS -->
+        <div class="flow__col">
+          <article class="fnode fnode--model" id="step-annual">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-annual">
+              <span class="fnode__bar">
+                <span class="fnode__num">13</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Mapping · Full series</span>
+                  <span class="fnode__title">Annual 10 m Pasture &amp; Vigor Maps (2020–2025)</span>
+                </span>
+                <span class="fstatus fstatus--plan">Next step</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__desc">Extension of pasture and vigor mapping to 2020–2025 with the chosen base map
+                  and the visually interpreted training set.</span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-annual">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <ul class="method-list-styled">
+                    <li>Random Forest in Google Earth Engine, trained with the 36,520 visually interpreted points per
+                      year.</li>
+                    <li>The five border sheets without samples require neighbor-sheet models or added samples.</li>
+                    <li>Vigor classes mapped on the chosen pasture base for each year.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
+        </div>
+
+        <!-- 14. CONDITION RF -->
+        <div class="flow__col">
+          <article class="fnode fnode--model" id="step-rf">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-rf">
+              <span class="fnode__bar">
+                <span class="fnode__num">14</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Modeling · Condition categories</span>
+                  <span class="fnode__title">Pasture Condition Classification (Random Forest)</span>
+                </span>
+                <span class="fstatus fstatus--plan">Next step</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__desc">Random Forest for the pasture condition categories with the approved samples,
+                  followed by independent validation with image and field data.</span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-rf">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <ul class="method-list-styled">
+                    <li>Only samples meeting the quality criteria of the embedding, SOM, and inspection analyses are
+                      eligible; rejected or inconclusive samples stay archived for auditing.</li>
+                    <li>The final set is evaluated for category balance, spatial distribution, coverage of vigor strata,
+                      and redundancy.</li>
+                    <li>Training and evaluation are split by spatial blocks to minimize autocorrelation leakage
+                      (Breiman, 2001).</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="fc-bus" aria-hidden="true"></div>
+
+      <!-- ═════════ PRODUCT 4 ═════════ -->
+      <div class="flow__divider"><span>Product 4 · Property-Level Trajectories, DCF Indicators &amp; Pasture Restoration · Due 05/01/2027</span></div>
+
+      <div class="flow__row">
+
+        <!-- 15. LAND-TENURE DATABASE -->
+        <div class="flow__col">
+          <article class="fnode fnode--input" id="step-tenure">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-tenure">
+              <span class="fnode__bar">
+                <span class="fnode__num">15</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Input · Rural properties</span>
+                  <span class="fnode__title">Land-Tenure &amp; Environmental Database</span>
+                </span>
+                <span class="fstatus fstatus--prelim">Initiated</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__desc">LAPIG land-tenure and environmental database (SIGEF + SICAR + FBDS permanent
+                  preservation areas) to integrate the 10 m pasture maps with rural property boundaries.</span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-tenure">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>Rural property boundaries (SIGEF, SICAR) and permanent preservation areas (FBDS) are assembled as the
+                    spatial units for the property-level analyses of components 16–18.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
+        </div>
+
+        <!-- 16. TRAJECTORIES -->
+        <div class="flow__col">
+          <article class="fnode fnode--extract" id="step-trajectories">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-trajectories">
+              <span class="fnode__bar">
+                <span class="fnode__num">16</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Analysis · Land-use history</span>
+                  <span class="fnode__title">Property-Level Land-Use Trajectories</span>
+                </span>
+                <span class="fstatus fstatus--plan">Planned</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__desc">Native vegetation → pasture → cropland trajectories from the pasture maps,
+                  MapBiomas (1985–2025), and PRODES.</span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-trajectories">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>Cross-tabulation of the pasture maps with MapBiomas (1985–2025) and PRODES to reconstruct land-use
+                    trajectories, with environmental liabilities and assets aggregated by rural property, municipality,
+                    state, biome, and watershed.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="fc-fill" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="fc-bus" aria-hidden="true"></div>
+
+      <div class="flow__row">
+
+        <!-- 17. DCF — SOY CONVERSION RISK -->
+        <div class="flow__col">
+          <div class="fc-arrow fc-arrow--short" aria-hidden="true"></div>
+          <article class="fnode fnode--model" id="step-dcf">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-dcf">
+              <span class="fnode__bar">
+                <span class="fnode__num">17</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Indicator · Deforestation- and conversion-free</span>
+                  <span class="fnode__title">DCF Indicators: Soy Conversion Risk</span>
+                </span>
+                <span class="fstatus fstatus--plan">Planned</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__desc">Property-level soy conversion potential (2024–2030 scenarios) and Forest Code
+                  compliance balance.</span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-dcf">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <ul class="method-list-styled">
+                    <li>Soy conversion potential from land use, native vegetation cover, pasture degradation,
+                      slope/aptitude, and property boundaries (2024–2030 scenarios).</li>
+                    <li>Forest Code compliance balance: Legal Reserve and APP deficits and surpluses per property.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 18. RESTORATION POTENTIAL -->
+        <div class="flow__col">
+          <div class="fc-arrow fc-arrow--short" aria-hidden="true"></div>
+          <article class="fnode fnode--model" id="step-restoration">
+            <button class="fnode__toggle" type="button" aria-expanded="false" aria-controls="panel-restoration">
+              <span class="fnode__bar">
+                <span class="fnode__num">18</span>
+                <span class="fnode__titles">
+                  <span class="fnode__phase">Indicator · Pasture recovery</span>
+                  <span class="fnode__title">Pasture Restoration Potential</span>
+                </span>
+                <span class="fstatus fstatus--plan">Planned</span>
+                <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+              </span>
+              <span class="fnode__summary">
+                <span class="fnode__desc">Property-level restoration potential from GPP trends, vegetative vigor, bare
+                  soil exposure, and land-use persistence.</span>
+                <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
+              </span>
+            </button>
+            <div class="fnode__panel" id="panel-restoration">
+              <div class="fnode__panel-inner">
+                <div class="fnode__body">
+                  <p>Pasture restoration potential per rural property, combining GPP trends, vegetative vigor, bare soil
+                    exposure, and historical land-use persistence derived from the 2020–2025 maps and the trajectories of
+                    component 16.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
 
       <!-- ── CROSS-CUTTING CONTROLS ────────────────────── -->
@@ -571,7 +911,7 @@
               <span class="fnode__bar">
                 <span class="fnode__num">QA</span>
                 <span class="fnode__titles">
-                  <span class="fnode__phase">Table 5</span>
+                  <span class="fnode__phase">Product 1, Table 5</span>
                   <span class="fnode__title">Quality Control, Traceability &amp; Risk Controls</span>
                 </span>
                 <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
@@ -592,12 +932,12 @@
                     <table class="ftable">
                       <thead><tr><th>Methodological risk</th><th>Planned control</th></tr></thead>
                       <tbody>
-                        <tr><td>Circularity with MapBiomas products</td><td>Preserve provenance; use multiple scenarios; do not treat pseudo-labels as ground truth; validate independently.</td></tr>
-                        <tr><td>Imbalance among categories</td><td>Report retention by class; test class-specific thresholds; weighting or controlled sampling without masking real scarcity.</td></tr>
+                        <tr><td>Circularity with MapBiomas products</td><td>Preserve provenance; use multiple scenarios; do not treat pseudo-labels as ground truth; validate independently. The pasture base map training set uses no map-derived samples.</td></tr>
+                        <tr><td>Imbalance among categories</td><td>Report retention by class; equal allocation per category in the CBERS-4A sample; weighting without masking real scarcity.</td></tr>
                         <tr><td>Spatial mixing at edges</td><td>Record support and homogeneity; inspect borderline cases; evaluate spatial filters.</td></tr>
                         <tr><td>Temporal class change</td><td>Anchor the label to the field year; verify stability before propagating to other years.</td></tr>
                         <tr><td>Dot product of non-unit means</td><td>Calculate L2 norms; use explicit cosine or renormalize before the dot product.</td></tr>
-                        <tr><td>SOM dominated by pseudo-labels</td><td>Separate reference support from internal coherence; test grid, neighborhood, and rejection criteria.</td></tr>
+                        <tr><td>SOM dominated by pseudo-labels</td><td>Separate reference support from internal coherence; compare grids and smoothing models; verify with CBERS-4A inspection.</td></tr>
                         <tr><td>Validation concentrated in Goiás</td><td>Limit regional inference; combine field data with a spatially comprehensive image-based sample.</td></tr>
                       </tbody>
                     </table>
@@ -614,14 +954,14 @@
               <span class="fnode__bar">
                 <span class="fnode__num">Next</span>
                 <span class="fnode__titles">
-                  <span class="fnode__phase">Roadmap</span>
+                  <span class="fnode__phase">Roadmap (Product 2, Next Steps)</span>
                   <span class="fnode__title">Upcoming Decisions &amp; Technical Deliverables</span>
                 </span>
                 <span class="fnode__chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
               </span>
               <span class="fnode__summary">
-                <span class="fnode__desc">Eight decisions required to move from the preliminary filters to the first
-                  validated 10 m map.</span>
+                <span class="fnode__desc">Six steps to move from the filtered samples to the 2020–2025 maps of
+                  Product 3.</span>
                 <span class="fnode__more"><span class="is-closed-text">Show details</span><span class="is-open-text">Hide details</span></span>
               </span>
             </button>
@@ -629,14 +969,12 @@
               <div class="fnode__panel-inner">
                 <div class="fnode__body">
                   <ol class="froadmap">
-                    <li>Consolidate the single dictionary of the seven categories and reconcile the 608 classified samples.</li>
-                    <li>Audit the Sentinel-2 series: indices, masks, resampling, edge months, dates, and valid pairs.</li>
-                    <li>Calculate the L2 norms of the mean embeddings and recompute similarity as cosine when necessary.</li>
-                    <li>Run the sensitivity analysis of Top-1, Top-3, md3, and margin thresholds, and agreement with Collection 11.</li>
-                    <li>Define SOM dimensionality and parameters from stability, quantization/topographic errors, and reference support.</li>
-                    <li>Size and draw the stratified CBERS-4A sample, with a blind protocol and inter-interpreter control.</li>
-                    <li>Assemble the approved database, assess balance and separability, and justify any category groupings.</li>
-                    <li>Train the first Random Forest version and implement independent validation by imagery and field data.</li>
+                    <li>Interpret the 971 CBERS-4A points and estimate corroboration by category and decision.</li>
+                    <li>Decide, from those rates, whether Analyze records are recovered and whether rare categories are merged.</li>
+                    <li>Interpret the 940-point evaluation sample, compare the three 2025 versions, and choose the base map.</li>
+                    <li>Extend pasture and vigor mapping to 2020–2025 with the chosen base (Product 3, December 1, 2026).</li>
+                    <li>Train the condition-category Random Forest with the approved samples.</li>
+                    <li>Carry out the two field campaigns (November 9–16 and 23–27) and classify each disagreement as change since 2022 or map error.</li>
                   </ol>
                 </div>
               </div>

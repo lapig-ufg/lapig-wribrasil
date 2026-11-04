@@ -5,28 +5,28 @@
     <div class="section__eyebrow">Database Architecture & Repository Structure</div>
     <h2 class="section__title">Three Complementary Datasets Powering the Curation Pipeline</h2>
     <p class="section__desc">
-      The repository organizes the pasture mapping benchmark into three linked spatial databases spanning 2019–2025, allowing independent testing of historical reference baselines, persistent vigor-stratified samples, and multi-collection map agreement scenarios.
+      The repository organizes the pasture mapping benchmark into three linked spatial databases spanning 2019–2025: the field reference base, the visually interpreted MapBiomas pasture / non-pasture points used to generate the pasture maps, and the pasture sample series used to categorize samples into the 7 condition classes and generate the pasture degradation map.
     </p>
     <div class="cards">
       <div class="card fade-up">
         <div class="card__eyebrow">1. Field Reference Base · Embrapa Cenargen</div>
         <div class="card__title">701 In Situ Polygons (608 Classified + 93 Unlabeled)</div>
         <p class="card__desc">
-          Approximately 1 ha field-surveyed polygons distributed across the Cerrado, recording continuous ground-cover fractions (% forage grass, % woody canopy, % ruderal weeds, % bare soil) and altitude. The 608 labeled polygons anchor the supervised similarity ranking across 7 condition classes, while 93 unlabeled polygons are retained for exploratory and unsupervised evaluation.
+          Approximately 1 ha field-surveyed polygons distributed across the Cerrado, recording continuous ground-cover fractions (% forage grass, % woody canopy, % ruderal weeds, % bare soil) and altitude. The 608 labeled polygons anchor the Top-1 category transfer across 7 condition classes and characterize the SOM neurons, while 93 unlabeled polygons are retained for exploratory and unsupervised evaluation.
         </p>
       </div>
       <div class="card fade-up">
-        <div class="card__eyebrow">2. Reference & Validation Candidate Series · 12k Base (2019–2025)</div>
-        <div class="card__title">12,009 Inspected & Independent Validation Points</div>
+        <div class="card__eyebrow">2. Pasture Mapping Training Set · MapBiomas Visual Interpretation (2020–2025)</div>
+        <div class="card__title">36,520 Pasture / Non-Pasture Points per Year</div>
         <p class="card__desc">
-          Combines 5,453 visually inspected MapBiomas Collection 4 Sentinel-2 training points and 6,556 MapBiomas 85k Landsat independent validation points (totalling up to 12,483 points in 2019 and 12,009 in 2025). Evaluated against all 701 field areas (~8.4M dot-product pairs/year), achieving a mean cosine similarity of 0.8217 and 67.16% Top-3 neighbor agreement (md3 &ge; 2).
+          <strong>MapBiomas Collection 4 Sentinel-2 training points:</strong> 15,669 points per year — 5,839 to 6,222 pasture and 9,447 to 9,830 non-pasture (94,014 records). <strong>MapBiomas 85k Landsat validation points:</strong> 20,851 points per year — 6,528 to 6,570 pasture and 14,281 to 14,323 non-pasture (125,106 records). Together, 36,520 points per year (219,120 records, 176 IBGE map sheets), all visually interpreted, with no map-derived samples: the set used to generate the pasture maps.
         </p>
       </div>
       <div class="card fade-up">
-        <div class="card__eyebrow">3. Persistent Vigor-Stratified Series · 50k Base (2020–2025)</div>
-        <div class="card__title">50,000 Persistent Pasture Points & Col. 11 Scenarios</div>
+        <div class="card__eyebrow">3. Pasture Condition Sample Series · 50k Base + MapBiomas Pasture Points (2019–2025)</div>
+        <div class="card__title">63,284 Pasture Locations · 428,866 Records</div>
         <p class="card__desc">
-          Sampled from pixels persistently mapped as pasture across all 6 years (2020–2025) in Collection 4 Sentinel-2 and stratified by 2025 vegetative vigor (~35% low, ~44% medium, ~21% high) to counteract the 62.2% productive bias of field samples. Cross-tabulation with Collection 11 separates 44,943 concordant points (89.886%) from 5,057 discordant points (10.114%), defining the Inclusive (62,009) vs. Agreement (56,952) sensitivity scenarios across 35.05M pairs/year (mean similarity 0.8245; 67.52% with md3 &ge; 2).
+          The 50,000 persistent pasture points (350,000 records; Collection 4 Sentinel-2 pasture in every year 2020–2025, stratified by 2025 vigor: ~35% low, ~44% medium, ~21% high) plus only the pasture points of dataset 2 (6,288 Sentinel-2 and 6,996 Landsat points; 78,866 records). Used to categorize the samples into the 7 condition classes — Top-1 embedding similarity to the Embrapa references and SOM filtering: 219,810 records kept (Clean), 65,369 flagged for CBERS-4A inspection (Analyze), 143,687 removed (Remove) — and to generate the pasture degradation map.
         </p>
       </div>
     </div>
