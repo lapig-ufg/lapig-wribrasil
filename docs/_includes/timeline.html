@@ -6,9 +6,9 @@
   <div class="status-card">
     <div class="status-card__info">
       <span class="agora-pill"><span class="pulso"></span> Where we are</span>
-      <h3 id="st-titulo">Stage 2 · 10 m Pasture Mapping &amp; Sample Curation</h3>
+      <h3 id="st-titulo">Stage 2 · Image-Interpreted Points &amp; Field Sampling Strategy</h3>
       <p class="sub" id="st-sub">
-        <strong>Product 1</strong> (Detailed Sampling Plan &amp; Improvement Strategies) delivered on <strong>01/10/2026</strong>. We are now finalizing <strong>Product 2</strong> (2020–2025 annual 10 m maps, 64-D embedding &amp; 12×12 SOM filtering, and CBERS-4A 2 m inspection), scheduled for <strong>01/12/2026</strong>.
+        <strong>Product 1</strong> (Detailed Sampling Plan &amp; Improvement Strategies) delivered on <strong>17/08/2026</strong>. <strong>Product 2</strong> (Image-Interpreted Points &amp; Field Sampling Strategy) delivered on <strong>03/11/2026</strong>. Next delivery: <strong>Product 3</strong> (Annual 10 m Pasture Maps, 2020–2025, &amp; Field-Collected Points), scheduled for <strong>01/12/2026</strong>.
       </p>
       <div class="status-card__actions">
         <a class="landscape-action" href="{{ '/cronograma/' | relative_url }}" target="_blank" rel="noopener">
@@ -37,13 +37,14 @@
 
 <script>
 (function() {
-  var inicio = "2026-06-12", fim = "2027-01-10";
+  var inicio = "2026-06-12", fim = "2027-01-11";
   var marcos = [
     { id: "K",  rot: "Kick-off",  data: "2026-06-12", st: "ok" },
-    { id: "P1", rot: "Product 1", data: "2026-10-01", st: "ok" },
-    { id: "P2", rot: "Product 2", data: "2026-12-01", st: "agora" },
-    { id: "P3", rot: "Product 3", data: "2026-12-15", st: "fu", cima: true },
-    { id: "P4", rot: "P4 + P5",   data: "2027-01-10", st: "fu" }
+    { id: "P1", rot: "Product 1", data: "2026-08-17", st: "ok" },
+    { id: "P2", rot: "Product 2", data: "2026-11-03", st: "ok" },
+    { id: "P3", rot: "Product 3", data: "2026-12-01", st: "fu", cima: true },
+    { id: "P4", rot: "Product 4", data: "2027-01-05", st: "fu" },
+    { id: "P5", rot: "Product 5", data: "2027-01-11", st: "fu", cima: true }
   ];
   var tr = document.getElementById("trilho-home");
   var pr = document.getElementById("prog-home");
@@ -57,6 +58,7 @@
   var ph = Math.max(0, Math.min(100, (hoje - t0) / (t1 - t0) * 100));
   pr.style.width = ph.toFixed(1) + "%";
   tr.insertAdjacentHTML("beforeend", '<div class="lt-hoje" style="left:' + ph.toFixed(1) + '%">Today</div>');
+  tr.insertAdjacentHTML("beforeend", '<div class="marco agora" style="left:' + ph.toFixed(1) + '%" title="Today"></div>');
 
   var fmt = function(d) {
     return new Date(d + "T12:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short" });

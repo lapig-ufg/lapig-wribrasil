@@ -11,9 +11,9 @@ description: >-
   <div class="status-card" style="margin-bottom: 3rem;">
     <div class="status-card__info">
       <span class="agora-pill"><span class="pulso"></span> Where we are</span>
-      <h3>Stage 2 · 10 m Pasture Mapping &amp; Sample Curation</h3>
+      <h3>Stage 2 · Image-Interpreted Points &amp; Field Sampling Strategy</h3>
       <p class="sub">
-        <strong>Product 1</strong> delivered on <strong>01/10/2026</strong>. Currently executing <strong>Product 2</strong> (annual 10 m maps for 2020–2025, 64-D embedding &amp; 12×12 SOM sample curation, and CBERS-4A visual inspection), scheduled for <strong>01/12/2026</strong>.
+        <strong>Product 1</strong> (Detailed Sampling Plan &amp; Improvement Strategies) delivered on <strong>17/08/2026</strong>. <strong>Product 2</strong> (Image-Interpreted Points &amp; Field Sampling Strategy) delivered on <strong>03/11/2026</strong>. Next delivery: <strong>Product 3</strong> (Annual 10 m Pasture Maps, 2020–2025, &amp; Field-Collected Points), scheduled for <strong>01/12/2026</strong>.
       </p>
       <div class="status-card__actions">
         <a class="landscape-action" href="{{ '/analise-top3/' | relative_url }}">
@@ -39,9 +39,9 @@ description: >-
 
   <!-- 2. FOUR MACRO-STAGES INTERACTIVE VIEW (FROM REFERENCE HTML) -->
   <div class="section__eyebrow">Macro-Workflow &amp; Contractual Stages</div>
-  <h2 class="section__title">Four Stages, From Field Reference to DCF Indicators</h2>
+  <h2 class="section__title">Five Stages, One per Contractual Product</h2>
   <p class="section__desc">
-    Click on each stage below to inspect its objective, methodological procedures, responsible team, sub-step progress, and contractual deliverable. The highlighted stage indicates our current execution focus.
+    Each stage corresponds to one contractual product (P1–P5). Click on each stage below to inspect its objective, methodological steps, sub-step progress, responsible team, and deliverable. The highlighted stage indicates our current execution focus.
   </p>
 
   <div class="fluxo-etapas" id="fluxo-crono"></div>
@@ -55,20 +55,20 @@ description: >-
       Progressive delivery of open geospatial databases, metadata, 10 m pasture maps, property-level land-use trajectories, and Deforestation- and Conversion-Free (DCF) indicators.
     </p>
     <div class="produtos-grid">
-      <div class="prod-item"><b>P1</b><span>Georeferenced Sample Base, Complete Metadata &amp; Technical Report 1 (Delivered 01/10/2026)</span></div>
-      <div class="prod-item prod-item--active"><b>P2</b><span>Annual 10 m Pasture Maps (2020–2025), Accuracy Assessment &amp; GEE App (Due 01/12/2026)</span></div>
-      <div class="prod-item"><b>P3</b><span>Property-Level Integrated Database (CAR/SIGEF + MapBiomas + Pastures, Due 15/12/2026)</span></div>
-      <div class="prod-item"><b>P4</b><span>Soy Conversion Risk &amp; Pasture Restoration Potential Indicators (Due 05/01/2027)</span></div>
-      <div class="prod-item"><b>P5</b><span>Consolidated Final Technical Synthesis Report &amp; Open Repository (Due 10/01/2027)</span></div>
+      <div class="prod-item"><b>P1</b><span>Detailed Sampling Plan &amp; Sampling Improvement Strategies (Delivered 17/08/2026)</span></div>
+      <div class="prod-item"><b>P2</b><span>Image-Interpreted Points &amp; Field Sampling Strategy (Delivered 03/11/2026)</span></div>
+      <div class="prod-item prod-item--active"><b>P3</b><span>Annual High-Resolution Pasture Maps (10 m, 2020–2025) &amp; Field-Collected Points (Due 01/12/2026)</span></div>
+      <div class="prod-item"><b>P4</b><span>Property-Level Trajectories, DCF Indicators &amp; Pasture Restoration (Due 05/01/2027)</span></div>
+      <div class="prod-item"><b>P5</b><span>Final Report (Due 11/01/2027)</span></div>
     </div>
   </div>
 
-  <!-- 4. DETAILED 8 METHODOLOGICAL COMPONENTS (PRODUCT 1 REPORT) -->
+  <!-- 4. DETAILED METHODOLOGICAL COMPONENTS (PRODUCT 1 & 2 REPORTS) + NEXT STEPS -->
   <div style="margin-top: 4rem;">
     <div class="section__eyebrow">Granular Technical Tracking</div>
-    <h2 class="section__title">Detailed Status of the 8 Methodological Components</h2>
+    <h2 class="section__title">Detailed Status of the 18 Methodological Components</h2>
     <p class="section__desc">
-      Breakdown of the eight technical components established in the Product 1 Report (Detailed Sampling Plan and Sampling Improvement Strategies — August 17, 2026), tracking data assembly, metric extraction, dual filtering, visual inspection, and field validation.
+      Breakdown of the eight technical components established in the Product 1 Report (Detailed Sampling Plan and Sampling Improvement Strategies — August 17, 2026) and updated in the Product 2 Report (November 3, 2026), tracking data assembly, metric extraction, dual filtering, visual inspection, and field validation, plus the pasture base map training set and 2025 vigor maps added in Product 2 (components 09–10), followed by the next methodological steps toward the 2020–2025 maps (components 11–14) and the property-level analyses of Product 4 (components 15–18).
     </p>
 
     <div class="timeline">
@@ -96,28 +96,88 @@ description: >-
         <div class="timeline__desc">62,009 candidate samples assembled with full provenance preserved (50,000 persistent vigor-stratified Sentinel-2 points + 5,453 Col. 4 S2 points + 6,556 Landsat 85k validation points), structured into Inclusive (62,009) and Collection 11 Agreement (56,952) sensitivity scenarios.</div>
       </div>
 
-      <div class="timeline__item current">
-        <div class="timeline__date">Component 05 · Status: Preliminary (Active Milestone)</div>
+      <div class="timeline__item done">
+        <div class="timeline__date">Component 05 · Status: Applied</div>
         <div class="timeline__title">5. Embedding-Based Similarity Filtering</div>
-        <div class="timeline__desc">Top-1/Top-3 cosine similarity matching against the 608 classified field polygons (~35.05M pairs/year for the 50k base and ~8.4M pairs/year for the 12k base), modal neighbor concordance metric (md3), separation margins, and sensitivity thresholds evaluated across Scenarios A through E.</div>
+        <div class="timeline__desc">Top-1 similarity against the 608 classified Embrapa Cenargen field references and the md3 agreement indicator computed for all 428,866 candidate point-year records (63,284 locations, 2019–2025); the transferred preliminary category feeds the SOM stage, and the 4,079 records (1.0%) without a transferred category were removed.</div>
       </div>
 
-      <div class="timeline__item future">
-        <div class="timeline__date">Component 06 · Status: Under Development</div>
+      <div class="timeline__item done">
+        <div class="timeline__date">Component 06 · Status: Applied</div>
         <div class="timeline__title">6. SOM-Based Filtering (Self-Organizing Maps)</div>
-        <div class="timeline__desc">12×12 Kohonen neural grid (144 neurons) clustering annual Sentinel-2 phenological signatures; multivariate dimensionality, normalization, neighborhood topology, and Dirichlet-Multinomial Bayesian smoothing under evaluation to classify neurons into Keep, Inspect, or Remove.</div>
+        <div class="timeline__desc">Final configuration: a single 90×90 grid (8,100 neurons) trained on all years, with Dirichlet-Multinomial smoothing (a 35×35 grid and Normal-Normal smoothing were tested for comparison). Of the 428,866 candidate records, 219,810 were kept (CLEAN, 51.3%), 65,369 were flagged for CBERS-4A inspection (ANALYZE, 15.2%), and 143,687 were removed (REMOVE, 33.5%); 92.3% of the 2020–2025 CLEAN records are productive pasture.</div>
       </div>
 
-      <div class="timeline__item future">
-        <div class="timeline__date">Component 07 · Status: Planning</div>
+      <div class="timeline__item current">
+        <div class="timeline__date">Component 07 · Status: Sample Selected</div>
         <div class="timeline__title">7. CBERS-4A Visual Inspection (~2 m Resolution)</div>
-        <div class="timeline__desc">Stratified random sampling (~1,040 points for a 3% global margin of error at 95% confidence) of borderline candidates after embedding-SOM selection, executed on pan-sharpened 2 m CBERS-4A imagery with a blind multi-interpreter protocol.</div>
+        <div class="timeline__desc">Stratified sample of 971 locations (one year each, 2020–2025) drawn from the CLEAN and ANALYZE records across 14 strata (7 categories × 2 SOM decisions): up to 100 CLEAN and 50 ANALYZE per category, with all available CLEAN locations taken for the two rarest classes. Interpretation on pan-sharpened 2 m CBERS-4A imagery with a blind protocol has not yet started.</div>
+      </div>
+
+      <div class="timeline__item current">
+        <div class="timeline__date">Component 08 · Status: Revisit Scheduled</div>
+        <div class="timeline__title">8. Field Data Collection &amp; Map Validation</div>
+        <div class="timeline__desc">100 points from the 2022 Goiás field survey selected for revisit by stratified random sampling over nine degradation × 2025 vigor strata (11 or 12 points each). Campaigns scheduled for November 9–16 and November 23–27, 2026, to check whether each disagreement comes from change since 2022 or from error in the vigor map.</div>
+      </div>
+
+      <div class="timeline__item done">
+        <div class="timeline__date">Component 09 · Status: Complete</div>
+        <div class="timeline__title">9. Pasture Base Map Training Set</div>
+        <div class="timeline__desc">New pasture / non-pasture training set for 2020–2025 using only visually interpreted samples, with no map-derived samples or map-based filters: 36,520 points per year (about 12,500 pasture and 24,000 non-pasture), 219,120 point-year records in total, linked to the 176 IBGE map sheets of the Cerrado (maximum 500 samples per sheet).</div>
+      </div>
+
+      <div class="timeline__item done">
+        <div class="timeline__date">Component 10 · Status: Generated (3 Versions)</div>
+        <div class="timeline__title">10. 2025 Pasture Vigor Maps</div>
+        <div class="timeline__desc">Sentinel-2 vigor maps for 2025 generated for three candidate pasture base maps: 2025a (new training set), 2025b (2025a plus geographic coordinates), and persistent MapBiomas pasture (2020–2025). Versions 2025a and 2025b map 52.9 and 52.8 Mha of pasture, differ on 1.0% of the Cerrado, and agree with MapBiomas Collection 4 on about 92%.</div>
       </div>
 
       <div class="timeline__item future">
-        <div class="timeline__date">Component 08 · Status: Planning</div>
-        <div class="timeline__title">8. Field Data Collection &amp; Map Validation</div>
-        <div class="timeline__desc">Targeted field campaign across approximately 100 localities in the Cerrado biome (with logistical priority in Goiás and stratified multi-interpreter imagery expansion) for independent validation of the 10 m Random Forest pasture map.</div>
+        <div class="timeline__date">Component 11 · Status: Next Step</div>
+        <div class="timeline__title">11. Pasture Base Map Choice (2025 Validation Sample)</div>
+        <div class="timeline__desc">Interpretation of a 940-point stratified random sample over the eight strata of the 2025a × 2025b × MapBiomas crossing, estimating the accuracy of 2025a, 2025b, MapBiomas, and Global Pasture Watch with a single sample (Stehman, 2014) to choose the pasture base map for the full series.</div>
+      </div>
+
+      <div class="timeline__item future">
+        <div class="timeline__date">Component 12 · Status: Next Step</div>
+        <div class="timeline__title">12. Training Set Consolidation</div>
+        <div class="timeline__desc">Corroboration rates from the CBERS-4A inspection, by category and SOM decision, will decide whether ANALYZE records are recovered for training and whether the rare categories (Pasto com Lenhosas, Miscelânea) are merged before the Random Forest training.</div>
+      </div>
+
+      <div class="timeline__item future">
+        <div class="timeline__date">Component 13 · Status: Next Step</div>
+        <div class="timeline__title">13. Annual 10 m Pasture &amp; Vigor Maps (2020–2025)</div>
+        <div class="timeline__desc">Extension of pasture and vigor mapping to the full 2020–2025 series with the chosen base map, using the visually interpreted training set (36,520 points per year, 176 IBGE map sheets); the five border sheets without samples will require neighbor-sheet models or added samples (Product 3, December 1, 2026).</div>
+      </div>
+
+      <div class="timeline__item future">
+        <div class="timeline__date">Component 14 · Status: Next Step</div>
+        <div class="timeline__title">14. Pasture Condition Classification (Random Forest)</div>
+        <div class="timeline__desc">Random Forest training for the pasture condition categories with the approved samples, using spatial blocks to minimize autocorrelation leakage between training and evaluation, followed by independent validation with image and field data.</div>
+      </div>
+
+      <div class="timeline__item current">
+        <div class="timeline__date">Component 15 · Status: Initiated (Product 4)</div>
+        <div class="timeline__title">15. Land-Tenure &amp; Environmental Database</div>
+        <div class="timeline__desc">Assembly of the LAPIG land-tenure and environmental database (SIGEF + SICAR + FBDS permanent preservation areas) to integrate the 10 m pasture maps with rural property boundaries.</div>
+      </div>
+
+      <div class="timeline__item future">
+        <div class="timeline__date">Component 16 · Status: Planned (Product 4)</div>
+        <div class="timeline__title">16. Property-Level Land-Use Trajectories</div>
+        <div class="timeline__desc">Cross-tabulation of the pasture maps with MapBiomas (1985–2025) and PRODES to reconstruct native vegetation → pasture → cropland trajectories, with environmental liabilities and assets aggregated by rural property, municipality, state, biome, and watershed.</div>
+      </div>
+
+      <div class="timeline__item future">
+        <div class="timeline__date">Component 17 · Status: Planned (Product 4)</div>
+        <div class="timeline__title">17. DCF Indicators: Soy Conversion Risk</div>
+        <div class="timeline__desc">Property-level soy conversion potential from land use, native vegetation cover, pasture degradation, slope/aptitude, and property boundaries (2024–2030 scenarios), together with the Forest Code compliance balance (Legal Reserve and APP deficits/surpluses).</div>
+      </div>
+
+      <div class="timeline__item future">
+        <div class="timeline__date">Component 18 · Status: Planned (Product 4)</div>
+        <div class="timeline__title">18. Pasture Restoration Potential</div>
+        <div class="timeline__desc">Property-level pasture restoration potential from GPP trends, vegetative vigor, bare soil exposure, and historical land-use persistence.</div>
       </div>
     </div>
   </div>
@@ -125,77 +185,97 @@ description: >-
 
 <script>
 (function() {
-  var inicio = "2026-06-12", fim = "2027-01-10";
+  var inicio = "2026-06-12", fim = "2027-01-11";
   var marcos = [
     { id: "K",  rot: "Kick-off",  data: "2026-06-12", st: "ok" },
-    { id: "P1", rot: "Product 1", data: "2026-10-01", st: "ok" },
-    { id: "P2", rot: "Product 2", data: "2026-12-01", st: "agora" },
-    { id: "P3", rot: "Product 3", data: "2026-12-15", st: "fu", cima: true },
-    { id: "P4", rot: "P4 + P5",   data: "2027-01-10", st: "fu" }
+    { id: "P1", rot: "Product 1", data: "2026-08-17", st: "ok" },
+    { id: "P2", rot: "Product 2", data: "2026-11-03", st: "ok" },
+    { id: "P3", rot: "Product 3", data: "2026-12-01", st: "fu", cima: true },
+    { id: "P4", rot: "Product 4", data: "2027-01-05", st: "fu" },
+    { id: "P5", rot: "Product 5", data: "2027-01-11", st: "fu", cima: true }
   ];
   var etapas = [
     {
-      n: 1, st: "ok", nome: "Sample Collection & Curation Plan",
-      curto: "Field reference consolidation, 62,009 candidate points, and dual-filter architecture.",
-      periodo: "Jun – Oct/2026",
-      produto: "P1 · Sample database + metadata + Technical Report 1 (Delivered 01/10/2026)",
-      objetivo: "Build a traceable, georeferenced sample database distinguishing pasture condition categories, native grassland/savanna formations, and agricultural uses across the Cerrado to train and validate the 10 m classification models.",
+      n: 1, st: "ok", nome: "Detailed Sampling Plan",
+      curto: "Field reference base, 62,009 candidate points, and dual-filter curation design.",
+      periodo: "Jun – Aug/2026",
+      produto: "P1 · Detailed sampling plan & sampling improvement strategies (Delivered 17/08/2026)",
+      objetivo: "Document a traceable strategy to expand the sample set from field references, reduce pseudo-labeling errors through independent filters, select samples for visual inspection, and prepare a database suitable for Random Forest training and validation.",
       como: [
         "Consolidation of 701 Embrapa Cenargen field polygons (~1 ha; 608 classified into 7 categories + 93 unlabeled).",
         "Expansion to 62,009 candidate points (50,000 persistent Sentinel-2 vigor-stratified points + 12,009 MapBiomas S2/Landsat points).",
         "Extraction of monthly Sentinel-2 time series (2020–2025) and 64-D AlphaEarth Foundations annual embeddings.",
-        "Dual-filter curation design: L2-normalized Top-3 cosine similarity (md3) + 12×12 Self-Organizing Maps (SOM) + CBERS-4A (2 m) blind inspection."
+        "Dual-filter curation design: L2-normalized Top-3 cosine similarity (md3) + Self-Organizing Maps (SOM) + CBERS-4A (2 m) blind inspection."
       ],
       equipe: "L. G. Ferreira · L. Baumann · V. Mesquita · B. S. Oliveira · N. Teles · W. Ladeira · A. P. Matos · A. R. Falcão",
-      passos: [["Sampling & Curation Plan", "ok"], ["Field & Candidate Databases", "ok"], ["S2 & 64-D Embedding Extraction", "ok"], ["Product 1 Report Approved", "ok"]],
+      passos: [["Embrapa Cenargen Reference Base", "ok"], ["Candidate Points Universe (62,009)", "ok"], ["Sentinel-2 & 64-D Embedding Extraction", "ok"], ["Dual-Filter Curation Design", "ok"], ["Product 1 Report", "ok"]],
       icone: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 44s14-12.5 14-24a14 14 0 1 0-28 0c0 11.5 14 24 14 24z"/><circle cx="24" cy="20" r="5"/></svg>'
     },
     {
-      n: 2, st: "agora", nome: "10 m Pasture Mapping",
-      curto: "Annual 10 m maps (2020–2025) with pasture condition and degradation levels.",
-      periodo: "Jun – Nov/2026",
-      produto: "P2 · 6 annual 10 m maps + accuracy assessment + report + GEE App (Due 01/12/2026)",
-      objetivo: "Produce operational 10 m annual pasture maps across the Cerrado biome (2020–2025), separating planted pasture from native vegetation and classifying pasture vigor and degradation levels.",
+      n: 2, st: "ok", nome: "Field & Image-Based Sample Collection",
+      curto: "SOM filtering, CBERS-4A inspection sample, new training set, and 2025 vigor maps.",
+      periodo: "Aug – Nov/2026",
+      produto: "P2 · Image-interpreted points & field sampling strategy (Delivered 03/11/2026)",
+      objetivo: "Filter the expanded sample set, select points for high-resolution image inspection, build a pasture training set free of map-derived samples, produce the first 2025 pasture vigor maps, and design the field revisit campaign.",
       como: [
-        "Public satellite baseline: Sentinel-2 (10 m), CBERS-4A pan-sharpened (2 m), Landsat C2 (30 m), and AlphaEarth 64-D embeddings.",
-        "Spectral-temporal covariates (NDVI, NDWI, EVI, NBR, SWIR/CAI ratios, and seasonal percentiles).",
-        "Random Forest classifier in Google Earth Engine trained with curated multi-filter samples (~50k samples/year) and spatial block cross-validation.",
-        "Pasture condition & degradation assessment via GPP trends, vegetative vigor (NDVI), and bare soil fractions."
+        "Embedding similarity (Top-1 and md3) computed for 428,866 candidate point-year records (63,284 locations, 2019–2025).",
+        "SOM filtering with a single 90×90 grid and Dirichlet-Multinomial smoothing: 219,810 records kept (CLEAN), 65,369 flagged (ANALYZE), 143,687 removed (REMOVE).",
+        "Stratified CBERS-4A inspection sample of 971 locations (7 categories × CLEAN/ANALYZE).",
+        "New pasture / non-pasture training set: 36,520 visually interpreted points per year (2020–2025) across 176 IBGE map sheets.",
+        "2025 pasture vigor maps for three candidate base maps (2025a, 2025b, persistent) and a 940-point validation sample.",
+        "Field revisit design: 100 Goiás 2022 points stratified by degradation × 2025 vigor."
+      ],
+      equipe: "L. G. Ferreira · L. Baumann · V. Mesquita · B. S. Oliveira · N. Teles · W. Ladeira · A. P. Matos · A. R. Falcão",
+      passos: [["Embedding Similarity Filtering", "ok"], ["SOM Filtering (90×90, Dirichlet-Multinomial)", "ok"], ["CBERS-4A Inspection Sample (971 points)", "ok"], ["Pasture Base Map Training Set", "ok"], ["2025 Vigor Maps (3 versions)", "ok"], ["Field Revisit Design (100 points)", "ok"], ["Product 2 Report", "ok"]],
+      icone: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="21" cy="21" r="13"/><path d="M31 31l11 11"/><path d="M15 21l4 4 8-8"/></svg>'
+    },
+    {
+      n: 3, st: "agora", nome: "10 m Pasture Mapping",
+      curto: "Annual 10 m pasture and vigor maps (2020–2025) and field-collected points.",
+      periodo: "Nov – Dec/2026",
+      produto: "P3 · Annual 10 m pasture maps (2020–2025) + field-collected points (Due 01/12/2026)",
+      objetivo: "Produce operational 10 m annual pasture maps across the Cerrado biome (2020–2025), separating planted pasture from native vegetation and classifying pasture vigor and condition, supported by image interpretation and field data.",
+      como: [
+        "Interpretation of the 971 CBERS-4A points to estimate label corroboration by category and SOM decision.",
+        "Interpretation of the 940-point validation sample to compare 2025a, 2025b, and MapBiomas and choose the pasture base map.",
+        "Extension of pasture and vigor mapping to 2020–2025 with the chosen base map in Google Earth Engine.",
+        "Random Forest training for pasture condition categories with the approved samples.",
+        "Field campaigns in Goiás (November 9–16 and 23–27, 2026) revisiting 100 stratified points."
       ],
       equipe: "V. Mesquita · B. S. Oliveira · N. Teles · W. Ladeira",
-      passos: [["Imagery & Covariate Cube", "ok"], ["Embedding & SOM Sample Curation", "agora"], ["2020–2025 10 m Classification", "agora"], ["GEE App & Product 2 Report", "fu"]],
+      passos: [["CBERS-4A Interpretation (971 points)", "agora"], ["Validation Sample & Base Map Choice (940 points)", "agora"], ["Field Campaigns (Nov 9–16 and 23–27)", "fu"], ["2020–2025 10 m Pasture & Vigor Maps", "fu"], ["Condition-Category Random Forest", "fu"], ["Product 3 Report", "fu"]],
       icone: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="16" height="16" rx="2"/><path d="M16 22H6v4h10M32 22h10v4H32M24 16v-6M20 10h8"/><path d="M8 40c6-4 12-4 16 0s10 4 16 0"/></svg>'
     },
     {
-      n: 3, st: "parcial", nome: "Property-Level Trajectories",
-      curto: "Land-tenure integration (CAR/SIGEF) and historical land-use transitions.",
-      periodo: "Oct – Dec/2026",
-      produto: "P3 · Integrated property database + transition analysis + report (Due 15/12/2026)",
-      objetivo: "Integrate the 10 m pasture maps with rural property boundaries and historical series to reconstruct land-use trajectories and estimate environmental liabilities and assets per rural property.",
+      n: 4, st: "parcial", nome: "Property-Level Trajectories & DCF Indicators",
+      curto: "Land-tenure integration, land-use trajectories, soy conversion risk, and restoration potential.",
+      periodo: "Oct/2026 – Jan/2027",
+      produto: "P4 · Property-level trajectories, DCF indicators & pasture restoration (Due 05/01/2027)",
+      objetivo: "Integrate the 10 m pasture maps with rural property boundaries and historical series to reconstruct land-use trajectories, and generate indicators of soy conversion risk and pasture restoration potential at the rural property level.",
       como: [
         "LAPIG land-tenure & environmental database: SIGEF + SICAR + FBDS permanent preservation areas (APPs).",
         "Cross-tabulation with MapBiomas (1985–2025) and PRODES: native vegetation → pasture → cropland trajectories.",
-        "Aggregation of environmental liabilities and assets by rural property, municipality, state, biome, and watershed."
+        "Soy conversion potential: land use, native vegetation cover, pasture degradation, slope/aptitude, and property boundaries (2024–2030 scenarios).",
+        "Pasture restoration potential: GPP trends, vegetative vigor, bare soil exposure, and historical land-use persistence per property.",
+        "Forest Code environmental compliance balance (Legal Reserve & APP deficits/surpluses)."
       ],
       equipe: "B. S. Oliveira · L. G. Ferreira",
-      passos: [["Land-Tenure Base Assembly", "agora"], ["Property-Level Trajectories", "fu"], ["Product 3 Technical Report", "fu"]],
+      passos: [["Land-Tenure Base Assembly", "agora"], ["Property-Level Trajectories", "fu"], ["Conversion Risk Indicators", "fu"], ["Restoration Potential Indicators", "fu"], ["Product 4 Report", "fu"]],
       icone: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l12-6 12 6 12-6v26l-12 6-12-6-12 6z"/><path d="M18 8v26M30 14v26"/></svg>'
     },
     {
-      n: 4, st: "fu", nome: "DCF Indicators & Synthesis",
-      curto: "Soy conversion risk, pasture restoration potential, and final synthesis.",
-      periodo: "Nov/2026 – Jan/2027",
-      produto: "P4 · DCF Indicators (05/01/2027) · P5 · Final Synthesis Report (10/01/2027)",
-      objetivo: "Generate geospatial indicators of soy conversion risk and pasture restoration potential at the rural property level, alongside the consolidated final technical report.",
+      n: 5, st: "fu", nome: "Final Report",
+      curto: "Consolidated technical synthesis and open publication of data and code.",
+      periodo: "Jan/2027",
+      produto: "P5 · Final report (Due 11/01/2027)",
+      objetivo: "Consolidate the methods, results, and products of the project in a final technical report and publish all datasets and reproducible scripts openly.",
       como: [
-        "Soy conversion potential: land use, native vegetation cover, pasture degradation, slope/aptitude, and property boundaries (2024–2030 scenarios).",
-        "Pasture restoration potential: GPP trends, vegetative vigor, bare soil exposure, and historical land-use persistence per property.",
-        "Forest Code environmental compliance balance (Legal Reserve & APP deficits/surpluses).",
+        "Consolidated final technical synthesis of Products 1–4.",
         "Full open-science publication of datasets and reproducible scripts on GitHub and Zenodo."
       ],
       equipe: "Full LAPIG/UFG & WRI Brasil Team",
-      passos: [["Conversion Risk Indicators", "fu"], ["Restoration Potential Indicators", "fu"], ["Final Synthesis Report (P5)", "fu"]],
-      icone: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 40h36"/><rect x="10" y="26" width="6" height="14"/><rect x="21" y="18" width="6" height="22"/><rect x="32" y="10" width="6" height="30"/></svg>'
+      passos: [["Final Synthesis Report", "fu"], ["Open Data & Code Repository", "fu"]],
+      icone: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4h18l8 8v32H12z"/><path d="M30 4v8h8M18 22h14M18 29h14M18 36h9"/></svg>'
     }
   ];
 
@@ -210,6 +290,7 @@ description: >-
     var ph = Math.max(0, Math.min(100, (hoje - t0) / (t1 - t0) * 100));
     pr.style.width = ph.toFixed(1) + "%";
     tr.insertAdjacentHTML("beforeend", '<div class="lt-hoje" style="left:' + ph.toFixed(1) + '%">Today</div>');
+    tr.insertAdjacentHTML("beforeend", '<div class="marco agora" style="left:' + ph.toFixed(1) + '%" title="Today"></div>');
 
     var fmt = function(d) {
       return new Date(d + "T12:00:00").toLocaleDateString("en-US", { day: "2-digit", month: "short" });

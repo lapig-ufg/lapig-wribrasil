@@ -4164,7 +4164,7 @@ p, li, td, th, span, div, a, button, input, select,
     ────────────────────────────────────────────────────────── */
 .fluxo-etapas {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.25rem;
   margin-top: 2.5rem;
   position: relative;
