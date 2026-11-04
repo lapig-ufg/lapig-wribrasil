@@ -1,15 +1,19 @@
---CALCULAR EMBEDDINGS PARA O PRIMEIRO DADO OBTIDO DO MAPBIOMAS
-select * from 'C:\Users\windows\Documents\cenargen_trabalho_mult\cenargen_trabalho_mult\saida_11k\embeddings_avg_mapbiomas_pastagem_2019_2025.parquet' limit 10;
+-- ==============================================================================
+-- processos_filtragem.sql
+-- Pipeline SQL steps for filtering, standardizing, and unifying embeddings
+-- ==============================================================================
 
---CALCULAR EMBEDDINGS PARA MAPBIOMAS 85K
-select * from 'C:\Users\windows\Documents\cenargen_trabalho_mult\cenargen_trabalho_mult\saida_11k\embeddings_avg_mapbiomas85k_2019_2025.parquet' limit 100;
+-- 1. Inspect first MapBiomas dataset
+SELECT * FROM 'dados/arquivos_base/embeddings_avg_mapbiomas_pastagem_2019_2025.parquet' LIMIT 10;
 
---CONTAGEM DE ELEMENTOS
+-- 2. Inspect MapBiomas 85k dataset
+SELECT * FROM 'dados/arquivos_base/embeddings_avg_mapbiomas85k_2019_2025.parquet' LIMIT 100;
+
+-- 3. Element count verification
 SELECT COUNT(*) AS total_elementos
-FROM 'C:\Users\windows\Documents\cenargen_trabalho_mult\cenargen_trabalho_mult\saida_11k\arquivos_base\mapbiomas_cerrado_pastagem_embeddings_2.parquet';
+FROM 'dados/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_2.parquet';
 
---EMBEDDINGS MAPBIOMAS FILTER
-
+-- 4. Spatial extension and MapBiomas filtering
 INSTALL spatial;
 LOAD spatial;
 
@@ -28,38 +32,35 @@ COPY (
         LAT AS lat,
         LON As lon,
         ".geo"
-    FROM 'C:/Users/windows/Documents/cenargen_trabalho_mult/cenargen_trabalho_mult/saida_11k/embeddings_avg_mapbiomas85k_2019_2025.parquet'
+    FROM 'dados/arquivos_base/embeddings_avg_mapbiomas85k_2019_2025.parquet'
     WHERE year = 2024 
       AND CLASS_2024 = 'PASTAGEM'
-) TO 'C:/Users/windows/Documents/cenargen_trabalho_mult/cenargen_trabalho_mult/saida_11k/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_2.parquet' (FORMAT 'parquet');
+) TO 'dados/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_2.parquet' (FORMAT 'parquet');
 
---SALVAR E NOMEAR IDs UNICOS
+-- 5. Assign unique target ID (id_alvo) and unify MapBiomas candidate sets
 COPY (
     SELECT 
         ROW_NUMBER() OVER () AS id_alvo,
         * 
     FROM (
-        SELECT * FROM 'C:/Users/windows/Documents/cenargen_trabalho_mult/cenargen_trabalho_mult/saida_11k/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_1.parquet'
+        SELECT * FROM 'dados/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_1.parquet'
         UNION ALL
-        SELECT * FROM 'C:/Users/windows/Documents/cenargen_trabalho_mult/cenargen_trabalho_mult/saida_11k/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_2.parquet'
+        SELECT * FROM 'dados/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_2.parquet'
     )
-) TO 'C:/Users/windows/Documents/cenargen_trabalho_mult/cenargen_trabalho_mult/saida_11k/arquivos_base_organizados/mapbiomas_cerrado_pastagem_embeddings_all.parquet' (FORMAT 'parquet');
+) TO 'dados/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_all.parquet' (FORMAT 'parquet');
 
---ADICIONAR CAMPO DE ANO DE VISITA
-
+-- 6. Add field collection survey year (year_colet)
 COPY (
     SELECT 
         *,
         EXTRACT(YEAR FROM epoch_ms(CAST(data_colet AS BIGINT))) AS year_colet
-    FROM 'C:/Users/windows/Documents/cenargen_trabalho_mult/cenargen_trabalho_mult/saida_11k/embeddings_avg_training_embrapa_2019_2025_v4.csv'
-) TO 'C:/Users/windows/Documents/cenargen_trabalho_mult/cenargen_trabalho_mult/saida_11k/embeddings_avg_training_embrapa_2019_2025_v5.parquet' (FORMAT 'parquet');
+    FROM 'dados/arquivos_base/embeddings_avg_training_embrapa_2019_2025_v4.csv'
+) TO 'dados/arquivos_base/embeddings_avg_training_embrapa_2019_2025_v5.parquet' (FORMAT 'parquet');
 
---INSPECT FEATURE
+-- 7. Inspect sample feature
+SELECT * FROM 'dados/arquivos_base/embeddings_avg_training_embrapa_2019_2025_v5.parquet' LIMIT 1;
 
-select * from 'C:\Users\windows\Documents\cenargen_trabalho_mult\cenargen_trabalho_mult\saida_11k\embeddings_avg_training_embrapa_2019_2025_v5.parquet' limit 1;
-
-
---FILTER EMBRAPA DATA
+-- 8. Filter Embrapa reference points (match collection year with embedding year)
 COPY (
     SELECT 
         TARGET_FID,
@@ -84,9 +85,9 @@ COPY (
         latitude AS lat_ref,
         longitude AS lon_ref,
         ".geo"
-    FROM 'C:\Users\windows\Documents\cenargen_trabalho_mult\cenargen_trabalho_mult\saida_11k\embeddings_avg_training_embrapa_2019_2025_v5.parquet'
+    FROM 'dados/arquivos_base/embeddings_avg_training_embrapa_2019_2025_v5.parquet'
     WHERE year = year_colet 
-) TO 'C:\Users\windows\Documents\cenargen_trabalho_mult\cenargen_trabalho_mult\saida_11k\arquivos_base_organizados\embeddings_training_embrapa_2025.parquet' (FORMAT 'parquet');
+) TO 'dados/arquivos_base/embeddings_training_embrapa_2025.parquet' (FORMAT 'parquet');
 
---INSPECT DATA
-select * from 'C:\Users\windows\Documents\cenargen_trabalho_mult\cenargen_trabalho_mult\saida_11k\arquivos_base_organizados\embeddings_training_embrapa_2025.parquet' limit 701;
+-- 9. Inspect 701 ground-truth points
+SELECT * FROM 'dados/arquivos_base/embeddings_training_embrapa_2025.parquet' LIMIT 701;

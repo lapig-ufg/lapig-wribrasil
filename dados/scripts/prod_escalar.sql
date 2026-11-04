@@ -1,3 +1,8 @@
+-- ==============================================================================
+-- prod_escalar.sql
+-- Computes pairwise dot product between Embrapa reference and 11k MapBiomas points
+-- ==============================================================================
+
 COPY (
     SELECT 
         m.id_alvo,
@@ -37,9 +42,8 @@ COPY (
         m.lat AS lat_alvo,
         m.lon AS lon_alvo
 
-    -- Lendo direto das bases que já passaram pelos filtros
-    FROM read_parquet('/var/home/gui/Documentos/saida_11k/saida_11k/arquivos_base_organizados/embeddings_training_embrapa_2025.parquet') AS e
-    CROSS JOIN read_parquet('/var/home/gui/Documentos/saida_11k/saida_11k/arquivos_base_organizados/mapbiomas_cerrado_pastagem_embeddings_all.parquet') AS m
+    -- Direct cross join on standardized input parquets
+    FROM read_parquet('dados/arquivos_base/embeddings_training_embrapa_2025.parquet') AS e
+    CROSS JOIN read_parquet('dados/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_all.parquet') AS m
 
-
-) TO '/var/home/gui/Documentos/saida_11k/saida_11k/output/prod_escalar_embrapa_mapbiomas.parquet' (FORMAT PARQUET);
+) TO 'dados/arquivos_saida/prod_escalar_embrapa_mapbiomas.parquet' (FORMAT PARQUET);

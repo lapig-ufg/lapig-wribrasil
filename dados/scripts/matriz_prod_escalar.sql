@@ -1,7 +1,12 @@
+-- ==============================================================================
+-- matriz_prod_escalar.sql
+-- Generates dense similarity matrix via DuckDB PIVOT (Dot Product across 64 dimensions)
+-- ==============================================================================
+
 COPY (
     PIVOT (
         SELECT 
-            -- Cálculo do Produto Escalar
+            -- 64-dimensional Dot Product Computation
             (e.A00 * m.A00 + e.A01 * m.A01 + e.A02 * m.A02 + e.A03 * m.A03 + 
              e.A04 * m.A04 + e.A05 * m.A05 + e.A06 * m.A06 + e.A07 * m.A07 + 
              e.A08 * m.A08 + e.A09 * m.A09 + e.A10 * m.A10 + e.A11 * m.A11 + 
@@ -21,13 +26,11 @@ COPY (
             m.id_alvo AS id_mapbiomas,
             e.TARGET_FID
              
-        -- Apontando para as bases já filtradas nos passos anteriores
-        FROM read_parquet('/var/home/gui/Documentos/saida_11k/saida_11k/arquivos_base_organizados/embeddings_training_embrapa_2025.parquet') AS e
-        CROSS JOIN read_parquet('/var/home/gui/Documentos/saida_11k/saida_11k/arquivos_base_organizados/mapbiomas_cerrado_pastagem_embeddings_all.parquet') AS m
-        
-        -- Sem a cláusula WHERE, pois os dados já estão isolados e limpos!
+        -- Filtered input tables
+        FROM read_parquet('dados/arquivos_base/embeddings_training_embrapa_2025.parquet') AS e
+        CROSS JOIN read_parquet('dados/arquivos_base/mapbiomas_cerrado_pastagem_embeddings_all.parquet') AS m
     )
     ON TARGET_FID 
     USING MAX(produto_escalar)
     
-) TO '/var/home/gui/Documentos/saida_11k/saida_11k/output/matriz_similaridade_embrapa_mapbiomas_2025.parquet' (FORMAT PARQUET);
+) TO 'dados/arquivos_saida/matriz_similaridade_embrapa_mapbiomas_2025.parquet' (FORMAT PARQUET);

@@ -27,9 +27,9 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// ──────────────────────────────────────────────────────────
-//  INTERACTIVE MAP — Md3 Series (50k & 12k) MapBiomas × Embrapa
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  INTERACTIVE MAP â€” Md3 Series (50k & 12k) MapBiomas Ã— Embrapa
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function () {
   'use strict';
 
@@ -73,7 +73,7 @@ window.addEventListener('scroll', () => {
   // Basemap Layers (Esri Canvas, Esri Satellite, Esri Topo)
   const esriGray = L.layerGroup([
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-      attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin &copy; OpenStreetMap · LAPIG/UFG · WRI Brasil',
+      attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin &copy; OpenStreetMap Â· LAPIG/UFG Â· WRI Brasil',
       maxNativeZoom: 16,
       maxZoom: 19
     }),
@@ -86,7 +86,7 @@ window.addEventListener('scroll', () => {
 
   const esriSatellite = L.layerGroup([
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, Earthstar Geographics · LAPIG/UFG · WRI Brasil',
+      attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, Earthstar Geographics Â· LAPIG/UFG Â· WRI Brasil',
       maxNativeZoom: 19,
       maxZoom: 19
     }),
@@ -98,7 +98,7 @@ window.addEventListener('scroll', () => {
   ]);
 
   const esriTopo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, USGS, NOAA · LAPIG/UFG · WRI Brasil',
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, USGS, NOAA Â· LAPIG/UFG Â· WRI Brasil',
     maxNativeZoom: 18,
     maxZoom: 19
   });
@@ -150,7 +150,7 @@ window.addEventListener('scroll', () => {
   // Debounce helper
   let searchDebounceTimeout = null;
 
-  // ── 0. Dataset Selector (50k vs 12k) ──
+  // â”€â”€ 0. Dataset Selector (50k vs 12k) â”€â”€
   function setupDatasetSelector() {
     const btn50k = document.getElementById('btn-dataset-50k');
     const btn12k = document.getElementById('btn-dataset-12k') || document.getElementById('btn-dataset-11k');
@@ -162,7 +162,7 @@ window.addEventListener('scroll', () => {
         currentDataset = '50k';
         btn50k.classList.add('active');
         btn12k.classList.remove('active');
-        if (yearFilterTitle) yearFilterTitle.textContent = 'Analysis Year (50k Series · 50,000 pts)';
+        if (yearFilterTitle) yearFilterTitle.textContent = 'Analysis Year (50k Series Â· 50,000 pts)';
         loadMd3Year(currentYear);
       });
 
@@ -171,13 +171,13 @@ window.addEventListener('scroll', () => {
         currentDataset = '12k';
         btn12k.classList.add('active');
         btn50k.classList.remove('active');
-        if (yearFilterTitle) yearFilterTitle.textContent = 'Analysis Year (12k Series · 12,395 pts)';
+        if (yearFilterTitle) yearFilterTitle.textContent = 'Analysis Year (12k Series Â· 12,395 pts)';
         loadMd3Year(currentYear);
       });
     }
   }
 
-  // ── 1. Accordion Toggle ──
+  // â”€â”€ 1. Accordion Toggle â”€â”€
   function setupAccordion() {
     document.querySelectorAll('.filter-item__header').forEach(header => {
       header.addEventListener('click', () => {
@@ -189,7 +189,7 @@ window.addEventListener('scroll', () => {
     });
   }
 
-  // ── 2. Build Filter Checkboxes (Typologies) ──
+  // â”€â”€ 2. Build Filter Checkboxes (Typologies) â”€â”€
   function buildFilters() {
     const filterList = document.getElementById('filter-list');
     if (!filterList) return;
@@ -255,7 +255,7 @@ window.addEventListener('scroll', () => {
     applyFilters();
   }
 
-  // ── 3. Vigor (CVP) Filter Handlers ──
+  // â”€â”€ 3. Vigor (CVP) Filter Handlers â”€â”€
   function setupVigorFilters() {
     document.querySelectorAll('.vigor-checkbox').forEach(cb => {
       cb.addEventListener('change', (e) => {
@@ -270,7 +270,7 @@ window.addEventListener('scroll', () => {
     });
   }
 
-  // ── 4. Md3 Slider & Quick Chips Handlers ──
+  // â”€â”€ 4. Md3 Slider & Quick Chips Handlers â”€â”€
   function setupMd3Filters() {
     const slider = document.getElementById('md3-slider');
     const display = document.getElementById('md3-val-display');
@@ -281,7 +281,7 @@ window.addEventListener('scroll', () => {
         const val = parseFloat(e.target.value);
         minMd3Threshold = val;
         if (display) {
-          display.textContent = val === 0 ? 'Md3 ≥ 0.00' : `Md3 ≥ ${val.toFixed(2)}`;
+          display.textContent = val === 0 ? 'Md3 â‰¥ 0.00' : `Md3 â‰¥ ${val.toFixed(2)}`;
         }
         chips.forEach(c => {
           c.classList.toggle('active', parseFloat(c.getAttribute('data-val')) === val);
@@ -296,7 +296,7 @@ window.addEventListener('scroll', () => {
         minMd3Threshold = val;
         if (slider) slider.value = val;
         if (display) {
-          display.textContent = val === 0 ? 'Md3 ≥ 0.00' : `Md3 ≥ ${val.toFixed(2)}`;
+          display.textContent = val === 0 ? 'Md3 â‰¥ 0.00' : `Md3 â‰¥ ${val.toFixed(2)}`;
         }
         chips.forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
@@ -305,7 +305,7 @@ window.addEventListener('scroll', () => {
     });
   }
 
-  // ── 5. Year Selector Radio Chips ──
+  // â”€â”€ 5. Year Selector Radio Chips â”€â”€
   function setupYearSelector() {
     document.querySelectorAll('.year-chip').forEach(chip => {
       chip.addEventListener('click', () => {
@@ -320,7 +320,7 @@ window.addEventListener('scroll', () => {
     });
   }
 
-  // ── 6. Rectangle Selection Tool ──
+  // â”€â”€ 6. Rectangle Selection Tool â”€â”€
   function setupRectangleDrawTool() {
     const btnDraw = document.getElementById('btn-draw-rect');
     const btnClear = document.getElementById('btn-clear-rect');
@@ -425,7 +425,7 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  // ── 7. Embrapa 701 Ground-Truth Layer Toggle ──
+  // â”€â”€ 7. Embrapa 701 Ground-Truth Layer Toggle â”€â”€
   function setupEmbrapaLayerToggle() {
     const btn = document.getElementById('btn-toggle-embrapa');
     if (!btn) return;
@@ -489,7 +489,7 @@ window.addEventListener('scroll', () => {
       .catch(err => console.warn('Could not load ground-truth points:', err));
   }
 
-  // ── 8. Multi-Criteria Filter Engine ──
+  // â”€â”€ 8. Multi-Criteria Filter Engine â”€â”€
   function applyFilters() {
     filteredData = allData.filter(pt => {
       // 1. Tipologia filter
@@ -529,7 +529,7 @@ window.addEventListener('scroll', () => {
     updateActiveFilterBadge();
   }
 
-  // ── 9. Render Canvas Markers ──
+  // â”€â”€ 9. Render Canvas Markers â”€â”€
   function renderCanvasMarkers() {
     markerGroup.clearLayers();
 
@@ -571,13 +571,13 @@ window.addEventListener('scroll', () => {
           <strong>Target Coords:</strong> ${pt.lat.toFixed(4)}, ${pt.lng.toFixed(4)}<br>
           <strong>Reference Match:</strong> FID #${pt.target_fid_1} (${(pt.prod_escalar_1 || 0).toFixed(3)})<br>
           <strong>Mean Md3:</strong> ${(pt.md3 || 0).toFixed(3)}<br>
-          <strong>Reference Loc:</strong> ${pt.loc_1 || '—'}
+          <strong>Reference Loc:</strong> ${pt.loc_1 || 'â€”'}
         </div>
       </div>
     `;
   }
 
-  // ── 10. Update Counter, Filter Badge and Counts ──
+  // â”€â”€ 10. Update Counter, Filter Badge and Counts â”€â”€
   function updateCounterAndStats() {
     const countNumberEl = document.getElementById('counter-number');
     const countLabelEl = document.getElementById('counter-label');
@@ -590,7 +590,7 @@ window.addEventListener('scroll', () => {
     const seriesLabel = currentDataset === '50k' ? '50k Series' : '12k Series';
 
     if (countNumberEl) countNumberEl.textContent = current.toLocaleString('en-US');
-    if (countLabelEl) countLabelEl.textContent = `MapBiomas Samples (${seriesLabel} · Year ${currentYear})`;
+    if (countLabelEl) countLabelEl.textContent = `MapBiomas Samples (${seriesLabel} Â· Year ${currentYear})`;
     if (chartTitleEl) chartTitleEl.textContent = `MapBiomas Sample Distribution (${seriesLabel})`;
     if (countSubEl) {
       if (currentBBox) {
@@ -635,7 +635,7 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  // ── 11. Dual Charts: MapBiomas & Embrapa Reference ──
+  // â”€â”€ 11. Dual Charts: MapBiomas & Embrapa Reference â”€â”€
   function updateMapBiomasChart() {
     const canvas = document.getElementById('chart-classes');
     if (!canvas) return;
@@ -763,15 +763,20 @@ window.addEventListener('scroll', () => {
     const thead = document.getElementById('overlap-thead');
     const tbody = document.getElementById('overlap-tbody');
     const countSpan = document.getElementById('table-count');
+    const actionsEl = document.getElementById('overlap-table-actions');
+    const totalFilteredEl = document.getElementById('total-filtered-count');
     if (!container || !thead || !tbody) return;
 
     if (points.length === 0) {
       container.style.display = 'none';
+      if (actionsEl) actionsEl.style.display = 'none';
       return;
     }
 
     container.style.display = 'block';
-    if (countSpan) countSpan.textContent = points.length.toLocaleString('en-US');
+    if (actionsEl) actionsEl.style.display = 'flex';
+    if (countSpan) countSpan.textContent = Math.min(points.length, 100).toLocaleString('en-US');
+    if (totalFilteredEl) totalFilteredEl.textContent = points.length.toLocaleString('en-US');
 
     tbody.innerHTML = '';
 
@@ -812,7 +817,7 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  // ── 13. Load Md3 Dataset by Year & Dataset ──
+  // â”€â”€ 13. Load Md3 Dataset by Year & Dataset â”€â”€
   function loadMd3Year(year) {
     currentYear = year;
     const countNumberEl = document.getElementById('counter-number');
@@ -868,7 +873,7 @@ window.addEventListener('scroll', () => {
       });
   }
 
-  // ── 14. Reset All Filters Button ──
+  // â”€â”€ 14. Reset All Filters Button â”€â”€
   function setupClearFiltersButton() {
     const btnClearAll = document.getElementById('btn-clear-filters');
     const searchInput = document.getElementById('search-input');
@@ -889,7 +894,7 @@ window.addEventListener('scroll', () => {
         // Reset Md3 threshold
         minMd3Threshold = 0.00;
         if (md3Slider) md3Slider.value = 0.00;
-        if (md3Display) md3Display.textContent = 'Md3 ≥ 0.00';
+        if (md3Display) md3Display.textContent = 'Md3 â‰¥ 0.00';
         document.querySelectorAll('.md3-chip').forEach(c => {
           c.classList.toggle('active', parseFloat(c.getAttribute('data-val')) === 0.00);
         });
@@ -912,7 +917,7 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  // ── 15. Global Map Reset Button ──
+  // â”€â”€ 15. Global Map Reset Button â”€â”€
   function setupMapResetButton() {
     const mapResetBtn = document.getElementById('map-reset');
     if (mapResetBtn) {
@@ -922,7 +927,7 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  // ── 16. Search Input Listener ──
+  // â”€â”€ 16. Search Input Listener â”€â”€
   function setupSearchInput() {
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
@@ -936,7 +941,7 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  // ── 17. Basemap Dropdown Selector ──
+  // â”€â”€ 17. Basemap Dropdown Selector â”€â”€
   function setupBasemapSelector() {
     const basemapSelect = document.getElementById('map-basemap-select');
     if (!basemapSelect) return;
@@ -971,6 +976,69 @@ window.addEventListener('scroll', () => {
     });
   }
 
+  // ── 15. Download Filtered Samples (CSV) ──
+  function setupDownloadFilteredButton() {
+    const btn = document.getElementById('btn-download-filtered-csv');
+    if (btn) {
+      btn.addEventListener('click', exportFilteredPointsToCSV);
+    }
+  }
+
+  function exportFilteredPointsToCSV() {
+    if (!filteredData || filteredData.length === 0) {
+      alert('No samples match the active filters to export.');
+      return;
+    }
+
+    const headers = [
+      'id',
+      'latitude',
+      'longitude',
+      'cvp_vigor',
+      'target_fid_match',
+      'classe_cod',
+      'typology_label',
+      'similarity_top1',
+      'md3_mean_similarity',
+      'reference_coords',
+      'dataset_series',
+      'year'
+    ];
+
+    const lines = [headers.join(',')];
+
+    for (let i = 0; i < filteredData.length; i++) {
+      const pt = filteredData[i];
+      const cfg = TIPOLOGIA_CONFIG[pt.classe] || { label: pt.classe || '' };
+      const row = [
+        pt.id ?? '',
+        pt.lat !== undefined ? Number(pt.lat).toFixed(5) : '',
+        pt.lng !== undefined ? Number(pt.lng).toFixed(5) : '',
+        pt.cvp ?? '',
+        pt.target_fid_1 ?? '',
+        `"${String(pt.classe ?? '').replace(/"/g, '""')}"`,
+        `"${String(cfg.label ?? '').replace(/"/g, '""')}"`,
+        pt.prod_escalar_1 !== undefined ? Number(pt.prod_escalar_1).toFixed(4) : '',
+        pt.md3 !== undefined ? Number(pt.md3).toFixed(4) : '',
+        `"${String(pt.loc_1 ?? '').replace(/"/g, '""')}"`,
+        currentDataset,
+        currentYear
+      ];
+      lines.push(row.join(','));
+    }
+
+    const csvContent = '\uFEFF' + lines.join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `mapbiomas_cerrado_filtered_${currentDataset}_${currentYear}_${filteredData.length}_samples.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
   // ── Initialization Sequence ──
   setupDatasetSelector();
   setupAccordion();
@@ -982,6 +1050,7 @@ window.addEventListener('scroll', () => {
   setupRectangleDrawTool();
   setupEmbrapaLayerToggle();
   setupClearFiltersButton();
+  setupDownloadFilteredButton();
   setupMapResetButton();
   setupSearchInput();
   setupBasemapSelector();
@@ -993,9 +1062,9 @@ window.addEventListener('scroll', () => {
   loadMd3Year('2025');
 })();
 
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 //  SPLIT MAP & CHARTS LOGIC
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function () {
   'use strict';
 
@@ -1011,7 +1080,7 @@ window.addEventListener('scroll', () => {
 
   // Common Basemap (Background)
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin &copy; OpenStreetMap · LAPIG/UFG · WRI Brasil',
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin &copy; OpenStreetMap Â· LAPIG/UFG Â· WRI Brasil',
     maxNativeZoom: 16,
     maxZoom: 19
   }).addTo(splitMap);
@@ -1110,9 +1179,9 @@ window.addEventListener('scroll', () => {
   }
 })();
 
-// ──────────────────────────────────────────────────────────
-//  METHODOLOGY FLOWCHART — collapsible boxes (in place)
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  METHODOLOGY FLOWCHART â€” collapsible boxes (in place)
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function () {
   'use strict';
 

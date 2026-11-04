@@ -1,23 +1,23 @@
 """
 pipeline_filtrado_pastagem_75.py
 =================================
-Pipeline de processamento filtrado exclusivamente para pontos de Pastagem
-(class_2025 = 15) com corte de limiar >= 0.75 (75%) no produto escalar.
+Processing pipeline filtered specifically for Pasture sample points
+(class_2025 = 15) with a dot product threshold cutoff of >= 0.75 (75%).
 
-Saídas geradas em: arquivos_saida/filtrado_50k_pastagem/
+Outputs generated in: arquivos_saida/filtrado_50k_pastagem/
   1. matriz_similaridade_50k_pastagem_75.parquet
-     - Matriz densa pivotada (44.943 linhas x 705 colunas) com valores < 0.75 como NaN.
+     - Dense pivoted matrix (44,943 rows x 705 columns) with values < 0.75 set to NaN.
   2. tabela_top3_pivotada_50k_pastagem_75.parquet
-     - Tabela com os 3 melhores matches (>= 0.75), sufixos _1, _2, _3, class_embrapa e md3.
+     - Table with the 3 best matches (>= 0.75), suffixes _1, _2, _3, class_embrapa and md3.
   3. pontos_por_class_embrapa_md3.png
-     - Gráfico com barra da classe Embrapa (rótulo totalizador) e barra lateral
-       em 3 tons de cinza normalizada para 100% (md3 = 1, 2, 3).
+     - Figure with colored Embrapa class bar (totalizer label) and adjacent
+       3-shade gray bar normalized to 100% (md3 = 1, 2, 3 agreement).
   4. pontos_por_class_embrapa.png
-     - Gráfico simples de contagem de pontos por tipologia Embrapa.
+     - Simple bar chart counting points per Embrapa typology.
   5. resumo_contagem_pastagem_75.csv
-     - Tabela resumo de pontos e matches por limiar.
+     - Summary table of points and matches by threshold.
 
-Uso:
+Usage:
     python pipeline_filtrado_pastagem_75.py
 """
 
@@ -29,13 +29,13 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from pathlib import Path
+import argparse
 
 # ----------------------------------------------------------------
-# Caminhos e Argumentos
+# Paths and Arguments
 # ----------------------------------------------------------------
-import argparse
-parser = argparse.ArgumentParser(description="Pipeline filtrado pastagem 75.")
-parser.add_argument("--year", default="2025", help="Ano a analisar (default: 2025).")
+parser = argparse.ArgumentParser(description="Filtered pasture pipeline (threshold 75%).")
+parser.add_argument("--year", default="2025", help="Year to analyze (default: 2025).")
 args = parser.parse_args()
 ANO = args.year
 
@@ -67,7 +67,7 @@ PARQUET_TOP3_75 = DIR_SAIDA_FILTRADO / f"tabela_top3_pivotada_50k_pastagem_75_{A
 CSV_RESUMO = DIR_SAIDA_FILTRADO / f"resumo_contagem_pastagem_75_{ANO}.csv"
 
 # ----------------------------------------------------------------
-# Paleta de Cores Oficial Embrapa
+# Official Embrapa Color Palette
 # ----------------------------------------------------------------
 CORES_TIPOLOGIA = {
     "PASTO PRODUTIVO": "#faea40",
@@ -104,30 +104,29 @@ def titulo_subtitulo(fig, titulo, subtitulo):
 
 
 # ================================================================
-# 1. Gerar Matriz de Similaridade Pivotada (Pastagem + Limiar 0.75)
+# 1. Generate Pivoted Similarity Matrix (Pasture + Threshold 0.75)
 # ================================================================
 def gerar_matriz_similaridade_pastagem_75(con):
     print("\n" + "=" * 70)
-    print("ETAPA 1: GERANDO MATRIZ DE SIMILARIDADE PIVOTADA (PASTAGEM >= 0.75)")
+    print("STEP 1: GENERATING PIVOTED SIMILARITY MATRIX (PASTURE >= 0.75)")
     print("=" * 70)
-    print(f"  Origem: {PARQUET_MATRIZ_ORIG.name}")
-    print(f"  Filtro: class_2025 = 15 E corte >= 0.75 (valores < 0.75 -> NaN)")
-    print(f"  Saída:  {PARQUET_MATRIZ_75.name}")
+    print(f"  Source: {PARQUET_MATRIZ_ORIG.name}")
+    print(f"  Filter: class_2025 = 15 AND threshold >= 0.75 (values < 0.75 -> NaN)")
+    print(f"  Output: {PARQUET_MATRIZ_75.name}")
 
     t0 = time.time()
-    
-    # Obter lista de colunas TARGET_FID (todas exceto as 4 de metadados)
+
+    # Get list of TARGET_FID columns (all except the 4 metadata columns)
     df_sample = con.execute(f"SELECT * FROM '{PARQUET_MATRIZ_ORIG}' LIMIT 1").df()
     meta_cols = ["id", "class_cvp", "class_2025", "stable_20_"]
     target_cols = [c for c in df_sample.columns if c not in meta_cols]
-    
-    print(f"  Total de alvos TARGET_FID: {len(target_cols)}")
-    
-    # Montar expressões CASE WHEN para cada coluna
+
+    print(f"  Total TARGET_FID target columns: {len(target_cols)}")
+
     case_exprs = []
     for c in target_cols:
         case_exprs.append(f'CASE WHEN "{c}" >= 0.75 THEN "{c}" ELSE NULL END AS "{c}"')
-    
+
     select_sql = f"""
         SELECT 
             id, class_cvp, class_2025, stable_20_,
@@ -135,25 +134,25 @@ def gerar_matriz_similaridade_pastagem_75(con):
         FROM '{PARQUET_MATRIZ_ORIG}'
         WHERE class_2025 = 15
     """
-    
+
     con.execute(f"""
         COPY ({select_sql}) TO '{PARQUET_MATRIZ_75}' (FORMAT PARQUET, COMPRESSION ZSTD);
     """)
-    
+
     dt = time.time() - t0
     n_linhas = con.execute(f"SELECT count(*) FROM '{PARQUET_MATRIZ_75}'").fetchone()[0]
-    print(f"  [OK] Matriz gerada em {dt:.1f}s com {n_linhas:,} linhas.")
+    print(f"  [OK] Matrix generated in {dt:.1f}s with {n_linhas:,} rows.")
 
 
 # ================================================================
-# 2. Gerar Tabela Top-3 Pivotada com MD3 (Pastagem + Limiar 0.75)
+# 2. Generate Pivoted Top-3 Table with MD3 (Pasture + Threshold 0.75)
 # ================================================================
 def gerar_top3_pivotada_pastagem_75(con):
     print("\n" + "=" * 70)
-    print("ETAPA 2: GERANDO TABELA TOP-3 PIVOTADA COM MD3 (PASTAGEM >= 0.75)")
+    print("STEP 2: GENERATING PIVOTED TOP-3 TABLE WITH MD3 (PASTURE >= 0.75)")
     print("=" * 70)
-    print(f"  Filtro: class_2025 = 15 E prod_escalar_1 >= 0.75")
-    print(f"  Saída:  {PARQUET_TOP3_75.name}")
+    print(f"  Filter: class_2025 = 15 AND prod_escalar_1 >= 0.75")
+    print(f"  Output: {PARQUET_TOP3_75.name}")
 
     t0 = time.time()
 
@@ -282,33 +281,32 @@ def gerar_top3_pivotada_pastagem_75(con):
 
     con.execute(query)
     dt = time.time() - t0
-    
+
     n_final = con.execute(f"SELECT count(*) FROM '{PARQUET_TOP3_75}'").fetchone()[0]
-    print(f"  [OK] Tabela Top-3 gerada em {dt:.1f}s com {n_final:,} pontos.")
+    print(f"  [OK] Top-3 table generated in {dt:.1f}s with {n_final:,} points.")
 
 
 # ================================================================
-# 3. Gerar Gráficos e Relatório Resumo
+# 3. Generate Charts and Summary Report
 # ================================================================
 def gerar_graficos_e_resumos():
     print("\n" + "=" * 70)
-    print("ETAPA 3: GERANDO GRÁFICOS E RESUMO (PASTAGEM >= 0.75)")
+    print("STEP 3: GENERATING CHARTS AND SUMMARY (PASTURE >= 0.75)")
     print("=" * 70)
-    
+
     df = pd.read_parquet(PARQUET_TOP3_75)
     df = df[~df["class_embrapa"].isin(VALORES_EXCLUIR)].copy()
-    
     total_pontos = len(df)
-    print(f"  Total de pontos de pastagem válidos com limiar >= 0.75: {total_pontos:,}")
-    
+    print(f"  Total valid pasture points with threshold >= 0.75: {total_pontos:,}")
+
     contagem_classes = df["class_embrapa"].value_counts()
     ordem = contagem_classes.index.tolist()
     cores = {tip: CORES_TIPOLOGIA.get(tip, "#cccccc") for tip in ordem}
 
     # -------------------------------------------------------------
-    # 3.1. Gráfico 1: Pontos MapBiomas por class_embrapa (Simples)
+    # 3.1. Chart 1: MapBiomas points by class_embrapa (Simple)
     # -------------------------------------------------------------
-    print("  [1/2] Gerando gráfico simples de contagem por classe...")
+    print("  [1/2] Generating simple point count chart by class...")
     fig, ax = plt.subplots(figsize=(11, 7))
     fig.subplots_adjust(top=0.82, bottom=0.22)
 
@@ -326,14 +324,14 @@ def gerar_graficos_e_resumos():
 
     ax.set_xticks(range(len(ordem)))
     ax.set_xticklabels(ordem, rotation=30, ha="right", fontsize=10)
-    ax.set_ylabel("Nº de Pontos MapBiomas", fontsize=11, color="#333333")
-    ax.set_xlabel("Classe Embrapa (Tipologia do Top-1)", fontsize=11, color="#333333")
+    ax.set_ylabel("MapBiomas Points Count", fontsize=11, color="#333333")
+    ax.set_xlabel("Embrapa Reference Class (Top-1 Typology)", fontsize=11, color="#333333")
     ax.set_ylim(0, contagem_classes.max() * 1.20)
 
     estilo_limpo(ax)
     titulo_subtitulo(fig,
-        "Classificação dos Pontos de Pastagem MapBiomas (Limiar >= 0.75)",
-        f"{total_pontos:,} pontos de pastagem (class_2025 = 15) classificados pelo TARGET_FID com maior similaridade")
+        "Classification of MapBiomas Pasture Points (Threshold >= 0.75)",
+        f"{total_pontos:,} pasture points (class_2025 = 15) classified by highest dot-product TARGET_FID")
 
     caminho1 = DIR_SAIDA_FILTRADO / "pontos_por_class_embrapa.png"
     fig.savefig(caminho1, dpi=200, bbox_inches="tight")
@@ -341,10 +339,10 @@ def gerar_graficos_e_resumos():
     print(f"    [ok] {caminho1.name}")
 
     # -------------------------------------------------------------
-    # 3.2. Gráfico 2: Composição de MD3 por classe (Barras Cinzas)
+    # 3.2. Chart 2: MD3 agreement composition by class (Gray Bars)
     # -------------------------------------------------------------
-    print("  [2/2] Gerando gráfico com composição MD3 em tons de cinza...")
-    
+    print("  [2/2] Generating chart with grayscale MD3 agreement composition...")
+
     pct_md3_1, pct_md3_2, pct_md3_3 = [], [], []
     for t in ordem:
         sub = df[df["class_embrapa"] == t]
@@ -363,27 +361,23 @@ def gerar_graficos_e_resumos():
     pct_md3_3 = np.array(pct_md3_3)
 
     fig, ax = plt.subplots(figsize=(13, 8))
-    # Margem superior ampla (top=0.74) para acomodar Título, Subtítulo e Legenda sem sobreposição
     fig.subplots_adjust(top=0.74, bottom=0.20, left=0.08, right=0.95)
 
     x = np.arange(len(ordem))
     width = 0.35
 
-    # Barra principal (Identificador da classe - 100% de altura)
     barras_total = ax.bar(x - width/2, [100] * len(ordem),
                           color=[cores[t] for t in ordem],
                           width=width, zorder=3, edgecolor="white", linewidth=0.5,
-                          label="Identificador da Classe")
+                          label="Class Identifier")
 
-    # Barra ao lado em 3 tons de cinza normalizada para 100% (md3 = 1, 2, 3)
     ax.bar(x + width/2, pct_md3_1, width=width, color="#d9d9d9",
-           edgecolor="white", linewidth=0.5, zorder=3, label="md3 = 1 (Nenhum concorda)")
+           edgecolor="white", linewidth=0.5, zorder=3, label="md3 = 1 (No agreement)")
     ax.bar(x + width/2, pct_md3_2, bottom=pct_md3_1, width=width, color="#969696",
-           edgecolor="white", linewidth=0.5, zorder=3, label="md3 = 2 (1 de 2 concorda)")
+           edgecolor="white", linewidth=0.5, zorder=3, label="md3 = 2 (1 of 2 agree)")
     ax.bar(x + width/2, pct_md3_3, bottom=pct_md3_1 + pct_md3_2, width=width, color="#525252",
-           edgecolor="white", linewidth=0.5, zorder=3, label="md3 = 3 (Todos concordam)")
+           edgecolor="white", linewidth=0.5, zorder=3, label="md3 = 3 (All 3 agree)")
 
-    # Rótulo da barra de totais (quantidade absoluta e porcentagem)
     for barra, valor in zip(barras_total, contagem_classes.values):
         pct = valor / total_pontos * 100
         ax.text(barra.get_x() + barra.get_width() / 2,
@@ -392,7 +386,6 @@ def gerar_graficos_e_resumos():
                 ha="center", va="bottom", fontsize=8.5,
                 color="#222222", fontweight="bold")
 
-    # Rótulos internos dos segmentos de MD3
     for i in range(len(ordem)):
         tot = contagem_classes.values[i]
         if tot == 0:
@@ -412,18 +405,17 @@ def gerar_graficos_e_resumos():
 
     ax.set_xticks(x)
     ax.set_xticklabels(ordem, rotation=30, ha="right", fontsize=10)
-    ax.set_ylabel("Proporção de Concordância (%)", fontsize=11, color="#333333")
-    ax.set_xlabel("Classe Embrapa (Tipologia do Top-1)", fontsize=11, color="#333333")
-    ax.set_ylim(0, 115) # Espaço para rótulos acima de 100%
+    ax.set_ylabel("Agreement Proportion (%)", fontsize=11, color="#333333")
+    ax.set_xlabel("Embrapa Reference Class (Top-1 Typology)", fontsize=11, color="#333333")
+    ax.set_ylim(0, 115)
 
-    # Legenda alocada com fundo branco sólido e sem colidir com o subtítulo
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.03), ncol=4, fontsize=9,
               frameon=True, facecolor="white", edgecolor="#d0d0d0", framealpha=1.0)
 
     estilo_limpo(ax)
     titulo_subtitulo(fig,
-        "Composição de Concordância (md3) para Pastagem MapBiomas (Limiar >= 0.75)",
-        f"{total_pontos:,} pontos de pastagem (class_2025 = 15). Barra colorida = total por classe; Barra cinza = proporção interna de md3")
+        "Agreement Composition (md3) for MapBiomas Pasture (Threshold >= 0.75)",
+        f"{total_pontos:,} pasture points (class_2025 = 15). Colored bar = class total; Gray bar = internal md3 agreement")
 
     caminho2 = DIR_SAIDA_FILTRADO / "pontos_por_class_embrapa_md3.png"
     fig.savefig(caminho2, dpi=200, bbox_inches="tight")
@@ -431,15 +423,15 @@ def gerar_graficos_e_resumos():
     print(f"    [ok] {caminho2.name}")
 
     # -------------------------------------------------------------
-    # 3.3. Gráfico 3: Gráfico de Pizza/Donut CVP por Classe Embrapa
+    # 3.3. Chart 3: Donut chart of CVP vigor index by Embrapa class
     # -------------------------------------------------------------
-    print("  [3/3] Gerando gráfico de pizza (CVP no anel externo + centro na cor da classe Embrapa)...")
+    print("  [3/3] Generating donut chart (CVP vigor on outer ring + center class color)...")
     from matplotlib.patches import Patch, Circle
 
     CORES_CVP = {
-        1: "#d73027", # Baixo Vigor (Vermelho)
-        2: "#f4a582", # Médio Vigor (Laranja/Salmão)
-        3: "#1a9850"  # Alto Vigor (Verde)
+        1: "#d73027", # Low Vigor (Red)
+        2: "#f4a582", # Medium Vigor (Orange/Salmon)
+        3: "#1a9850"  # High Vigor (Green)
     }
 
     fig, axes = plt.subplots(2, 4, figsize=(16, 9))
@@ -449,63 +441,42 @@ def gerar_graficos_e_resumos():
     for i, classe in enumerate(ordem):
         ax = axes_flat[i]
         sub = df[df["class_embrapa"] == classe]
-        tot = len(sub)
-        
-        cvp_counts = sub["class_cvp"].value_counts()
-        valores = [cvp_counts.get(cvp, 0) for cvp in [1, 2, 3]]
-        pcts = [v / tot * 100 if tot > 0 else 0 for v in valores]
-        colors_ring = [CORES_CVP[1], CORES_CVP[2], CORES_CVP[3]]
-        
-        # Anel externo (Donut Ring)
-        wedges, _ = ax.pie(
-            valores,
-            radius=1.0,
-            colors=colors_ring,
-            wedgeprops=dict(width=0.45, edgecolor='white', linewidth=1.5),
-            startangle=90,
-            counterclock=False
-        )
-        
-        # Rótulo de cada fatia com % e contagem
-        for j, (p, w) in enumerate(zip(pcts, wedges)):
-            if p > 4.0:
-                ang = (w.theta2 - w.theta1) / 2. + w.theta1
-                rad = np.deg2rad(ang)
-                x_pos = 0.76 * np.cos(rad)
-                y_pos = 0.76 * np.sin(rad)
-                val_num = valores[j]
-                ax.text(x_pos, y_pos, f"{p:.1f}%\n({val_num:,})",
-                        ha='center', va='center', fontsize=8.5, fontweight='bold',
-                        color='white' if j != 1 else '#222222')
-                
-        # Centro da pizza preenchido com a cor da classe Embrapa
-        cor_classe = CORES_TIPOLOGIA.get(classe, "#cccccc")
-        centro = Circle((0, 0), 0.52, facecolor=cor_classe, edgecolor='white', linewidth=2.0, zorder=10)
-        ax.add_artist(centro)
-        
-        # Legenda da classe abaixo do gráfico
-        ax.set_title(f"{classe}\n(n = {tot:,})", y=-0.22, fontsize=10.5, fontweight='bold', color="#222222")
+        cvp_counts = sub["class_cvp"].value_counts().sort_index()
+        valores = [cvp_counts.get(k, 0) for k in [1, 2, 3]]
+        cores_pie = [CORES_CVP[k] for k in [1, 2, 3]]
 
-    # Painel 8 (Posição 7): Resumo e Legenda explicativa
-    ax_leg = axes_flat[7]
+        ax.pie(valores, colors=cores_pie, radius=1.0,
+               wedgeprops=dict(width=0.35, edgecolor='white', linewidth=1.5),
+               startangle=90)
+
+        # Center circle colored by Embrapa class
+        circle = Circle((0, 0), 0.65, color=cores[classe], ec='white', lw=1.5)
+        ax.add_artist(circle)
+
+        total_cls = len(sub)
+        pct_cls = (total_cls / total_pontos) * 100
+        ax.set_title(f"{classe}\n(n={total_cls:,} | {pct_cls:.1f}%)",
+                     fontsize=10.5, fontweight='bold', color='#222222', pad=8)
+
+    # Empty final subplot used for legend
+    ax_leg = axes_flat[-1]
     ax_leg.axis('off')
 
     legend_elements_cvp = [
-        Patch(facecolor=CORES_CVP[3], edgecolor='white', label="CVP 3: Alto Vigor"),
-        Patch(facecolor=CORES_CVP[2], edgecolor='white', label="CVP 2: Médio Vigor"),
-        Patch(facecolor=CORES_CVP[1], edgecolor='white', label="CVP 1: Baixo Vigor"),
+        Patch(facecolor=CORES_CVP[1], edgecolor='white', label='Low Vigor (CVP 1)'),
+        Patch(facecolor=CORES_CVP[2], edgecolor='white', label='Medium Vigor (CVP 2)'),
+        Patch(facecolor=CORES_CVP[3], edgecolor='white', label='High Vigor (CVP 3)')
     ]
 
-    ax_leg.text(0.1, 0.95, "Estrutura do Gráfico:", fontsize=11, fontweight='bold', color="#111111", transform=ax_leg.transAxes)
-    ax_leg.text(0.1, 0.85, "• Anel Externo: Classes de Vigor (CVP 1, 2, 3)", fontsize=9.5, color="#333333", transform=ax_leg.transAxes)
-    ax_leg.text(0.1, 0.77, "• Centro: Cor da Classe Embrapa", fontsize=9.5, color="#333333", transform=ax_leg.transAxes)
-    ax_leg.text(0.1, 0.69, "• Abaixo: Nome da Classe e Total (n)", fontsize=9.5, color="#333333", transform=ax_leg.transAxes)
+    ax_leg.text(0.1, 0.85, "• Outer Ring: Vigor Classes (CVP 1, 2, 3)", fontsize=9.5, color="#333333", transform=ax_leg.transAxes)
+    ax_leg.text(0.1, 0.77, "• Center: Embrapa Reference Class Color", fontsize=9.5, color="#333333", transform=ax_leg.transAxes)
+    ax_leg.text(0.1, 0.69, "• Header: Class Name and Sample Count (n)", fontsize=9.5, color="#333333", transform=ax_leg.transAxes)
 
     ax_leg.legend(handles=legend_elements_cvp, loc="center left", bbox_to_anchor=(0.08, 0.35),
-                  title="Classes de Vigor (Sentinel-2)", fontsize=9.5, title_fontsize=10.5,
+                  title="Vigor Index (Sentinel-2)", fontsize=9.5, title_fontsize=10.5,
                   frameon=True, facecolor="#fbfbfb", edgecolor="#d0d0d0")
 
-    fig.suptitle("Distribuição do Índice de Vigor (class_cvp) por Classe Embrapa - Pastagem (Limiar >= 0.75)",
+    fig.suptitle("Vigor Index Distribution (class_cvp) by Embrapa Class - Pasture (Threshold >= 0.75)",
                  fontsize=14, fontweight='bold', y=0.96)
 
     caminho3 = DIR_SAIDA_FILTRADO / "pizza_cvp_por_classe_embrapa.png"
@@ -514,34 +485,34 @@ def gerar_graficos_e_resumos():
     print(f"    [ok] {caminho3.name}")
 
     # -------------------------------------------------------------
-    # 3.4. Salvar CSV de Resumo
+    # 3.4. Save Summary CSV
     # -------------------------------------------------------------
     df_resumo = df.groupby(["class_embrapa", "md3"]).size().unstack(fill_value=0)
     df_resumo["Total"] = df_resumo.sum(axis=1)
-    df_resumo["% do Total"] = (df_resumo["Total"] / total_pontos) * 100
+    df_resumo["% of Total"] = (df_resumo["Total"] / total_pontos) * 100
     df_resumo.to_csv(CSV_RESUMO)
-    print(f"  [ok] Resumo estatístico salvo em {CSV_RESUMO.name}")
+    print(f"  [ok] Statistical summary saved to {CSV_RESUMO.name}")
 
 
 def main():
     print("=" * 70)
-    print("PIPELINE FILTRADO: 50K PASTAGEM (class_2025 = 15) COM LIMIAR >= 0.75")
+    print("FILTERED PIPELINE: 50K PASTURE (class_2025 = 15) WITH THRESHOLD >= 0.75")
     print("=" * 70)
-    
+
     con = duckdb.connect()
-    
-    # 1. Matriz de Similaridade Pivotada
+
+    # 1. Pivoted Similarity Matrix
     gerar_matriz_similaridade_pastagem_75(con)
-    
-    # 2. Tabela Top-3 Pivotada com MD3
+
+    # 2. Pivoted Top-3 Table with MD3
     gerar_top3_pivotada_pastagem_75(con)
-    
-    # 3. Gráficos
+
+    # 3. Charts and Visualizations
     gerar_graficos_e_resumos()
-    
+
     print("\n" + "=" * 70)
-    print(f"PIPELINE CONCLUÍDO COM SUCESSO!")
-    print(f"Arquivos salvos em: {DIR_SAIDA_FILTRADO}")
+    print("PIPELINE COMPLETED SUCCESSFULLY!")
+    print(f"Files saved in: {DIR_SAIDA_FILTRADO}")
     print("=" * 70)
 
 

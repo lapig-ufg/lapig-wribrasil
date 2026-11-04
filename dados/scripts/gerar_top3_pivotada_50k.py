@@ -1,19 +1,19 @@
 """
 gerar_top3_pivotada_50k.py
 ==========================
-Gera a tabela Top-3 pivotada a partir dos embeddings anuais da base 50k
-(com coordenadas lat_alvo e lon_alvo) e dos 701 pontos de referência da Embrapa.
-Utiliza cálculo direto de produto escalar via streaming (DuckDB).
+Generates pivoted Top-3 similarity tables from annual 50k-series embeddings
+(including target coordinates lat_alvo and lon_alvo) and 701 Embrapa reference points.
+Utilizes streaming dot product computations via DuckDB.
 
-Saídas por ano:
-  1. produto_escalar_metricas/arquivos_saida/tabela_top3_pivotada_50k_{year}.parquet (~3.3 MB)
-  2. assets/tabela_top3_50k_{year}.csv (para download e análises tabulares)
-  3. assets/tabela_top3_50k_{year}.json (para mapas e tabelas interativas)
+Outputs per year:
+  1. dados/arquivos_saida/tabela_top3_pivotada_50k_{year}.parquet (~3.3 MB)
+  2. docs/assets/tabela_top3_50k_{year}.csv (for static downloads and tabular analysis)
+  3. docs/assets/tabela_top3_50k_{year}.json (for interactive web maps and filters)
 
-Uso:
-    python gerar_top3_pivotada_50k.py                # Processa ano padrão (2025)
-    python gerar_top3_pivotada_50k.py --year 2024   # Processa ano específico
-    python gerar_top3_pivotada_50k.py --year all    # Processa todos os anos (2019 a 2025)
+Usage:
+    python gerar_top3_pivotada_50k.py                # Process default year (2025)
+    python gerar_top3_pivotada_50k.py --year 2024   # Process specific year
+    python gerar_top3_pivotada_50k.py --year all    # Process all years (2019 to 2025)
 """
 
 import duckdb
@@ -34,13 +34,14 @@ DIR_ASSETS.mkdir(parents=True, exist_ok=True)
 
 PARQUET_EMBRAPA = DIR_ARQUIVOS_BASE / "embeddings_embrapa_year_colet.parquet"
 
-# Expressão SQL do produto escalar (64 dimensões)
+# SQL expression for 64-dimensional dot product
 DOT_PROD_SQL = " + ".join([f"e.A{i:02d} * m.A{i:02d}" for i in range(64)])
+
 
 def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
     parquet_50k = DIR_ARQUIVOS_BASE / f"embeddings_samples_50k_cvp_s2_cerrado_{ano}.parquet"
     if not parquet_50k.exists():
-        # Fallback para extrair do multi-ano se necessário
+        # Fallback to extract from multi-year dataset if needed
         multi_candidatos = [
             DIR_ARQUIVOS_BASE / "embeddings_50k_localizado_via_join.parquet",
             DIR_ROOT / "data" / "embeddings_50k_localizado_via_join.parquet",
@@ -48,14 +49,14 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
         ]
         multi_ano = next((p for p in multi_candidatos if p.exists()), None)
         if multi_ano:
-            print(f"  [Info] Extraindo ano {ano} a partir de {multi_ano.name} ...")
+            print(f"  [Info] Extracting year {ano} from {multi_ano.name} ...")
             con.execute(f"""
                 COPY (
                     SELECT * FROM '{multi_ano.as_posix()}' WHERE year = {ano} ORDER BY id
                 ) TO '{parquet_50k.as_posix()}' (FORMAT PARQUET)
             """)
         else:
-            print(f"  [Erro] Arquivo base para ano {ano} não encontrado: {parquet_50k}")
+            print(f"  [Error] Base file for year {ano} not found: {parquet_50k}")
             return None
 
     out_parquet = DIR_SAIDA / f"tabela_top3_pivotada_50k_{ano}.parquet"
@@ -63,15 +64,15 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
     out_json_assets = DIR_ASSETS / f"tabela_top3_50k_{ano}.json"
 
     print("-" * 65)
-    print(f"Processando Top-3 para o ano: {ano}")
-    print(f"  Entrada 50k:     {parquet_50k.name}")
-    print(f"  Entrada Embrapa: {PARQUET_EMBRAPA.name}")
-    print(f"  Saída Parquet:   {out_parquet.name}")
-    print(f"  Saída Assets:    {out_csv_assets.name}, {out_json_assets.name}")
+    print(f"Processing Top-3 similarity for year: {ano}")
+    print(f"  Input 50k:       {parquet_50k.name}")
+    print(f"  Input Embrapa:   {PARQUET_EMBRAPA.name}")
+    print(f"  Output Parquet:  {out_parquet.name}")
+    print(f"  Output Assets:   {out_csv_assets.name}, {out_json_assets.name}")
 
     t0 = time.time()
 
-    # Query completa: Produto Escalar -> Rank Top 3 -> Pivot -> MD3 & Metadados (incluindo lat_alvo e lon_alvo)
+    # Full query: Dot Product -> Rank Top 3 -> Pivot -> MD3 & Metadata (including lat_alvo and lon_alvo)
     query_base = f"""
         WITH prod AS (
             SELECT 
@@ -172,15 +173,15 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
         ORDER BY id
     """
 
-    # 1. Exportar Parquet
+    # 1. Export Parquet
     con.execute(f"COPY ({query_base}) TO '{out_parquet.as_posix()}' (FORMAT PARQUET)")
     size_parquet = out_parquet.stat().st_size / (1024 * 1024)
 
-    # 2. Exportar CSV único para assets/
+    # 2. Export single CSV for assets/
     con.execute(f"COPY (SELECT * FROM '{out_parquet.as_posix()}') TO '{out_csv_assets.as_posix()}' (HEADER, DELIMITER ',')")
     size_csv = out_csv_assets.stat().st_size / (1024 * 1024)
 
-    # 3. Exportar JSON compacto em assets/ (versão ultra-leve e de alta performance para a web)
+    # 3. Export compact JSON to assets/ (lightweight, high-performance format for web rendering)
     tip_map = {
         'PASTO PRODUTIVO': 0, 'PRODUTIVO': 0,
         'PASTO COM ERVAS': 1,
@@ -257,20 +258,21 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
     size_json = out_json_assets.stat().st_size / (1024 * 1024)
 
     elapsed = time.time() - t0
-    print(f"  [OK] Concluído em {elapsed:.2f}s:")
+    print(f"  [OK] Completed in {elapsed:.2f}s:")
     print(f"       - Parquet: {size_parquet:.2f} MB")
     print(f"       - CSV:     {size_csv:.2f} MB")
-    print(f"       - JSON:    {size_json:.2f} MB (Compacto/Otimizado)")
+    print(f"       - JSON:    {size_json:.2f} MB (Compact/Optimized)")
 
     return out_parquet
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Gera tabela Top-3 pivotada 50k por ano.")
-    parser.add_argument("--year", default="2025", help="Ano a processar (ex: 2025, 2024, ou 'all')")
+    parser = argparse.ArgumentParser(description="Generates pivoted Top-3 50k table by year.")
+    parser.add_argument("--year", default="2025", help="Year to process (e.g., 2025, 2024, or 'all')")
     args = parser.parse_args()
 
     print("=" * 70)
-    print("GERADOR DE TABELA TOP-3 PIVOTADA POR ANO (50k COM LAT_ALVO E LON_ALVO)")
+    print("PIVOTED TOP-3 TABLE GENERATOR BY YEAR (50k SERIES WITH LAT_ALVO AND LON_ALVO)")
     print("=" * 70)
 
     con = duckdb.connect()
@@ -281,7 +283,7 @@ def main():
         try:
             anos = [int(args.year)]
         except ValueError:
-            print(f"Erro: Ano inválido '{args.year}'")
+            print(f"Error: Invalid year '{args.year}'")
             return
 
     t_total = time.time()
@@ -289,8 +291,9 @@ def main():
         processar_ano(ano, con)
 
     print("\n" + "=" * 70)
-    print(f"Processamento concluído com sucesso em {time.time() - t_total:.2f}s!")
+    print(f"Processing completed successfully in {time.time() - t_total:.2f}s!")
     print("=" * 70)
+
 
 if __name__ == "__main__":
     main()

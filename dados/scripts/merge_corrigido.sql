@@ -1,14 +1,19 @@
--- 1. Ative a extensão espacial (se ainda não estiver ativa na sessão)
+-- ==============================================================================
+-- merge_corrigido.sql
+-- Spatial merge and reconciliation of agricultural/pasture field samples in GeoPackage
+-- ==============================================================================
+
+-- 1. Activate spatial extension (if not already active in session)
 INSTALL spatial;
 LOAD spatial;
 
--- Força a ordem das coordenadas para [Longitude, Latitude] para evitar inversão
+-- Force coordinate axis order to [Longitude, Latitude] to prevent coordinate inversion
 SET geometry_always_xy = true;
 
--- 2. Execute a cópia mesclando os dados
+-- 2. Execute merge copy
 COPY (
     SELECT 
-        -- 1. Colunas onde as linhas foram preenchidas em partes diferentes (Mescladas com COALESCE)
+        -- 1. Reconcile merged attributes with COALESCE across parts
         COALESCE(t1.IDs, t2.IDs) AS IDs,
         COALESCE(t1.tipo_amostra, t2.tipo_amostra) AS tipo_amostra,
         COALESCE(t1.tipo_integ, t2.tipo_integ) AS tipo_integ,
@@ -20,10 +25,8 @@ COPY (
         COALESCE(t1.pasture_fi, t2.pasture_fi) AS pasture_fi,
         COALESCE(t1.geom, t2.geom) AS geom,
 
-        -- 2. O atalho: pega todo o resto do primeiro arquivo (t1),
-        -- ignorando as colunas já mescladas na mão acima e o fid
-        -- (o fid original é excluído para não conflitar com o fid
-        -- que o próprio driver GPKG gera na exportação)
+        -- 2. Select remaining attributes from primary file (t1),
+        -- excluding columns already coalesced and internal fid to allow driver autoincrement
         t1.* EXCLUDE (
             fid,
             IDs, tipo_amostra, tipo_integ, 
@@ -32,21 +35,16 @@ COPY (
             pasture_in, pasture_fi, geom
         )
 
-    -- Lê o primeiro arquivo
-    FROM st_read('/var/home/gui/Documentos/ilpf/sem_sobreposicao_ordenado_4326_merged.gpkg') t1
+    -- Read primary layer
+    FROM st_read('dados/arquivos_base/sem_sobreposicao_ordenado_4326_merged.gpkg') t1
 
-    -- Faz a junção total (FULL OUTER JOIN) com o segundo arquivo com base no campo IDs
-    -- CORREÇÃO AQUI: removida a aspa extra no final do caminho
-    FULL OUTER JOIN st_read('/var/home/gui/Documentos/ilpf/sem_sobreposicao_ordenado_4326_v_poli.gpkg') t2 
+    -- Full outer join on unique ID key
+    FULL OUTER JOIN st_read('dados/arquivos_base/sem_sobreposicao_ordenado_4326_v_poli.gpkg') t2 
       ON t1.IDs = t2.IDs
 
-    -- 3. O ajuste que resolve o excesso de linhas:
-    -- descarta as feições "fantasma" (sem ID em nenhum dos dois arquivos),
-    -- que antes sobravam sem par no FULL OUTER JOIN (NULL nunca é igual a NULL)
-    -- e viravam linhas extras e duplicadas na saída.
+    -- 3. Filter out orphan features lacking ID in both inputs
     WHERE COALESCE(t1.IDs, t2.IDs) IS NOT NULL
 
--- Exporta com o nome final limpo, usando o driver GDAL para GeoPackage
--- CORREÇÃO AQUI: FORMAT GDAL sem aspas
-) TO '/var/home/gui/Documentos/ilpf/amostras_ilpf_inspecionadas_4326.gpkg' 
+-- Export cleaned GeoPackage using GDAL driver
+) TO 'dados/arquivos_saida/amostras_ilpf_inspecionadas_4326.gpkg' 
 WITH (FORMAT GDAL, DRIVER 'GPKG');

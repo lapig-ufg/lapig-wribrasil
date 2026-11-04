@@ -1,9 +1,10 @@
 """
-Exporta a distribuição das classes e os 701 pontos de campo da Embrapa
-a partir de produto_escalar_metricas/arquivos_base/embeddings_embrapa_year_colet.parquet
-para assets/embrapa_referencia.json
+Exports class distribution and 701 field ground-truth points from Embrapa
+from dados/arquivos_base/embeddings_embrapa_year_colet.parquet
+to docs/assets/embrapa_referencia.json and CSV formats for download.
 """
 
+import csv
 import json
 from pathlib import Path
 import duckdb
@@ -14,15 +15,28 @@ DIR_ROOT = DIR_DADOS.parent
 
 EMBRAPA_PARQUET = DIR_DADOS / "arquivos_base" / "embeddings_embrapa_year_colet.parquet"
 OUT_JSON = DIR_ROOT / "docs" / "assets" / "embrapa_referencia.json"
+OUT_CSV_DOCS = DIR_ROOT / "docs" / "assets" / "embrapa_referencia_701_pontos.csv"
+OUT_CSV_BASE = DIR_DADOS / "arquivos_base" / "embrapa_referencia_701_pontos.csv"
 
-def exportar():
+TYPOLOGY_LABELS = {
+    'PASTO PRODUTIVO': 'Productive Pasture',
+    'PASTO COM ERVAS': 'Pasture with Weeds',
+    'PASTO COM LENHOSAS': 'Pasture with Shrubs / Trees',
+    'INTERMEDIARIO': 'Intermediate Pasture',
+    'DEG BIOLOGICA': 'Biological Degradation',
+    'REG NATURAL': 'Natural Regeneration',
+    'MISCELANEA': 'Miscellaneous',
+}
+
+
+def export_embrapa_reference():
     if not EMBRAPA_PARQUET.exists():
-        print(f"[ERRO] Arquivo Embrapa não encontrado: {EMBRAPA_PARQUET}")
+        print(f"[ERROR] Embrapa reference parquet not found: {EMBRAPA_PARQUET}")
         return
 
     con = duckdb.connect()
-    
-    # 1. Distribuição estática por classe
+
+    # 1. Static distribution by pasture condition class
     query_dist = f"""
         WITH padronizado AS (
             SELECT 
@@ -49,17 +63,17 @@ def exportar():
         GROUP BY tipologia_classe
         ORDER BY total DESC
     """
-    
+
     df_dist = con.execute(query_dist).df()
-    
-    distribuicao = {}
+
+    distribution = {}
     for row in df_dist.itertuples(index=False):
-        distribuicao[row.tipologia_classe] = {
+        distribution[row.tipologia_classe] = {
             'total': int(row.total),
             'percentual': float(row.percentual)
         }
 
-    # 2. Lista dos 701 pontos de campo com Target_FID, coordenadas e tipologia
+    # 2. Extract all 701 ground-truth points with coordinates and condition labels
     query_pts = f"""
         SELECT 
             TARGET_FID AS fid,
@@ -77,33 +91,58 @@ def exportar():
         FROM '{EMBRAPA_PARQUET.as_posix()}'
         ORDER BY TARGET_FID
     """
-    
+
     df_pts = con.execute(query_pts).df()
-    pontos = []
+    points = []
     for row in df_pts.itertuples(index=False):
-        pontos.append({
+        points.append({
             'fid': int(row.fid) if row.fid is not None else -1,
             'lat': float(row.lat) if row.lat is not None else 0.0,
             'lon': float(row.lon) if row.lon is not None else 0.0,
             'classe': str(row.classe)
         })
-        
+
     payload = {
-        'total_amostras': len(pontos),
-        'fonte': 'Embrapa Cerrado (701 pontos de referência de campo)',
-        'distribuicao': distribuicao,
-        'pontos': pontos
+        'total_amostras': len(points),
+        'fonte': 'Embrapa Cerrado (701 field ground-truth reference points)',
+        'distribuicao': distribution,
+        'pontos': points
     }
-    
+
+    # 3. Export JSON for the interactive web map
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT_JSON, 'w', encoding='utf-8') as f:
         json.dump(payload, f, separators=(',', ':'), ensure_ascii=False)
-        
-    print(f"[OK] Exportado com sucesso: {OUT_JSON}")
-    print(f"     Total de pontos Embrapa: {len(pontos)}")
-    print(f"     Distribuição estática:")
-    for k, v in distribuicao.items():
+
+    # 4. Export CSV for static downloads and reproducible data pipelines
+    csv_rows = []
+    for p in points:
+        csv_rows.append({
+            'fid': p['fid'],
+            'latitude': f"{p['lat']:.5f}",
+            'longitude': f"{p['lon']:.5f}",
+            'classe': p['classe'],
+            'typology_label': TYPOLOGY_LABELS.get(p['classe'], p['classe'])
+        })
+
+    for out_path in [OUT_CSV_DOCS, OUT_CSV_BASE]:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_path, 'w', newline='', encoding='utf-8-sig') as f:
+            writer = csv.DictWriter(
+                f,
+                fieldnames=['fid', 'latitude', 'longitude', 'classe', 'typology_label']
+            )
+            writer.writeheader()
+            writer.writerows(csv_rows)
+
+    print(f"[OK] Successfully exported JSON: {OUT_JSON}")
+    print(f"[OK] Successfully exported CSV (docs): {OUT_CSV_DOCS}")
+    print(f"[OK] Successfully exported CSV (base): {OUT_CSV_BASE}")
+    print(f"     Total Embrapa reference points: {len(points)}")
+    print("     Class distribution:")
+    for k, v in distribution.items():
         print(f"       - {k}: {v['total']} ({v['percentual']}%)")
 
+
 if __name__ == '__main__':
-    exportar()
+    export_embrapa_reference()

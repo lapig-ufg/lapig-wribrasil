@@ -1,11 +1,11 @@
 -- ======================================================================
 -- prod_escalar_50k.sql
 -- ======================================================================
--- Exemplo de cálculo de produto escalar entre os 701 pontos Embrapa
--- e os 50.000 pontos MapBiomas para um ano específico (ex: 2025).
+-- Dot product computation between 701 Embrapa reference points
+-- and 50,000 MapBiomas sample points for a specific year (e.g., 2025).
 --
--- Uso no DuckDB CLI:
---   duckdb < produto_escalar_scripts/prod_escalar_50k.sql
+-- DuckDB CLI usage:
+--   duckdb < dados/scripts/prod_escalar_50k.sql
 -- ======================================================================
 
 COPY (
@@ -46,7 +46,7 @@ COPY (
         m.lat_alvo,
         m.lon_alvo
 
-    FROM read_parquet('produto_escalar_metricas/arquivos_base/embeddings_embrapa_year_colet.parquet') AS e
-    CROSS JOIN read_parquet('produto_escalar_metricas/arquivos_base/embeddings_samples_50k_cvp_s2_cerrado_2025.parquet') AS m
+    FROM read_parquet('dados/arquivos_base/embeddings_embrapa_year_colet.parquet') AS e
+    CROSS JOIN read_parquet('dados/arquivos_base/embeddings_samples_50k_cvp_s2_cerrado_2025.parquet') AS m
 
-) TO 'produto_escalar_metricas/arquivos_saida/prod_escalar_50k_2025.parquet' (FORMAT PARQUET);
+) TO 'dados/arquivos_saida/prod_escalar_50k_2025.parquet' (FORMAT PARQUET);

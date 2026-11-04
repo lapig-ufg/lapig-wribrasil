@@ -1,5 +1,9 @@
--- Tabela pivotada: cada id_alvo vira uma linha com os 3 maiores prod_escalar como colunas
--- loc_1, loc_2, loc_3 formatados para abrir no Google Earth (lat, lon)
+-- ==============================================================================
+-- tabela_top3_pivotada.sql
+-- Pivoted table: each target pixel (id_alvo) becomes a row with Top-3 matches as columns
+-- loc_1, loc_2, loc_3 formatted as "lat, lon" strings
+-- ==============================================================================
+
 COPY (
     WITH ranked AS (
         SELECT *,
@@ -7,17 +11,17 @@ COPY (
                 PARTITION BY id_alvo
                 ORDER BY prod_escalar DESC
             ) AS rn
-        FROM read_parquet('/var/home/gui/Documentos/saida_11k/saida_11k/output/top3_prod_escalar_por_mapbiomas.parquet')
+        FROM read_parquet('dados/arquivos_saida/top3_prod_escalar_por_mapbiomas.parquet')
     ),
     pivoted AS (
         SELECT
             id_alvo,
-            -- Dados do MapBiomas (id_alvo)
+            -- MapBiomas target sample attributes
             MAX(CASE WHEN rn = 1 THEN lat_alvo END) AS lat_alvo,
             MAX(CASE WHEN rn = 1 THEN lon_alvo END) AS lon_alvo,
             MAX(CASE WHEN rn = 1 THEN class_2025 END) AS class_2025,
 
-            -- === TOP 1 (maior prod_escalar) ===
+            -- === TOP 1 (Highest dot product match) ===
             MAX(CASE WHEN rn = 1 THEN TARGET_FID END) AS target_fid_1,
             MAX(CASE WHEN rn = 1 THEN prod_escalar END) AS prod_escalar_1,
             MAX(CASE WHEN rn = 1 THEN id END) AS id_1,
@@ -73,14 +77,14 @@ COPY (
     )
     SELECT
         *,
-        -- class_embrapa: classe do ponto Embrapa com maior similaridade (top 1)
+        -- class_embrapa: assigned class of top-1 match
         tipologia_1 AS class_embrapa,
-        -- md3: quantos dos 3 tops concordam com tipologia_1
-        --   3 = todos iguais, 2 = um dos dois concorda, 1 = nenhum concorda
+        -- md3: count of top-3 matches sharing the same class as top-1
+        --   3 = all three agree, 2 = two of three agree, 1 = no agreement
         1
         + CASE WHEN tipologia_2 = tipologia_1 THEN 1 ELSE 0 END
         + CASE WHEN tipologia_3 = tipologia_1 THEN 1 ELSE 0 END
         AS md3
     FROM pivoted
     ORDER BY id_alvo
-) TO '/var/home/gui/Documentos/saida_11k/saida_11k/output/tabela_top3_pivotada.parquet' (FORMAT PARQUET);
+) TO 'dados/arquivos_saida/tabela_top3_pivotada.parquet' (FORMAT PARQUET);

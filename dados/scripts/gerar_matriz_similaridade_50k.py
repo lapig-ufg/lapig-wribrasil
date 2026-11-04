@@ -1,19 +1,19 @@
 """
 gerar_matriz_similaridade_50k.py
 ================================
-Gera a matriz de similaridade pivotada por ano a partir dos embeddings da base 50k
-(com lat_alvo e lon_alvo) e dos 701 pontos Embrapa.
-Utiliza cálculo direto via streaming DuckDB PIVOT.
+Generates pivoted similarity matrix per year from 50k-series embeddings
+(with lat_alvo and lon_alvo) and 701 Embrapa reference points.
+Utilizes streaming DuckDB PIVOT.
 
-Saídas: produto_escalar_metricas/arquivos_saida/matriz_similaridade_50k_{year}.parquet
-  - Linhas: 50.000 pontos MapBiomas
-  - Colunas: id, year, lat_alvo, lon_alvo, class_cvp, class_2025, stable_20_, mais os 701 TARGET_FIDs
-  - Valores: produto escalar (similaridade cosseno)
+Outputs: produto_escalar_metricas/arquivos_saida/matriz_similaridade_50k_{year}.parquet
+  - Rows: 50,000 MapBiomas points
+  - Columns: id, year, lat_alvo, lon_alvo, class_cvp, class_2025, stable_20_, plus 701 TARGET_FIDs
+  - Values: dot product (cosine similarity)
 
-Uso:
-    python gerar_matriz_similaridade_50k.py                # Processa ano padrão (2025)
-    python gerar_matriz_similaridade_50k.py --year 2024   # Processa ano específico
-    python gerar_matriz_similaridade_50k.py --year all    # Processa todos os anos (2019 a 2025)
+Usage:
+    python gerar_matriz_similaridade_50k.py                # Process default year (2025)
+    python gerar_matriz_similaridade_50k.py --year 2024   # Process specific year
+    python gerar_matriz_similaridade_50k.py --year all    # Process all years (2019 to 2025)
 """
 
 import duckdb
@@ -30,6 +30,7 @@ DIR_SAIDA.mkdir(parents=True, exist_ok=True)
 PARQUET_EMBRAPA = DIR_ARQUIVOS_BASE / "embeddings_embrapa_year_colet.parquet"
 DOT_PROD_SQL = " + ".join([f"e.A{i:02d} * m.A{i:02d}" for i in range(64)])
 
+
 def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
     parquet_50k = DIR_ARQUIVOS_BASE / f"embeddings_samples_50k_cvp_s2_cerrado_{ano}.parquet"
     if not parquet_50k.exists():
@@ -40,23 +41,23 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
         ]
         multi_ano = next((p for p in multi_candidatos if p.exists()), None)
         if multi_ano:
-            print(f"  [Info] Extraindo ano {ano} a partir de {multi_ano.name} ...")
+            print(f"  [Info] Extracting year {ano} from {multi_ano.name} ...")
             con.execute(f"""
                 COPY (
                     SELECT * FROM '{multi_ano.as_posix()}' WHERE year = {ano} ORDER BY id
                 ) TO '{parquet_50k.as_posix()}' (FORMAT PARQUET)
             """)
         else:
-            print(f"  [Erro] Arquivo base para ano {ano} não encontrado: {parquet_50k}")
+            print(f"  [Error] Base file for year {ano} not found: {parquet_50k}")
             return None
 
     out_matriz = DIR_SAIDA / f"matriz_similaridade_50k_{ano}.parquet"
 
     print("-" * 65)
-    print(f"Gerando Matriz de Similaridade para o ano: {ano}")
-    print(f"  Entrada 50k:     {parquet_50k.name}")
-    print(f"  Entrada Embrapa: {PARQUET_EMBRAPA.name}")
-    print(f"  Saída Matriz:    {out_matriz.name}")
+    print(f"Generating Similarity Matrix for year: {ano}")
+    print(f"  Input 50k:       {parquet_50k.name}")
+    print(f"  Input Embrapa:   {PARQUET_EMBRAPA.name}")
+    print(f"  Output Matrix:   {out_matriz.name}")
 
     t0 = time.time()
 
@@ -84,16 +85,17 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
 
     size_mb = out_matriz.stat().st_size / (1024 * 1024)
     elapsed = time.time() - t0
-    print(f"  [OK] Matriz {ano} salva em {elapsed:.2f}s ({size_mb:.2f} MB)")
+    print(f"  [OK] Matrix {ano} saved in {elapsed:.2f}s ({size_mb:.2f} MB)")
     return out_matriz
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Gera matriz de similaridade 50k por ano.")
-    parser.add_argument("--year", default="2025", help="Ano a processar (ex: 2025, 2024, ou 'all')")
+    parser = argparse.ArgumentParser(description="Generates 50k similarity matrix by year.")
+    parser.add_argument("--year", default="2025", help="Year to process (e.g., 2025, 2024, or 'all')")
     args = parser.parse_args()
 
     print("=" * 70)
-    print("GERADOR DE MATRIZ DE SIMILARIDADE POR ANO (50k)")
+    print("SIMILARITY MATRIX GENERATOR BY YEAR (50k)")
     print("=" * 70)
 
     con = duckdb.connect()
@@ -104,7 +106,7 @@ def main():
         try:
             anos = [int(args.year)]
         except ValueError:
-            print(f"Erro: Ano inválido '{args.year}'")
+            print(f"Error: Invalid year '{args.year}'")
             return
 
     t_total = time.time()
@@ -112,8 +114,9 @@ def main():
         processar_ano(ano, con)
 
     print("\n" + "=" * 70)
-    print(f"Processamento concluído com sucesso em {time.time() - t_total:.2f}s!")
+    print(f"Processing completed in {time.time() - t_total:.2f}s!")
     print("=" * 70)
+
 
 if __name__ == "__main__":
     main()

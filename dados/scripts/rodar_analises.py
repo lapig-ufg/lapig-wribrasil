@@ -1,15 +1,13 @@
 """
 rodar_analises.py
 =================
-Script orquestrador que roda todos os scripts de análise para os limiares
-de 0.95 e 0.75, salvando os resultados nas pastas saida/95/ e saida/75/
-respectivamente.
+Orchestration script that executes analysis scripts for thresholds
+of 0.95 and 0.75, saving outputs in saida/95/ and saida/75/ respectively.
 
-Os scripts que NÃO dependem de limiar (analise_embeddings.py,
-gerar_graficos_tipologia.py) são executados apenas uma vez, com saída na
-pasta saida/ raiz.
+Scripts that do NOT depend on threshold filters (gerar_graficos_tipologia.py)
+are run once with output in the root saida/ folder.
 
-Uso:
+Usage:
     python rodar_analises.py
 """
 
@@ -23,12 +21,10 @@ DIR_SAIDA = DIR_BASE / "saida"
 
 PYTHON = sys.executable
 
-# Limiares a processar
+# Thresholds to process
 LIMIARES = [0.95, 0.75]
 
-# ================================================================
-# Scripts que DEPENDEM de limiar (rodam 1x para cada limiar)
-# ================================================================
+# Scripts that DEPEND on threshold (run once for each threshold)
 SCRIPTS_COM_LIMIAR = [
     "filtro_dados_matriz.py",
     "analise_matriz_similaridade.py",
@@ -36,53 +32,54 @@ SCRIPTS_COM_LIMIAR = [
     "histogramas_tipologia_prod_escalar.py",
 ]
 
-# ================================================================
-# Scripts que NÃO dependem de limiar (rodam 1x, saída na raiz)
-# ================================================================
+# Scripts that do NOT depend on threshold (run once, save in root)
 SCRIPTS_SEM_LIMIAR = [
-    "analise_embeddings.py",
     "gerar_graficos_tipologia.py",
 ]
 
 
 def rodar(script: str, args: list[str] = None):
-    """Executa um script Python como subprocesso."""
-    cmd = [PYTHON, str(DIR_SCRIPTS / script)]
+    """Runs a Python script as a subprocess."""
+    script_path = DIR_SCRIPTS / script
+    if not script_path.exists():
+        print(f"  [Skip] Script {script} not found, skipping...")
+        return True
+
+    cmd = [PYTHON, str(script_path)]
     if args:
         cmd.extend(args)
 
     print(f"\n{'=' * 70}")
-    print(f"  EXECUTANDO: {script} {' '.join(args or [])}")
+    print(f"  EXECUTING: {script} {' '.join(args or [])}")
     print(f"{'=' * 70}\n")
 
     result = subprocess.run(cmd, cwd=str(DIR_BASE))
     if result.returncode != 0:
-        print(f"\n  [ERRO] {script} retornou código {result.returncode}")
+        print(f"\n  [ERROR] {script} returned code {result.returncode}")
         return False
     return True
 
 
 def main():
     print("=" * 70)
-    print("  ORQUESTRADOR DE ANÁLISES")
-    print(f"  Limiares: {LIMIARES}")
-    print(f"  Pasta de saída: {DIR_SAIDA}")
+    print("  ANALYSIS ORCHESTRATOR")
+    print(f"  Thresholds: {LIMIARES}")
+    print(f"  Output folder: {DIR_SAIDA}")
     print("=" * 70)
 
-    # Criar pastas de saída
     for limiar in LIMIARES:
         pasta = DIR_SAIDA / str(int(limiar * 100))
         pasta.mkdir(parents=True, exist_ok=True)
-        print(f"  [ok] Pasta criada/verificada: {pasta}")
+        print(f"  [ok] Output folder ready: {pasta}")
 
     erros = []
 
-    # --- 1. Scripts COM limiar (rodar para cada limiar) ---
+    # 1. Scripts WITH threshold
     for limiar in LIMIARES:
         limiar_str = str(limiar)
         limiar_int = int(limiar * 100)
         print(f"\n\n{'#' * 70}")
-        print(f"  PROCESSANDO LIMIAR >= {limiar} (pasta: saida/{limiar_int}/)")
+        print(f"  PROCESSING THRESHOLD >= {limiar} (folder: saida/{limiar_int}/)")
         print(f"{'#' * 70}")
 
         for script in SCRIPTS_COM_LIMIAR:
@@ -90,9 +87,9 @@ def main():
             if not ok:
                 erros.append(f"{script} --limiar {limiar_str}")
 
-    # --- 2. Scripts SEM limiar (rodar 1x) ---
+    # 2. Scripts WITHOUT threshold
     print(f"\n\n{'#' * 70}")
-    print(f"  PROCESSANDO SCRIPTS SEM LIMIAR (pasta: saida/)")
+    print(f"  PROCESSING SCRIPTS WITHOUT THRESHOLD (folder: saida/)")
     print(f"{'#' * 70}")
 
     for script in SCRIPTS_SEM_LIMIAR:
@@ -100,24 +97,14 @@ def main():
         if not ok:
             erros.append(script)
 
-    # --- Resumo ---
-    print(f"\n\n{'=' * 70}")
-    print("  RESUMO FINAL")
-    print(f"{'=' * 70}")
-
+    print("\n\n" + "=" * 70)
     if erros:
-        print(f"\n  [!] {len(erros)} script(s) com erro:")
+        print(f"  COMPLETED WITH {len(erros)} ERROR(S):")
         for e in erros:
-            print(f"      * {e}")
+            print(f"    - {e}")
     else:
-        print(f"\n  [OK] Todos os scripts executados com sucesso!")
-
-    print(f"\n  Estrutura de saída:")
-    print(f"    saida/")
-    print(f"    ├── 95/   (resultados com limiar >= 0.95)")
-    print(f"    ├── 75/   (resultados com limiar >= 0.75)")
-    print(f"    └── (gráficos exploratórios sem limiar)")
-    print(f"\nConcluído.\n")
+        print("  ALL ANALYSES COMPLETED SUCCESSFULLY!")
+    print("=" * 70 + "\n")
 
 
 if __name__ == "__main__":

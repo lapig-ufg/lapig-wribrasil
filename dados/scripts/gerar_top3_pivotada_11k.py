@@ -1,22 +1,22 @@
 """
 gerar_top3_pivotada_11k.py
 ==========================
-Pipeline de processamento do Produto Escalar e geração de tabelas Top-3 pivotadas
-para a base amostral 11k/12k (MapBiomas Pastagem Col11 + MapBiomas 85k) cruzada
-com os 701 pontos de campo da Embrapa para toda a série histórica (2019 a 2025).
+Processing pipeline for Dot Product and pivoted Top-3 similarity tables
+for the 11k/12k sample base (MapBiomas Pasture Col11 + MapBiomas 85k) crossed
+with the 701 Embrapa field reference points across the entire historical series (2019–2025).
 
-Correções e Padronizações Aplicadas:
-1. Inversão de Coordenadas em embeddings_avg_mapbiomas_pastagem_2019_2025:
-   - lat_alvo = lon (-24 a -2)
-   - lon_alvo = lat (-60 a -41)
-2. Coordenadas em embeddings_avg_mapbiomas85k_2019_2025:
+Corrections and Standardizations Applied:
+1. Coordinate Inversion Correction in embeddings_avg_mapbiomas_pastagem_2019_2025:
+   - lat_alvo = lon (-24 to -2)
+   - lon_alvo = lat (-60 to -41)
+2. Coordinates in embeddings_avg_mapbiomas85k_2019_2025:
    - lat_alvo = LAT
    - lon_alvo = LON
-3. Padronização das classes de pastagem:
-   - Pastagem e Pastagem natural (Col11) + PASTAGEM (85k)
-4. Cálculo do produto escalar de 64 dimensões (A00 a A63) e índice de concordância Md3.
+3. Standardization of pasture classes:
+   - Pasture and Natural Pasture (Col11) + PASTAGEM (85k)
+4. 64-dimensional dot product calculation (A00 to A63) and Md3 agreement index.
 
-Uso:
+Usage:
     python gerar_top3_pivotada_11k.py --year 2025
     python gerar_top3_pivotada_11k.py --year all
 """
@@ -29,7 +29,7 @@ import argparse
 from pathlib import Path
 import duckdb
 
-# Diretórios base
+# Base directories
 DIR_SCRIPT = Path(__file__).resolve().parent
 DIR_DADOS = DIR_SCRIPT.parent
 DIR_ROOT = DIR_DADOS.parent
@@ -42,7 +42,7 @@ ARQ_85K = DIR_BASE / "embeddings_avg_mapbiomas85k_2019_2025.parquet"
 ARQ_PASTAGEM = DIR_BASE / "embeddings_avg_mapbiomas_pastagem_2019_2025.parquet"
 ARQ_EMBRAPA = DIR_BASE / "embeddings_embrapa_year_colet.parquet"
 
-# Mapeamento oficial de tipologias
+# Official typology mapping
 TIP_MAP = {
     'PASTO PRODUTIVO': 0, 'PRODUTIVO': 0,
     'PASTO COM ERVAS': 1,
@@ -59,6 +59,7 @@ TIP_LIST = [
     'INTERMEDIARIO', 'DEG BIOLOGICA', 'REG NATURAL', 'MISCELANEA', 'Outros'
 ]
 
+
 def padronizar_tipologia_sql(col_raw):
     return f"""
         CASE 
@@ -72,15 +73,16 @@ def padronizar_tipologia_sql(col_raw):
         END
     """
 
+
 def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
     t0 = time.time()
     print(f"\n{'-' * 65}")
-    print(f"Processando Série 11k Top-3 para o ano: {ano}")
+    print(f"Processing 11k Top-3 Series for year: {ano}")
 
     col_85k_class = f"CLASS_{min(ano, 2024)}"
     col_past_class = f"class_{ano}"
 
-    # Arquivos de saída (salva tanto com prefixo 11k quanto 12k para compatibilidade)
+    # Output files (saves with both 11k and 12k prefixes for backwards compatibility)
     out_parquet = DIR_SAIDA / f"tabela_top3_pivotada_11k_{ano}.parquet"
     out_parquet_12k = DIR_SAIDA / f"tabela_top3_pivotada_12k_{ano}.parquet"
     out_csv = DIR_SAIDA / f"tabela_top3_11k_{ano}.csv"
@@ -89,19 +91,19 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
     out_json_assets = DIR_ASSETS / f"tabela_top3_11k_{ano}.json"
     out_json_assets_12k = DIR_ASSETS / f"tabela_top3_12k_{ano}.json"
 
-    # Termos do produto escalar (A00*A00 + ... + A63*A63)
+    # Dot product terms (A00*A00 + ... + A63*A63)
     prod_terms = " + ".join([f"(e.A{i:02d} * m.A{i:02d})" for i in range(64)])
 
     tip_embrapa_expr = padronizar_tipologia_sql("COALESCE(NULLIF(TIPOLOGIAc, 'nao se aplica'), Tipologia_)")
 
     sql_query = f"""
-        -- 1. Base MapBiomas Filtrada e Unificada para o ano {ano}
+        -- 1. Filtered and Unified MapBiomas Base for year {ano}
         WITH mapbiomas_pastagem AS (
             SELECT 
                 CAST(id AS VARCHAR) AS id_origem,
                 'mapbiomas_pastagem_col11' AS fonte,
                 {col_past_class} AS class_mapbiomas,
-                -- Correção da inversão de coordenadas documentada:
+                -- Documented coordinate inversion fix:
                 lon AS lat_alvo,
                 lat AS lon_alvo,
                 A00, A01, A02, A03, A04, A05, A06, A07, A08, A09,
@@ -120,7 +122,7 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
                 CAST(ID_REVISAO AS VARCHAR) AS id_origem,
                 'mapbiomas_85k_col5' AS fonte,
                 {col_85k_class} AS class_mapbiomas,
-                -- Coordenadas já corretas:
+                -- Coordinates already aligned:
                 LAT AS lat_alvo,
                 LON AS lon_alvo,
                 A00, A01, A02, A03, A04, A05, A06, A07, A08, A09,
@@ -144,7 +146,7 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
                 SELECT * FROM mapbiomas_85k
             )
         ),
-        -- 2. Base Embrapa Padronizada (701 pontos de campo)
+        -- 2. Standardized Embrapa Base (701 field ground-truth points)
         embrapa_ref AS (
             SELECT 
                 TARGET_FID AS target_fid,
@@ -167,7 +169,7 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
                 A60, A61, A62, A63
             FROM '{ARQ_EMBRAPA.as_posix()}'
         ),
-        -- 3. Produto Escalar e Rankeamento Top-3
+        -- 3. Dot Product and Top-3 Ranking
         ranked_matches AS (
             SELECT 
                 m.id_alvo,
@@ -195,7 +197,7 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
             CROSS JOIN embrapa_ref e
             QUALIFY rn <= 3
         ),
-        -- 4. Pivotamento dos Top-3
+        -- 4. Pivoting Top-3 Attributes
         pivoted AS (
             SELECT 
                 id_alvo,
@@ -238,24 +240,24 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
             *,
             tipologia_c_1 AS class_embrapa,
             ROUND((prod_escalar_1 + prod_escalar_2 + prod_escalar_3) / 3.0, 4) AS md3,
-            -- Concordância de classe categórica:
+            -- Categorical class agreement score:
             (1 + CASE WHEN tipologia_c_2 = tipologia_c_1 THEN 1 ELSE 0 END + CASE WHEN tipologia_c_3 = tipologia_c_1 THEN 1 ELSE 0 END) AS score_concordancia
         FROM pivoted
         ORDER BY id_alvo
     """
 
-    # 1. Exportar Parquet
+    # 1. Export Parquet
     con.execute(f"COPY ({sql_query}) TO '{out_parquet.as_posix()}' (FORMAT 'parquet', COMPRESSION 'zstd');")
     con.execute(f"COPY ({sql_query}) TO '{out_parquet_12k.as_posix()}' (FORMAT 'parquet', COMPRESSION 'zstd');")
     size_parquet = out_parquet.stat().st_size / (1024 * 1024)
 
-    # 2. Exportar CSV
+    # 2. Export CSV
     con.execute(f"COPY (SELECT * FROM '{out_parquet.as_posix()}') TO '{out_csv.as_posix()}' (FORMAT 'csv', HEADER true);")
     con.execute(f"COPY (SELECT * FROM '{out_parquet.as_posix()}') TO '{out_csv_assets.as_posix()}' (FORMAT 'csv', HEADER true);")
     con.execute(f"COPY (SELECT * FROM '{out_parquet.as_posix()}') TO '{out_csv_assets_12k.as_posix()}' (FORMAT 'csv', HEADER true);")
     size_csv = out_csv_assets.stat().st_size / (1024 * 1024)
 
-    # 3. Exportar JSON Compacto para Web
+    # 3. Export Compact JSON for Web
     web_df = con.execute(f"""
         SELECT 
             id_alvo AS id,
@@ -321,15 +323,16 @@ def processar_ano(ano: int, con: duckdb.DuckDBPyConnection):
     size_json = out_json_assets.stat().st_size / (1024 * 1024)
     elapsed = time.time() - t0
 
-    print(f"  [OK] Ano {ano} concluído em {elapsed:.2f}s:")
-    print(f"       - Total de Amostras: {len(rows):,}")
-    print(f"       - Parquet: {size_parquet:.2f} MB")
-    print(f"       - CSV:     {size_csv:.2f} MB")
-    print(f"       - JSON:    {size_json:.2f} MB (Web Compacto)")
+    print(f"  [OK] Year {ano} completed in {elapsed:.2f}s:")
+    print(f"       - Total Samples: {len(rows):,}")
+    print(f"       - Parquet:       {size_parquet:.2f} MB")
+    print(f"       - CSV:           {size_csv:.2f} MB")
+    print(f"       - JSON:          {size_json:.2f} MB (Compact Web)")
+
 
 def main():
-    parser = argparse.ArgumentParser(description="Gerador de Top-3 Pivotado para Série 11k")
-    parser.add_argument("--year", type=str, default="2025", help="Ano a processar (2019..2025 ou 'all')")
+    parser = argparse.ArgumentParser(description="Pivoted Top-3 Generator for 11k Series")
+    parser.add_argument("--year", type=str, default="2025", help="Year to process (2019..2025 or 'all')")
     args = parser.parse_args()
 
     DIR_SAIDA.mkdir(parents=True, exist_ok=True)
@@ -344,8 +347,8 @@ def main():
         anos = [int(args.year)]
 
     print("=" * 65)
-    print("GERADOR DE TABELA TOP-3 PIVOTADA — SÉRIE 11k (MAPBIOMAS)")
-    print(f"Anos a processar: {anos}")
+    print("PIVOTED TOP-3 TABLE GENERATOR — 11k SERIES (MAPBIOMAS)")
+    print(f"Years to process: {anos}")
     print("=" * 65)
 
     for ano in anos:
@@ -353,8 +356,9 @@ def main():
 
     t_total = time.time() - t_start
     print("\n" + "=" * 65)
-    print(f"Processamento concluído com sucesso em {t_total:.2f}s!")
+    print(f"Processing completed successfully in {t_total:.2f}s!")
     print("=" * 65)
+
 
 if __name__ == "__main__":
     main()

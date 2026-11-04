@@ -1,3 +1,8 @@
+-- ==============================================================================
+-- salvar_csv_corrigir_lat_long.sql
+-- Exports CSV correcting coordinate inversion (lon_alvo <-> lat_alvo) for Pasture
+-- ==============================================================================
+
 COPY (
     SELECT 
         id_alvo,
@@ -5,13 +10,13 @@ COPY (
         class_embrapa,
         md3,
         
-        -- Condição para a latitude
+        -- Inversion correction for latitude
         CASE 
             WHEN class_2025 = 'Pastagem' THEN lon_alvo 
             ELSE lat_alvo 
         END AS lat_alvo,
         
-        -- Condição para a longitude
+        -- Inversion correction for longitude
         CASE 
             WHEN class_2025 = 'Pastagem' THEN lat_alvo 
             ELSE lon_alvo 
@@ -63,5 +68,5 @@ COPY (
         year_colet_3,
         loc_3
 
-    FROM '/var/home/gui/Documentos/saida_11k/saida_11k/output/tabela_top3_pivotada.parquet'
-) TO '/var/home/gui/Documentos/saida_11k/saida_11k/output/tabela_top3_pivotada.csv' (FORMAT 'csv', HEADER true);
+    FROM 'dados/arquivos_saida/tabela_top3_pivotada.parquet'
+) TO 'dados/arquivos_saida/tabela_top3_pivotada.csv' (FORMAT 'csv', HEADER true);
