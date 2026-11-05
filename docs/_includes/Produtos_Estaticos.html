@@ -88,6 +88,34 @@
             </div>
             <button class="btn-copy-asset" onclick="navigator.clipboard.writeText('projects/ee-gpw-app/assets/lapig_pontos_estratificados_cvp_2025_50k_with_MapBiomasC11_fixed'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy ID', 2000)">Copy ID</button>
           </div>
+
+          <div class="asset-item">
+            <div class="asset-item__info">
+              <strong>LAPIG/Cenargen 2025 Pasture Maps · 2025a and 2025b (10 m, encoded in one band) · Product 2</strong>
+              <code>projects/ee-anapaulam/assets/WRI_BR/pasture_2025ab_codigo_v2</code>
+              <small style="display: block; margin-top: 0.35rem; color: var(--color-muted); line-height: 1.5;">
+                Band <code>b1</code> = 5 × class<sub>a</sub> + class<sub>b</sub>, with probability classes 0 = no data, 1 = ≤ 40, 2 = 41–50, 3 = 51–60, 4 = ≥ 61.
+                Pasture (probability ≥ 51): 2025a = <code>b1.divide(5).floor().gte(3)</code>; 2025b = <code>b1.mod(5).gte(3)</code>.
+              </small>
+            </div>
+            <button class="btn-copy-asset" onclick="navigator.clipboard.writeText('projects/ee-anapaulam/assets/WRI_BR/pasture_2025ab_codigo_v2'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy ID', 2000)">Copy ID</button>
+          </div>
+
+          <div class="asset-item">
+            <div class="asset-item__info">
+              <strong>MapBiomas 10m Land Cover (Col. 4 · 2025 band, class 15 = Pasture) · Product 2 reference map</strong>
+              <code>projects/mapbiomas-public/assets/brazil/lulc_10m/collection4/mapbiomas_10m_collection4_coverage_v1</code>
+            </div>
+            <button class="btn-copy-asset" onclick="navigator.clipboard.writeText('projects/mapbiomas-public/assets/brazil/lulc_10m/collection4/mapbiomas_10m_collection4_coverage_v1'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy ID', 2000)">Copy ID</button>
+          </div>
+
+          <div class="asset-item">
+            <div class="asset-item__info">
+              <strong>Global Pasture Watch v1 Grassland Classes (30 m · 2022: 1 cultivated, 2 natural / semi-natural) · Product 2 reference map</strong>
+              <code>projects/global-pasture-watch/assets/ggc-30m/v1/grassland_c</code>
+            </div>
+            <button class="btn-copy-asset" onclick="navigator.clipboard.writeText('projects/global-pasture-watch/assets/ggc-30m/v1/grassland_c'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy ID', 2000)">Copy ID</button>
+          </div>
         </div>
       </div>
 
@@ -358,6 +386,125 @@
                   <a href="https://github.com/lapig-ufg/lapig-wribrasil/blob/main/docs/assets/embrapa_referencia_701_pontos.csv" target="_blank" rel="noopener noreferrer" class="data-badge data-badge--csv">CSV</a>
                   <a href="https://github.com/lapig-ufg/lapig-wribrasil/blob/main/docs/assets/embrapa_referencia.json" target="_blank" rel="noopener noreferrer" class="data-badge data-badge--json">JSON</a>
                   <a href="https://github.com/lapig-ufg/lapig-wribrasil/blob/main/dados/arquivos_base/embeddings_embrapa_year_colet.parquet" target="_blank" rel="noopener noreferrer" class="data-badge data-badge--parquet">Parquet</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6. PRODUCT 2 DATASETS -->
+      <div class="static-card static-card--wide fade-up">
+        <div class="static-card__header">
+          <div class="static-card__icon-box">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          </div>
+          <div>
+            <h3 class="static-card__title">Product 2 Datasets · Image-Interpreted Points &amp; Field Sampling Strategy</h3>
+          </div>
+        </div>
+        <p class="static-card__desc">
+          Datasets shown in the Product 2 interactive viewers: the pasture mapping training set, the pasture condition series with SOM-based
+          Clean / Analyze / Remove triage, the field campaign plan, and the 2025 pasture map comparison tables. Direct download from this site.
+        </p>
+        <style>
+          .data-badge--geo { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+          .data-badge--geo:hover { background: #16a34a; color: #fff; }
+        </style>
+
+        <div class="data-table-wrapper">
+          <table class="static-data-table">
+            <thead>
+              <tr>
+                <th>Dataset</th>
+                <th>Series / Year</th>
+                <th>Size / Sample Count</th>
+                <th>Downloads</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- TRAINING SET -->
+              <tr>
+                <td><strong>Pasture Mapping Training Set</strong><br><small>Collection 4 Sentinel-2 and MapBiomas 85k Landsat points, pasture × non-pasture, by IBGE sheet</small></td>
+                <td>2020–2025</td>
+                <td>36,520 points/yr · 219,120 records</td>
+                <td class="download-links-cell">
+                  <a href="{{ '/assets/downloads/p2/training_set_2020_2025.csv' | relative_url }}" download class="data-badge data-badge--csv">CSV</a>
+                  <a href="{{ '/assets/downloads/p2/training_set_2020_2025_shp.zip' | relative_url }}" download class="data-badge data-badge--geo">SHP (zip)</a>
+                </td>
+              </tr>
+
+              <!-- CONDITION SERIES -->
+              <tr>
+                <td><strong>Pasture Condition Series + SOM Triage</strong><br><small>50k base + MapBiomas pasture points; Top-1 typology, Md3, and SOM 90×90 / 35×35 neuron, purity, posteriors and decisions (Normal and Dirichlet)</small></td>
+                <td>2019–2025 (all years)</td>
+                <td>63,284 locations · 428,866 records</td>
+                <td class="download-links-cell">
+                  <a href="{{ '/assets/downloads/p2/condition_series_som_2019_2025.parquet' | relative_url }}" download class="data-badge data-badge--parquet">Parquet</a>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Pasture Condition Series + SOM Triage</strong><br><small>Same table split by year</small></td>
+                <td>By year</td>
+                <td>~62,000 records/yr</td>
+                <td class="download-links-cell">
+                  <a href="{{ '/assets/downloads/p2/condition_series_som_2019.csv' | relative_url }}" download class="data-badge data-badge--csv">2019</a>
+                  <a href="{{ '/assets/downloads/p2/condition_series_som_2020.csv' | relative_url }}" download class="data-badge data-badge--csv">2020</a>
+                  <a href="{{ '/assets/downloads/p2/condition_series_som_2021.csv' | relative_url }}" download class="data-badge data-badge--csv">2021</a>
+                  <a href="{{ '/assets/downloads/p2/condition_series_som_2022.csv' | relative_url }}" download class="data-badge data-badge--csv">2022</a>
+                  <a href="{{ '/assets/downloads/p2/condition_series_som_2023.csv' | relative_url }}" download class="data-badge data-badge--csv">2023</a>
+                  <a href="{{ '/assets/downloads/p2/condition_series_som_2024.csv' | relative_url }}" download class="data-badge data-badge--csv">2024</a>
+                  <a href="{{ '/assets/downloads/p2/condition_series_som_2025.csv' | relative_url }}" download class="data-badge data-badge--csv">2025</a>
+                </td>
+              </tr>
+
+              <!-- FIELD PLANNING -->
+              <tr>
+                <td><strong>Field Points with Interpreter Degradation Score</strong><br><small>Goiás 2022: mean / median score, ND / PD / SD class, CVP 2025 vigor</small></td>
+                <td>Field Campaign Planning</td>
+                <td>469 points (463 with coordinates)</td>
+                <td class="download-links-cell">
+                  <a href="{{ '/assets/downloads/p2/field_scored_points_469.csv' | relative_url }}" download class="data-badge data-badge--csv">CSV</a>
+                  <a href="{{ '/assets/downloads/p2/field_scored_points_469.kml' | relative_url }}" download class="data-badge data-badge--geo">KML</a>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Selected Field Points (3×3 Stratified Random)</strong><br><small>Interpreter class × CVP 2025 vigor strata, sampling weights and inclusion probabilities</small></td>
+                <td>Field Campaign Planning</td>
+                <td>100 points · 9 strata</td>
+                <td class="download-links-cell">
+                  <a href="{{ '/assets/downloads/p2/field_selected_points_100.csv' | relative_url }}" download class="data-badge data-badge--csv">CSV</a>
+                  <a href="{{ '/assets/downloads/p2/field_selected_points_100.kml' | relative_url }}" download class="data-badge data-badge--geo">KML</a>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Field Routes &amp; Itinerary</strong><br><small>Two campaigns from UFG (Goiânia): daily routes, visit order, distances, driving times and road access</small></td>
+                <td>Campaigns 1 and 2</td>
+                <td>12 days · 4,057 km</td>
+                <td class="download-links-cell">
+                  <a href="{{ '/assets/downloads/p2/field_itinerary_100.csv' | relative_url }}" download class="data-badge data-badge--csv">Itinerary CSV</a>
+                  <a href="{{ '/assets/downloads/p2/field_routes_100.gpkg' | relative_url }}" download class="data-badge data-badge--geo">GPKG</a>
+                  <a href="{{ '/assets/downloads/p2/field_route_campaign_1.kml' | relative_url }}" download class="data-badge data-badge--geo">KML C1</a>
+                  <a href="{{ '/assets/downloads/p2/field_route_campaign_2.kml' | relative_url }}" download class="data-badge data-badge--geo">KML C2</a>
+                </td>
+              </tr>
+
+              <!-- COMPARISON 2025 -->
+              <tr>
+                <td><strong>Pasture Map Comparison 2025 · 0.25° Cells</strong><br><small>Pasture share of 2025a, 2025b, MapBiomas 2025 and GPW 2022 (cultivated / natural), predominant difference (preliminary, threshold ≥ 50)</small></td>
+                <td>2025a × 2025b × MapBiomas × GPW</td>
+                <td>3,144 cells · 186.0 Mha</td>
+                <td class="download-links-cell">
+                  <a href="{{ '/assets/downloads/p2/comparison_2025_cells_025deg.csv' | relative_url }}" download class="data-badge data-badge--csv">CSV</a>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Pasture Map Comparison 2025 · Summary Tables</strong><br><small>Six differences relative to MapBiomas and the 940-point validation sampling plan by stratum (preliminary)</small></td>
+                <td>2025a × 2025b × MapBiomas × GPW</td>
+                <td>6 categories · 8 strata</td>
+                <td class="download-links-cell">
+                  <a href="{{ '/assets/downloads/p2/comparison_2025_six_differences.csv' | relative_url }}" download class="data-badge data-badge--csv">Six differences</a>
+                  <a href="{{ '/assets/downloads/p2/comparison_2025_validation_plan.csv' | relative_url }}" download class="data-badge data-badge--csv">Validation plan</a>
                 </td>
               </tr>
             </tbody>
