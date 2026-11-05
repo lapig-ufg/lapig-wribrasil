@@ -1,0 +1,126 @@
+<!-- ═══════════════════════════════════════════════════════
+       FIELD CAMPAIGN PLANNING — 469 SCORED POINTS, 100 SELECTED, ROUTES
+  ═══════════════════════════════════════════════════════ -->
+<style>
+  #map-campo { width: 100%; height: 100%; min-height: 100%; z-index: 1; }
+  .fc-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.45rem; }
+  .fc-chip { padding: 0.32rem 0.6rem; border: 1px solid var(--color-rule); border-radius: 4px; background: var(--color-bg);
+    font-family: var(--font-sans); font-size: 0.74rem; font-weight: 600; color: var(--color-muted); cursor: pointer; }
+  .fc-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .fc-chip.active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+  .fc-group { margin-top: 0.85rem; }
+  .fc-label { display: block; font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); }
+  .fc-row { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans); font-size: 0.78rem; margin-top: 0.35rem; cursor: pointer; }
+  .fc-sw { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.3); flex-shrink: 0; }
+  .fc-sw--line { width: 18px; height: 4px; border-radius: 2px; border: 0; }
+  .fc-legend { display: flex; flex-wrap: wrap; gap: 0.3rem 0.8rem; margin-top: 0.4rem; font-family: var(--font-sans); font-size: 0.74rem; color: #475569; }
+  .fc-legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .fc-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin-top: 1.5rem; }
+  .fc-stat { background: #fff; border: 1px solid var(--color-rule); border-radius: var(--radius); padding: 0.8rem 1rem; }
+  .fc-stat b { display: block; font-family: var(--font-serif); font-size: 1.5rem; font-weight: 600; color: var(--color-fg); line-height: 1.15; }
+  .fc-stat span { font-family: var(--font-sans); font-size: 0.76rem; color: var(--color-muted); }
+  .fc-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+  @media (max-width: 950px) { .fc-grid2 { grid-template-columns: 1fr; } }
+  .fc-card { background: #fff; border: 1px solid var(--color-rule); border-radius: var(--radius); padding: 1rem 1.1rem; box-shadow: var(--shadow-sm); min-width: 0; }
+  .fc-card h4 { font-family: var(--font-sans); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-fg); margin: 0 0 0.6rem; }
+  .fc-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.8rem; }
+  .fc-table th, .fc-table td { padding: 0.4rem 0.55rem; border-bottom: 1px solid var(--color-rule); text-align: left; }
+  .fc-table th { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); }
+  .fc-table td.n, .fc-table th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .fc-table tr.fc-click { cursor: pointer; }
+  .fc-table td { white-space: nowrap; }
+  .fc-table tr.fc-click:hover td { background: var(--color-accent-glow); }
+  .fc-tw { overflow-x: auto; max-height: 420px; overflow-y: auto; }
+  .fc-matrix td.n { font-weight: 600; }
+  .fc-num { background: #fff; border: 1.5px solid #111; border-radius: 50%; width: 20px; height: 20px; line-height: 17px; text-align: center;
+    font: 700 10px/17px var(--font-sans); color: #111; box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+</style>
+
+<section class="section--alt reveal" id="planejamento-campo" style="padding-top: 3rem;">
+  <div class="section__inner">
+    <div class="section__eyebrow">Product 2 · Field Sampling Strategy</div>
+    <h2 class="section__title">Field Campaign Planning · Goiás</h2>
+    <p class="section__desc">
+      The 469 Goiás field points with an interpreter degradation score (2022; 463 with coordinates, mapped here), the 100 points selected for revisit by stratified random
+      sampling (3 interpreter classes × 3 CVP 2025 vigor classes, about 11 points per stratum), and the optimized routes of the two
+      field campaigns starting from UFG (Goiânia).
+    </p>
+
+    <div class="fc-stats" id="fc-stats"></div>
+
+    <div class="map-viz" style="margin-top: 1.2rem;">
+      <div class="map-container">
+        <div id="map-campo"></div>
+        <div class="map-controls-overlay">
+          <button class="map-btn" id="fc-reset" title="Reset to the full campaign view">Reset View</button>
+          <select class="map-btn map-select" id="fc-basemap" title="Change background map layer">
+            <option value="gray" selected>Light Gray</option>
+            <option value="satellite">Satellite</option>
+            <option value="topo">Topo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="map-panel">
+        <div class="map-panel__card">
+          <div class="map-panel__title">Layers</div>
+          <label class="fc-row"><input type="checkbox" id="fc-lyr-pontos" checked> All scored points (463 mapped)</label>
+          <div class="fc-chips" style="margin-left: 1.4rem;">
+            <button type="button" class="fc-chip active" data-fccolor="classe">Interpreter class</button>
+            <button type="button" class="fc-chip" data-fccolor="cvp">CVP 2025 vigor</button>
+          </div>
+          <div class="fc-legend" id="fc-legend-pontos" style="margin-left: 1.4rem;"></div>
+          <label class="fc-row" style="margin-top: 0.7rem;"><input type="checkbox" id="fc-lyr-sel" checked> Selected points (100)</label>
+          <div class="fc-legend" style="margin-left: 1.4rem;">
+            <span><span class="fc-sw" style="background:#2ca03c; border: 2px solid #111;"></span>Agreement</span>
+            <span><span class="fc-sw" style="background:#ffc20e; border: 2px solid #111;"></span>Partial disagreement</span>
+            <span><span class="fc-sw" style="background:#d62728; border: 2px solid #111;"></span>Full disagreement</span>
+          </div>
+          <label class="fc-row" style="margin-top: 0.7rem;"><input type="checkbox" id="fc-lyr-rotas" checked> Routes</label>
+          <div class="fc-legend" style="margin-left: 1.4rem;">
+            <span><span class="fc-sw fc-sw--line" style="background:#1c7ed6;"></span>Campaign 1</span>
+            <span><span class="fc-sw fc-sw--line" style="background:#e8590c;"></span>Campaign 2</span>
+          </div>
+          <label class="fc-row"><input type="checkbox" id="fc-lyr-acesso" checked> Off-road access to point</label>
+          <label class="fc-row"><input type="checkbox" id="fc-lyr-num"> Visit order labels</label>
+        </div>
+
+        <div class="map-panel__card">
+          <div class="map-panel__title">Campaign &amp; Day</div>
+          <div class="fc-group">
+            <span class="fc-label">Campaign</span>
+            <div class="fc-chips" id="fc-camp">
+              <button type="button" class="fc-chip active" data-camp="0">Both</button>
+              <button type="button" class="fc-chip" data-camp="1">Campaign 1</button>
+              <button type="button" class="fc-chip" data-camp="2">Campaign 2</button>
+            </div>
+          </div>
+          <div class="fc-group" id="fc-dia-wrap" style="display: none;">
+            <span class="fc-label">Day</span>
+            <div class="fc-chips" id="fc-dia"></div>
+          </div>
+          <div class="fc-group" id="fc-resumo-sel" style="font-family: var(--font-sans); font-size: 0.8rem; color: #475569;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fc-grid2">
+      <div class="fc-card">
+        <h4 id="fc-roteiro-title">Itinerary</h4>
+        <div class="fc-tw"><table class="fc-table" id="fc-roteiro"></table></div>
+        <p class="map-caption" style="margin: 0.6rem 0 0; text-align: left;">Click a row to zoom to the point. Times are driving times; the
+          campaign totals also include time at each point.</p>
+      </div>
+      <div class="fc-card">
+        <h4>Sampling Design: Population N / Sample n by Stratum</h4>
+        <div class="fc-tw"><table class="fc-table fc-matrix" id="fc-matriz"></table></div>
+        <p class="map-caption" style="margin: 0.6rem 0 0; text-align: left;">Interpreter class from the mean degradation score (ND ≤ 3 not
+          degraded, PD 3–5 partially degraded, SD &gt; 5 severely degraded) × CVP 2025 vigor (1 low, 2 medium, 3 high). Population: the 413
+          points with both score and vigor. Expected match: ND ↔ vigor 3, PD ↔ 2, SD ↔ 1. Field results extend to the population through the
+          sampling weights (N / n).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ '/assets/js/map_campo.js' | relative_url }}" defer></script>
