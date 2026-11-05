@@ -1,0 +1,188 @@
+<!-- ═══════════════════════════════════════════════════════
+       PRODUCT 2 — TRAINING SET, CONDITION SERIES + SOM, FIELD POINTS, 2025 PASTURE MAPS
+  ═══════════════════════════════════════════════════════ -->
+<style>
+  #map-p2 { width: 100%; height: 100%; min-height: 100%; z-index: 1; }
+  .p2-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 0.35rem; margin-top: 0.45rem; }
+  .p2-chip { padding: 0.35rem 0.2rem; border: 1px solid var(--color-rule); border-radius: 4px; background: var(--color-bg);
+    font-family: var(--font-sans); font-size: 0.72rem; font-weight: 600; color: var(--color-muted); cursor: pointer; text-align: center; }
+  .p2-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .p2-chip.active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+  .p2-group { margin-top: 0.85rem; }
+  .p2-group > .filter-label { display: block; font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-muted); }
+  .p2-group:first-of-type { margin-top: 0.5rem; }
+  .p2-checks { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.45rem; }
+  .p2-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.25); flex-shrink: 0; }
+  .p2-swatch--sq { border-radius: 2px; }
+  .p2-count { margin-left: auto; color: var(--color-muted); font-variant-numeric: tabular-nums; font-size: 0.72rem; }
+  .p2-layer-row { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans); font-size: 0.78rem; }
+  .p2-layer-row input[type=range] { margin-left: auto; width: 90px; }
+  .map-btn.p2-on { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+  .p2-loading { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 1001; background: #fff;
+    border: 1px solid var(--color-rule); border-radius: 6px; padding: 0.5rem 0.9rem; font-family: var(--font-sans); font-size: 0.8rem; display: none; }
+</style>
+
+<section class="section--alt reveal" id="visualizacoes-p2" style="padding-top: 3rem;">
+  <div class="section__inner">
+    <div class="section__eyebrow">Product 2 · Image-Interpreted Points &amp; Field Sampling Strategy</div>
+    <h2 class="section__title">Training Set, Condition Series &amp; 2025 Pasture Maps</h2>
+    <p class="section__desc">
+      Pasture mapping training set (Collection 4 Sentinel-2 and MapBiomas 85k Landsat points, 2020–2025), pasture condition
+      sample series (50k base + MapBiomas pasture points, 2019–2025) with SOM-based Clean / Analyze / Remove triage
+      (90×90 global and 35×35 maps), the 100 stratified field points, and the two 2025 pasture map versions (2025a and 2025b), compared with the MapBiomas 10 m (2025) and
+      Global Pasture Watch (2022) pasture maps.
+    </p>
+
+    <div class="map-viz" style="margin-top: 1.5rem;">
+      <div class="map-container">
+        <div id="map-p2"></div>
+        <div class="p2-loading" id="p2-loading">Loading points…</div>
+        <div class="map-controls-overlay">
+          <button class="map-btn" id="p2-reset" title="Reset to full Cerrado view">Reset View</button>
+          <button class="map-btn" id="p2-btn-campo" title="Toggle the 100 stratified field points">Field Points (100)</button>
+          <select class="map-btn map-select" id="p2-basemap" title="Change background map layer">
+            <option value="gray" selected>Light Gray</option>
+            <option value="satellite">Satellite</option>
+            <option value="topo">Topo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="map-panel">
+        <div class="map-panel__card map-counter">
+          <div class="map-counter__number" id="p2-counter">0</div>
+          <div class="map-counter__label" id="p2-counter-label">Points</div>
+          <div class="map-counter__sub" id="p2-counter-sub"></div>
+        </div>
+
+        <!-- POINT DATASET -->
+        <div class="map-panel__card">
+          <div class="map-panel__title">Sample Points</div>
+          <div class="dataset-chips" style="margin-top: 0.6rem;">
+            <button type="button" class="dataset-chip active" data-p2ds="treino">
+              <strong>Training Set</strong>
+              <small>Pasture × non-pasture (36,520 pts/yr)</small>
+            </button>
+            <button type="button" class="dataset-chip" data-p2ds="condicao">
+              <strong>Condition Series + SOM</strong>
+              <small>50k + MapBiomas pasture (~62k pts/yr)</small>
+            </button>
+          </div>
+          <button type="button" class="dataset-chip" data-p2ds="nenhum" style="width: 100%; margin-top: 0.4rem;">
+            <strong>Hide Sample Points</strong>
+          </button>
+
+          <div class="p2-group">
+            <span class="filter-label">Year</span>
+            <div class="p2-chips" id="p2-years"></div>
+          </div>
+
+          <!-- training set filters -->
+          <div id="p2-filtros-treino">
+            <div class="p2-group">
+              <span class="filter-label">Label</span>
+              <div class="p2-checks" id="p2-labels"></div>
+            </div>
+            <div class="p2-group">
+              <span class="filter-label">Source</span>
+              <div class="p2-checks" id="p2-fontes-treino"></div>
+            </div>
+          </div>
+
+          <!-- condition series filters -->
+          <div id="p2-filtros-condicao" style="display: none;">
+            <div class="p2-group">
+              <span class="filter-label">SOM Map</span>
+              <div class="p2-chips" style="grid-template-columns: 1fr 1fr;">
+                <button type="button" class="p2-chip active" data-p2som="90">Global 90×90</button>
+                <button type="button" class="p2-chip" data-p2som="35">35×35</button>
+              </div>
+            </div>
+            <div class="p2-group">
+              <span class="filter-label">Decision Rule</span>
+              <div class="p2-chips" style="grid-template-columns: 1fr 1fr;">
+                <button type="button" class="p2-chip active" data-p2rule="D">Dirichlet</button>
+                <button type="button" class="p2-chip" data-p2rule="N">Normal</button>
+              </div>
+            </div>
+            <div class="p2-group">
+              <span class="filter-label">Color Points By</span>
+              <div class="p2-chips" style="grid-template-columns: 1fr 1fr;">
+                <button type="button" class="p2-chip active" data-p2color="dec">SOM Decision</button>
+                <button type="button" class="p2-chip" data-p2color="tip">Typology (7 classes)</button>
+              </div>
+            </div>
+            <div class="p2-group">
+              <span class="filter-label">SOM Decision</span>
+              <div class="p2-checks" id="p2-decisoes"></div>
+            </div>
+            <div class="p2-group">
+              <span class="filter-label">Typology (Top-1 Field Reference)</span>
+              <div class="p2-checks" id="p2-tipologias"></div>
+            </div>
+            <div class="p2-group">
+              <span class="filter-label">Source</span>
+              <div class="p2-checks" id="p2-fontes-condicao"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RASTER LAYERS -->
+        <div class="map-panel__card">
+          <div class="map-panel__title">2025 Pasture Maps (10 m, Probability ≥ 51)</div>
+          <div class="p2-checks" style="margin-top: 0.6rem;">
+            <label class="p2-layer-row">
+              <input type="checkbox" id="p2-raster-a">
+              <span class="p2-swatch p2-swatch--sq" style="background: #e8590c;"></span>
+              2025a
+              <input type="range" id="p2-op-a" min="0" max="100" value="80" title="Opacity">
+            </label>
+            <label class="p2-layer-row">
+              <input type="checkbox" id="p2-raster-b">
+              <span class="p2-swatch p2-swatch--sq" style="background: #6741d9;"></span>
+              2025b (geoObq)
+              <input type="range" id="p2-op-b" min="0" max="100" value="80" title="Opacity">
+            </label>
+          </div>
+          <small class="filter-note">Displayed at ~150 m up to zoom 10 (color intensity = share of 10 m pasture pixels per cell; cells below 15% hidden) and at ~75 m from zoom 11 (pasture where ≥ 50% of 10 m pixels are pasture).</small>
+        </div>
+
+        <!-- REFERENCE PASTURE MAPS -->
+        <div class="map-panel__card">
+          <div class="map-panel__title">Reference Pasture Maps</div>
+          <div class="p2-checks" style="margin-top: 0.6rem;">
+            <label class="p2-layer-row">
+              <input type="checkbox" id="p2-raster-mb">
+              <span class="p2-swatch p2-swatch--sq" style="background: #d4a017;"></span>
+              MapBiomas 10 m · Col. 4 · 2025
+              <input type="range" id="p2-op-mb" min="0" max="100" value="80" title="Opacity">
+            </label>
+            <label class="p2-layer-row">
+              <input type="checkbox" id="p2-raster-gpw">
+              <span class="p2-swatch p2-swatch--sq" style="background: #1c7ed6;"></span>
+              GPW v1 · 2022 · cultivated grassland
+              <input type="range" id="p2-op-gpw" min="0" max="100" value="80" title="Opacity">
+            </label>
+            <label class="p2-layer-row">
+              <input type="checkbox" id="p2-raster-gpwnat">
+              <span class="p2-swatch p2-swatch--sq" style="background: #2f9e44;"></span>
+              GPW v1 · 2022 · natural / semi-natural grassland
+              <input type="range" id="p2-op-gpwnat" min="0" max="100" value="80" title="Opacity">
+            </label>
+          </div>
+          <small class="filter-note">Pasture only, clipped to the Cerrado: MapBiomas Sentinel-2 10 m Collection 4 (class 15, Pasture) and Global Pasture Watch v1 30 m (cultivated and natural / semi-natural grassland as separate layers). Same display scales as the 2025 maps above.</small>
+        </div>
+      </div>
+    </div>
+
+    <p class="map-caption">
+      Click a point for its attributes. The training set feeds the annual 10 m pasture maps; the condition series feeds the
+      7-class categorization and the pasture degradation map. Field points: 100 locations stratified 3×3 (interpreter degradation
+      score 2022 × vigor 2025), colored by agreement between interpreter class and vigor: green = agreement, yellow = partial
+      disagreement, red = full disagreement.
+    </p>
+  </div>
+</section>
+
+<script src="{{ '/assets/js/map_p2.js' | relative_url }}" defer></script>

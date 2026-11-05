@@ -1,0 +1,206 @@
+<!-- ═══════════════════════════════════════════════════════
+       PASTURE MAP COMPARISON 2025 — 2025a × 2025b × MapBiomas × GPW (PRELIMINARY)
+  ═══════════════════════════════════════════════════════ -->
+<style>
+  .cmp-status { border-left: 4px solid #e8590c; background: #fff; padding: 0.7rem 1rem; border-radius: 4px; font-family: var(--font-sans);
+    font-size: 0.86rem; color: #475569; max-width: 900px; margin-top: 1rem; }
+  .cmp-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.8rem; margin-top: 1.5rem; }
+  .cmp-tile { background: #fff; border: 1px solid var(--color-rule); border-radius: var(--radius); padding: 0.9rem 1rem; }
+  .cmp-tile b { display: block; font-family: var(--font-serif); font-size: 1.55rem; font-weight: 600; color: var(--color-fg); line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .cmp-tile span { font-family: var(--font-sans); font-size: 0.78rem; color: var(--color-muted); }
+  .cmp-block { margin-top: 2.5rem; }
+  .cmp-block h3 { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 600; color: var(--color-fg); margin: 0 0 0.4rem; }
+  .cmp-block > p { font-family: var(--font-sans); font-size: 0.92rem; color: #475569; max-width: 900px; margin: 0 0 1rem; line-height: 1.6; }
+  .cmp-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 1rem; }
+  .cmp-card { background: #fff; border: 1px solid var(--color-rule); border-radius: var(--radius); padding: 1rem 1.1rem; box-shadow: var(--shadow-sm); min-width: 0; }
+  .cmp-card h4 { font-family: var(--font-sans); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-fg); margin: 0 0 0.6rem; }
+  .cmp-chart { position: relative; height: 300px; }
+  .cmp-chart--tall { height: 380px; }
+  .cmp-map-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 1rem; }
+  @media (max-width: 950px) { .cmp-map-wrap, .cmp-grid2 { grid-template-columns: 1fr; } }
+  #map-cmp { height: 620px; border-radius: var(--radius); border: 1px solid var(--color-rule); z-index: 1; }
+  .cmp-select { width: 100%; padding: 0.45rem 0.5rem; border: 1px solid var(--color-rule); border-radius: 6px; font-family: var(--font-sans); font-size: 0.82rem; background: #fff; }
+  .cmp-legend { margin-top: 0.8rem; font-family: var(--font-sans); font-size: 0.76rem; color: #475569; }
+  .cmp-legend .bar { height: 12px; border-radius: 3px; margin: 0.3rem 0 0.15rem; }
+  .cmp-legend .ticks { display: flex; justify-content: space-between; }
+  .cmp-legend .item { display: flex; align-items: center; gap: 0.45rem; margin: 0.25rem 0; }
+  .cmp-legend .sw { width: 12px; height: 12px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.2); flex-shrink: 0; }
+  .cmp-note { font-family: var(--font-sans); font-size: 0.76rem; color: var(--color-muted); margin-top: 0.6rem; line-height: 1.5; }
+  .cmp-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.82rem; }
+  .cmp-table th, .cmp-table td { padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--color-rule); text-align: left; vertical-align: top; }
+  .cmp-table th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); }
+  .cmp-table td.n, .cmp-table th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .cmp-tw { overflow-x: auto; }
+  .cmp-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.7rem; }
+  .cmp-tab { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.65rem; border: 1px solid var(--color-rule); border-radius: 4px; background: var(--color-bg);
+    font-family: var(--font-sans); font-size: 0.76rem; font-weight: 600; color: var(--color-muted); cursor: pointer; }
+  .cmp-tab.active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+  .cmp-fig img { width: 100%; height: auto; display: block; border-radius: 4px; }
+  .cmp-list { font-family: var(--font-sans); font-size: 0.86rem; color: #475569; line-height: 1.6; padding-left: 1.2em; margin: 0; max-width: 900px; }
+</style>
+
+<section class="section reveal" id="comparacao-2025">
+  <div class="section__inner">
+    <div class="section__eyebrow">Product 2 · Pasture Map Comparison 2025</div>
+    <h2 class="section__title">2025a × 2025b × MapBiomas × Global Pasture Watch</h2>
+    <p class="section__desc">
+      Comparison of the two 2025 LAPIG/Cenargen pasture maps (2025a, <code>mapbiomas_pasture_c5_s2_v1_2025</code>, and 2025b,
+      <code>…_geoObq</code>) with MapBiomas Sentinel-2 10 m Collection 4 (2025, class 15) and Global Pasture Watch v1 (2022;
+      cultivated grassland as pasture, natural / semi-natural grassland shown separately), clipped to the IBGE Cerrado boundary.
+    </p>
+    <p class="cmp-status"><strong>Preliminary results (probability threshold ≥ 50).</strong> The final analysis uses the ≥ 51 threshold;
+      the change affects about 1% of the pixels. Figures will be updated when the final version is processed.</p>
+
+    <div class="cmp-tiles" id="cmp-tiles"></div>
+
+    <div class="cmp-grid2" style="margin-top: 1rem;">
+      <div class="cmp-card">
+        <h4>Pasture Area by Map (Mha)</h4>
+        <div class="cmp-chart"><canvas id="cmp-chart-areas"></canvas></div>
+      </div>
+      <div class="cmp-card">
+        <h4>Pixel-Level Agreement (% of the Cerrado)</h4>
+        <div class="cmp-chart"><canvas id="cmp-chart-concord"></canvas></div>
+      </div>
+    </div>
+
+    <!-- CELL MAP -->
+    <div class="cmp-block">
+      <h3>Comparative Map of the Cerrado (0.25° Cells)</h3>
+      <p>Pasture share per 0.25° cell for each map, the differences in percentage points, and the predominant type of difference.
+        All values are computed from the full 10 m pixels. Click a cell for its values.</p>
+      <div class="cmp-map-wrap">
+        <div id="map-cmp"></div>
+        <div class="cmp-card">
+          <h4>Layer</h4>
+          <select class="cmp-select" id="cmp-var">
+            <optgroup label="Pasture share (% of cell)">
+              <option value="A">2025a (prob ≥ 50)</option>
+              <option value="B">2025b geoObq (prob ≥ 50)</option>
+              <option value="M">MapBiomas 10 m C4 2025</option>
+              <option value="G">GPW v1 2022 · cultivated grassland</option>
+              <option value="N">GPW v1 2022 · natural / semi-natural grassland</option>
+            </optgroup>
+            <optgroup label="Differences (percentage points)">
+              <option value="MA">MapBiomas − 2025a</option>
+              <option value="MB">MapBiomas − 2025b</option>
+              <option value="MG">MapBiomas − GPW 2022 (cultivated)</option>
+              <option value="AB">2025a − 2025b</option>
+            </optgroup>
+            <optgroup label="Where and what type">
+              <option value="pred" selected>Predominant difference (6 categories)</option>
+              <option value="pred4">Predominant among 1–4 (where a ≠ b)</option>
+              <option value="a_dif_b">a ≠ b (% of cell)</option>
+              <option value="comum">Differences shared by a and b (5+6)/(1–6)</option>
+            </optgroup>
+          </select>
+          <div class="cmp-legend" id="cmp-legend"></div>
+          <label class="cmp-note" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+            Opacity <input type="range" id="cmp-op" min="20" max="100" value="85" style="flex: 1;">
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIX DIFFERENCES -->
+    <div class="cmp-block">
+      <h3>The Six Differences Relative to MapBiomas</h3>
+      <p>Area of each difference category and what MapBiomas, GPW 2022 and an independent spectral model say about those pixels.</p>
+      <div class="cmp-grid2">
+        <div class="cmp-card">
+          <h4>Area by Category (Mha)</h4>
+          <div class="cmp-chart"><canvas id="cmp-chart-cats"></canvas></div>
+        </div>
+        <div class="cmp-card">
+          <h4>MapBiomas Class Inside Each Category (%)</h4>
+          <div class="cmp-chart"><canvas id="cmp-chart-classes"></canvas></div>
+        </div>
+      </div>
+      <div class="cmp-card cmp-tw" style="margin-top: 1rem;">
+        <table class="cmp-table" id="cmp-table-cats"></table>
+        <p class="cmp-note">GPW and spectral probability come from a sample of 400 points per stratum (Sentinel-2 2025 with Cloud Score+).
+          The spectral probability comes from a model trained only on pixels where the three maps agree (cross-validated accuracy 88%).</p>
+      </div>
+    </div>
+
+    <!-- SENTINEL-2 -->
+    <div class="cmp-block">
+      <h3>Differences × Sentinel-2</h3>
+      <p>3 km windows where each type of difference is most concentrated: Sentinel-2 2025 in the dry and rainy seasons, the four maps
+        and the integrated difference map.</p>
+      <div class="cmp-card">
+        <div class="cmp-tabs" id="cmp-tabs-jan"></div>
+        <figure class="cmp-fig" style="margin: 0;">
+          <img id="cmp-img-jan" alt="Sentinel-2 3 km windows for the selected difference category" loading="lazy">
+          <figcaption class="cmp-note" id="cmp-cap-jan"></figcaption>
+        </figure>
+      </div>
+      <div class="cmp-grid2" style="margin-top: 1rem;">
+        <div class="cmp-card">
+          <h4>Sentinel-2 and Terrain Attributes by Stratum (Median)</h4>
+          <select class="cmp-select" id="cmp-attr" style="margin-bottom: 0.6rem;"></select>
+          <div class="cmp-chart"><canvas id="cmp-chart-attr"></canvas></div>
+          <p class="cmp-note">Stratum code = a b MB (1 = pasture). All difference strata fall between 000 (agreement, non-pasture) and
+            111 (agreement, pasture): they are transition areas.</p>
+        </div>
+        <div class="cmp-card">
+          <h4>Attribute Distributions by Stratum</h4>
+          <figure class="cmp-fig" style="margin: 0;">
+            <img src="{{ '/assets/p2/comparacao/boxplots_estratos.jpg' | relative_url }}" alt="Boxplots of Sentinel-2 attributes by stratum" loading="lazy">
+          </figure>
+        </div>
+      </div>
+      <ul class="cmp-list" style="margin-top: 1rem;">
+        <li>Category 6 (MB pasture, a and b not): in the north (PA/TO), pasture with trees and regeneration; MapBiomas and GPW call it pasture, a and b do not.</li>
+        <li>Category 5 (a and b pasture, MB not): includes native grassland on rugged terrain, partly flagged as natural grassland by GPW, and plots where MapBiomas maps another use.</li>
+        <li>Categories 1–4 (only a or only b differs): edges and isolated pixels of the same patches; a and b probabilities nearly equal and close to the threshold.</li>
+      </ul>
+    </div>
+
+    <!-- STEPS 5 & 6 -->
+    <div class="cmp-block">
+      <h3>2025a × 2025b and New Map × MapBiomas Where They Disagree</h3>
+      <p>Indicative arbiters: the spectral model and GPW 2022. The spectral model inherits the biases of the agreement pixels and GPW
+        is from 2022, so these are indications, not accuracy; the validation sample gives the answer with reference data.</p>
+      <div class="cmp-grid2">
+        <div class="cmp-card">
+          <h4>Where a ≠ b: Who Do the Arbiters Agree With? (%)</h4>
+          <div class="cmp-chart"><canvas id="cmp-chart-p5"></canvas></div>
+        </div>
+        <div class="cmp-card">
+          <h4>Where a/b ≠ MapBiomas: Who Do the Arbiters Agree With? (%)</h4>
+          <div class="cmp-chart"><canvas id="cmp-chart-p6"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VALIDATION PLAN -->
+    <div class="cmp-block">
+      <h3>Validation Sample for the Difference Regions</h3>
+      <p>Stratified random sampling over the 8 strata of the a × b × MapBiomas cross-tabulation, with equal probability within each stratum.
+        Difference strata receive far more points than their area. A single sample estimates the accuracy of 2025a, 2025b, MapBiomas and
+        GPW (Stehman, 2014).</p>
+      <div class="cmp-grid2">
+        <div class="cmp-card">
+          <h4>Area (Mha, log scale) × Sample Points by Stratum</h4>
+          <div class="cmp-chart"><canvas id="cmp-chart-val"></canvas></div>
+        </div>
+        <div class="cmp-card cmp-tw">
+          <table class="cmp-table" id="cmp-table-val"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="cmp-block">
+      <h3>Method &amp; Caveats</h3>
+      <ul class="cmp-list">
+        <li>Common 10 m grid (EPSG:4326): a, b and MapBiomas aligned pixel by pixel; GPW (30 m) read by nearest neighbor.</li>
+        <li>Clipped to the IBGE biome boundary; areas are the sum of true pixel areas per 0.25° cell, computed locally in Earth Engine.</li>
+        <li>GPW: only v1 (up to 2022) is accessible; part of the disagreement is real land-use change between 2022 and 2025.</li>
+        <li>Figure labels in the Sentinel-2 windows and boxplots are in Portuguese (seca = dry, chuva = rainy, diferenças = differences).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script src="{{ '/assets/js/comparacao_2025.js' | relative_url }}" defer></script>
