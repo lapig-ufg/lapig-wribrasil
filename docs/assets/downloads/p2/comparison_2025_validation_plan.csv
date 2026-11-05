@@ -1,0 +1,9 @@
+stratum_abm,situation,area_mha,points,ha_per_point
+000,"a, b and MB: non-pasture",125.9,150,839362
+111,"a, b and MB: pasture",44.21,150,294746
+110,"a and b pasture, MB not",7.72,120,64317
+001,"MB pasture, a and b not",6.27,120,52214
+100,Only a pasture,0.58,100,5799
+011,"b and MB pasture, a not",0.42,100,4168
+010,Only b pasture,0.49,100,4868
+101,"a and MB pasture, b not",0.41,100,4068
